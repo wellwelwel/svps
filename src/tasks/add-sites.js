@@ -13,6 +13,7 @@ const vh = async () => {
 
    try {
 
+      const root_path = `${__dirname}../../..`;
       const list_domains = /http/gim.test(DOMAINS) ? (await axios.get(DOMAINS)).data : JSON.parse(fs.readFileSync(DOMAINS, 'utf-8'));
 
       if (!list_domains || list_domains.length <= 0) throw(`Failed to find ${DOMAINS}`);
@@ -22,7 +23,7 @@ const vh = async () => {
 
       for (const domain of domains) {
 
-         const virtual_host = fs.readFileSync(normalize('resources/virtual-host/source-vh.conf'), 'utf-8').replace(/{!DOMAIN}/gm, domain);
+         const virtual_host = fs.readFileSync(normalize(`${root_path}/resources/virtual-host/source-vh.conf`), 'utf-8').replace(/{!DOMAIN}/gm, domain);
          const default_file = fs.readFileSync(normalize(APACHE['default-page']), 'utf-8');
 
          Object.assign(commands, [
@@ -36,7 +37,7 @@ const vh = async () => {
 
          if (APACHE['auto-assigin-www']) {
 
-            const virtual_host_www = fs.readFileSync(normalize('resources/virtual-host/source-vh-www.conf'), 'utf-8').replace(/{!DOMAIN}/gm, domain);
+            const virtual_host_www = fs.readFileSync(normalize(`${root_path}/resources/virtual-host/source-vh-www.conf`), 'utf-8').replace(/{!DOMAIN}/gm, domain);
 
             Object.assign(commands, [
 
