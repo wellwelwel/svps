@@ -21,7 +21,7 @@
   },
   "author": "https://github.com/wellwelwel",
   "license": "MIT",
-  "description": "🚀 A simple CLI tool to automating Ubuntu VPS configurations",
+  "description": "🚀 A simple CLI tool to automating Ubuntu VPS set up",
   "engines": {
     "node": ">=14.5.0",
     "npm": ">=7.0.2"

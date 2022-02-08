@@ -1,5 +1,5 @@
 <h2 align="center">SVPS - Auto Mount VPS</h2>
-<p align="center">🚀 A simple CLI tool to automating Ubuntu VPS configurations</p>
+<p align="center">🚀 A simple CLI tool to automating Ubuntu VPS set up</p>
 
 ### Install
 
@@ -40,11 +40,13 @@
    8. Installs MySQL and creates the databases and users setted in `.svpsrc.js`
    9. Adds cronjobs setted on the file specified in `.svpsrc.js`
    10. Reruns common **apt** commands
-   11. Executes your personal **sh comands** specified in `.svpsrc.js`
+   11. Executes your personal **sh commands** specified in `.svpsrc.js`
    12. Restart VPS
 
    #### Notes
    - **All steps are optional:** You can enable or disable any step in `.svpsrc.js`
+   - You are free to disable all the steps and create your own module of **sh commands** ˣ‿ˣ
+      - See `APPEND_COMMANDS` in `.svpsrc.js`
    - The entire remote process is displayed on console in real time
    - This may take a long time depending on your VPS plan
 <hr />
