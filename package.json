@@ -1,6 +1,6 @@
 {
   "name": "svps",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "./bin/index.js",
   "dependencies": {
     "async": "^3.2.3",
