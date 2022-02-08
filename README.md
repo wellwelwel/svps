@@ -1,5 +1,5 @@
 <h2 align="center">SVPS - Auto Mount VPS</h2>
-<p align="center">🚀 A simple CLI tool for automating Ubuntu VPS configurations</p>
+<p align="center">🚀 A simple CLI tool to automating Ubuntu VPS configurations</p>
 
 ### Install
 
