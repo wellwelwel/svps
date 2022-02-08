@@ -1,0 +1,53 @@
+{
+  "name": "svps",
+  "version": "0.0.1",
+  "main": "./bin/index.js",
+  "dependencies": {
+    "async": "^3.2.3",
+    "axios": "^0.25.0",
+    "ssh2": "^1.6.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.8.0",
+    "npm-check-updates": "^12.2.1"
+  },
+  "bin": {
+    "svps": "bin/index.js"
+  },
+  "scripts": {
+    "patch": "npx ncu -u; npm i; npm audit fix; npm version patch --no-git-tag-version;",
+    "minor": "npx ncu -u; npm i; npm audit fix; npm version minor --no-git-tag-version;",
+    "major": "npx ncu -u; npm i; npm audit fix; npm version major --no-git-tag-version;"
+  },
+  "author": "https://github.com/wellwelwel",
+  "license": "MIT",
+  "description": "🚀 A simple CLI tool for automating Ubuntu VPS configurations",
+  "engines": {
+    "node": ">=14.5.0",
+    "npm": ">=7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellwelwel/svps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wellwelwel/svps/issues"
+  },
+  "homepage": "https://github.com/wellwelwel/svps#readme",
+  "keywords": [
+    "apache",
+    "cli",
+    "cronjobs",
+    "crontab",
+    "firewall",
+    "ftp",
+    "mysql",
+    "php",
+    "sh",
+    "ssh",
+    "ubuntu",
+    "virtualhost",
+    "virtual-host",
+    "vps"
+  ]
+}

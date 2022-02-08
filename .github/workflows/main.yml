@@ -1,0 +1,32 @@
+name: Publish
+on:
+  push:
+    branches:
+      - 'main'
+    paths-ignore:
+      - '**.md'
+      - '.gitignore'
+      - '.github/assets/**/**'
+      - '.eslintignore'
+      - 'docs/**'
+      - 'LICENSE'
+jobs:
+  publish-npmjs:
+    name: Publish Package to npmjs
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'v')
+    steps:
+      - name: ➕ Actions - Checkout
+        uses: actions/checkout@v2
+
+      - name: ➕ Actions - Setup NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: '17'
+          check-latest: true
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 📥 Publishing Package
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
