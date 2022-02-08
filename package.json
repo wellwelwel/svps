@@ -1,6 +1,6 @@
 {
   "name": "svps",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./bin/index.js",
   "dependencies": {
     "async": "^3.2.3",
@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "eslint": "^8.8.0",
-    "npm-check-updates": "^12.2.1"
+    "npm-check-updates": "^12.3.0"
   },
   "bin": {
     "svps": "bin/index.js"
