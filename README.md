@@ -17,7 +17,7 @@
    - Creates the default configuration files:
 
       ```javascript
-         [ '.svpsrc.js', '.domains.json', '.default.html', '.cronjobs.sh' ]
+         [ '.svpsrc.js', '.domains.json', '.cronjobs.sh', 'index.html' ]
       ```
 
    - Edit **`.svpsrc.js`** with the **SSH** access and your settings
