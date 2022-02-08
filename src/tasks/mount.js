@@ -23,19 +23,21 @@ const mount = async () => {
       reboot: require('./steps/reboot'),
    };
 
+   for (const step in OPTIONS.steps) {
+
+      if (step === 'reboot') continue;
+
+      if (OPTIONS.steps[step]) Object.assign(commands, [
+
+         ...commands,
+         ...steps[step](),
+      ]);
+   }
+
    Object.assign(commands, [
 
-      ...steps.repare(),
-      ...steps.apt(),
-      ...steps.firewall(),
-      ...steps.apache(),
-      ...steps.ftp(),
-      ...steps.vh(),
-      ...steps.php(),
-      ...steps.mysql(),
-      ...steps.crontab(),
-      ...steps.apt(),
-      ...steps.user(), /* Always last */
+      ...commands,
+      ...steps.user(),
    ]);
 
    if (OPTIONS?.verbose) console.log(commands, '\n'); // DEBUG
@@ -44,7 +46,7 @@ const mount = async () => {
    try {
 
       await SSH(VPS, commands);
-      await steps.reboot();
+      if (OPTIONS.steps.reboot) await steps.reboot();
 
       console.log('\x1b[0m');
       return true;

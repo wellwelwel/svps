@@ -37,13 +37,14 @@
    5. Installs **vsftpd** with users setted in `.svpsrc.js`
    6. Prepares the **Virtual Host** and abilite **Rewrite**
    7. Installs **PHP** with the version setted in `.svpsrc.js`
-   8. Installs MySQL and creates the databases and users setted in `.svpsrc.js` *(Optional)*
-   9. Adds cronjobs setted on the file specified in `.svpsrc.js` *(Optional)*
+   8. Installs MySQL and creates the databases and users setted in `.svpsrc.js`
+   9. Adds cronjobs setted on the file specified in `.svpsrc.js`
    10. Reruns common **apt** commands
-   11. Executes your personal **sh comands** specified in `.svpsrc.js` *(Optional)*
+   11. Executes your personal **sh comands** specified in `.svpsrc.js`
    12. Restart VPS
 
    #### Notes
+   - **All steps are optional:** You can enable or disable any step in `.svpsrc.js`
    - The entire remote process is displayed on console in real time
    - This may take a long time depending on your VPS plan
 <hr />

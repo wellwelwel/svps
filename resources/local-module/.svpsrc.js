@@ -59,6 +59,18 @@ module.exports = {
    OPTIONS: {
       /* Set "true" to see all commands on console. Not secure, this will display the passwords. */
       verbose: false,
+      steps: {
+         repare: true,
+         apt: true,
+         firewall: true,
+         apache: true,
+         ftp: true,
+         vh: true,
+         php: true,
+         mysql: true,
+         crontab: true,
+         reboot: true
+      }
    },
 
    /* The commands entered here will be executed after all steps are completed and before rebooting. */
