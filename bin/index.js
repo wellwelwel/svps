@@ -1,13 +1,20 @@
 #! /usr/bin/env node
 
 const [ ,, ...args ] = process.argv;
-const main = args[0];
+const main = args.join('-') || 'init';
 
 (() => {
 
-   if (!main || main?.trim()?.length === 0) {
+   const alloweds = [
 
-      console.log('Enter one of the following commands: "init", "mount", "add-sites"');
+      'init',
+      'mount',
+      'set-domains',
+   ];
+
+   if (!alloweds.includes(main)) {
+
+      console.log('Enter one of the following commands: "init", "mount", "set domains"');
       return;
    }
 

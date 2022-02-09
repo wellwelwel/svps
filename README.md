@@ -11,10 +11,10 @@
 ### Initializing the Environment
 
    ```sh
-      npx svps init
+      npx svps || npx svps init
    ```
-
-   - Creates the default configuration files:
+   
+   - This will create the default configuration files:
 
       ```javascript
          [ '.svpsrc.js', '.domains.json', '.cronjobs.sh', 'index.html' ]
@@ -54,7 +54,7 @@
 ### Adding Virutal Hosts
 
    ```sh
-      npx svps add-sites
+      npx svps set domains
    ```
 
    - Gets listed domains in `.domains.json` or a HTTP GET Request JSON setted in `.svpsrc.js`
