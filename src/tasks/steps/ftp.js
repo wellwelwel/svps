@@ -27,7 +27,7 @@ module.exports = () => {
          `mkdir -p ${user.path}`,
          `setfacl -R -m u:${user.name}:rwx ${user.path}`,
          `setfacl -dR -m u:${user.name}:rwx ${user.path}`,
-         `echo ${user.name}:${user.pass} | chpasswd`,
+         `echo "${user.name}:${user.pass}" | chpasswd`,
          `echo ${escapeQuotes(user_conf)} | cat > /etc/vsftpd/user_config_dir/${user.name}`,
       ]);
 
