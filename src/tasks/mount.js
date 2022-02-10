@@ -17,6 +17,7 @@ const mount = async () => {
       ftp: require('./steps/ftp'),
       vh: require('./steps/vh'),
       php: require('./steps/php'),
+      node: require('./steps/node'),
       mysql: require('./steps/mysql'),
       crontab: require('./steps/crontab'),
       user: APPEND_COMMANDS,

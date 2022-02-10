@@ -13,7 +13,7 @@ module.exports = () => [
    'apt clean',
    'apt update --fix-missing',
    'apt install -f -y',
-   'apt install software-properties-common dialog apt-utils zip gzip tar unzip acl -y',
+   'apt install software-properties-common build-essential gcc g++ make dialog apt-utils zip gzip tar unzip acl -y',
    'echo "Y" | dpkg --configure -a',
    sh.done,
 ];

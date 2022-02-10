@@ -35,6 +35,18 @@ module.exports = {
       modules: [ 'cli', 'common', 'bz2', 'curl', 'gmp', 'readline', 'sqlite3', 'xml', 'bcmath', 'gd', 'imagick', 'imap', 'intl', 'json', 'mbstring', 'mysql', 'opcache', 'soap', 'tidy', 'xmlrpc', 'xsl', 'zip' ]
    },
 
+
+   NODE: {
+      /* 12, 14, 16 or 17 */
+      version: 16,
+      npm: {
+         global: [
+            'yarn',
+            'bower'
+         ]
+      }
+   },
+
    /* Set an absolute JSON path or a HTTP GET Request JSON with domains to create the Virtaul Hosts */
    DOMAINS: './.domains.json',
 
@@ -67,6 +79,7 @@ module.exports = {
          ftp: true,
          vh: true,
          php: true,
+         node: true,
          mysql: true,
          crontab: true,
          reboot: true
