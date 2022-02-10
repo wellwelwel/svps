@@ -44,7 +44,7 @@
    12. Executes your personal **sh commands** specified in `.svpsrc.js`
    13. Restart VPS
 
-   #### Notes
+   #### Notes:
    - **All steps are optional:** You can enable or disable any step in `.svpsrc.js`
    - You are free to disable all the steps and create your own module of **sh commands** ˣ‿ˣ
       - See `APPEND_COMMANDS` in `.svpsrc.js`
@@ -63,7 +63,7 @@
    - Creates each domain directories with a default `index.(html|php)` setted in `.svpsrc.js`
       - The domains previously set up or repeated in the list will be ignored
 
-   #### For Node.js
+   #### For Node.js:
    - The proxy is already auto-configured to route all local ports to 80, then just add the domains with local port in `.domains.json`:
       
       ```javascript
@@ -84,7 +84,7 @@
       ```
       - Don't repeat local ports!
 
-   #### For PHP
+   #### For PHP:
    - Just add the domains in `.domains.json`:
    
       ```javascript
@@ -101,7 +101,7 @@
          ]
       ```
 
-   #### Notes
+   #### Notes:
    - Both **PHP** and **NodeJS** can work together 👨‍👨‍👧‍👦
    - All automatically generated files are disposable
 <hr />
