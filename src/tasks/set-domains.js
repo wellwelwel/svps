@@ -55,8 +55,6 @@ const vh = async () => {
             ]);
          }
 
-         console.log(domain, isProxy, NODE.npm.autostart);
-
          if (!isProxy) continue;
          if (!NODE?.npm?.autostart) continue;
 
