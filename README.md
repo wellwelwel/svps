@@ -37,11 +37,12 @@
    5. Installs **vsftpd** with users setted in `.svpsrc.js`
    6. Prepares the **Virtual Host** and abilite **Rewrite**
    7. Installs **PHP** with the version setted in `.svpsrc.js`
-   8. Installs MySQL and creates the databases and users setted in `.svpsrc.js`
-   9. Adds cronjobs setted on the file specified in `.svpsrc.js`
-   10. Reruns common **apt** commands
-   11. Executes your personal **sh commands** specified in `.svpsrc.js`
-   12. Restart VPS
+   8. Installs **Node.js** with the version setted in `.svpsrc.js`
+   9. Installs **MySQL** and creates the databases and users setted in `.svpsrc.js`
+   10. Adds cronjobs setted on the file specified in `.svpsrc.js`
+   11. Reruns common **apt** commands
+   12. Executes your personal **sh commands** specified in `.svpsrc.js`
+   13. Restart VPS
 
    #### Notes
    - **All steps are optional:** You can enable or disable any step in `.svpsrc.js`
