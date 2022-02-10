@@ -21,7 +21,7 @@
   },
   "author": "https://github.com/wellwelwel",
   "license": "MIT",
-  "description": "🚀 A simple CLI tool to automating Ubuntu VPS set up",
+  "description": "🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS",
   "engines": {
     "node": ">=14.5.0",
     "npm": ">=7.0.2"
@@ -39,15 +39,15 @@
     "cli",
     "cronjobs",
     "crontab",
-    "firewall",
-    "ftp",
+    "ufw",
+    "vsftpd",
     "mysql",
     "php",
+    "nodejs",
     "sh",
     "ssh",
     "ubuntu",
     "virtualhost",
-    "virtual-host",
     "vps"
   ]
 }

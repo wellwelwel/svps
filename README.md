@@ -1,5 +1,5 @@
 <h2 align="center">SVPS - Auto Mount VPS</h2>
-<p align="center">🚀 A simple CLI tool to automating Ubuntu VPS set up</p>
+<p align="center">🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS</p>
 
 ### Install
 
@@ -37,7 +37,7 @@
    5. Installs **vsftpd** with users setted in `.svpsrc.js`
    6. Prepares the **Virtual Host** and abilite **Rewrite**
    7. Installs **PHP** with the version setted in `.svpsrc.js`
-   8. Installs **Node.js** with the version setted in `.svpsrc.js`
+   8. Installs **Node.js** with the version and global modules setted in `.svpsrc.js`
    9. Installs **MySQL** and creates the databases and users setted in `.svpsrc.js`
    10. Adds cronjobs setted on the file specified in `.svpsrc.js`
    11. Reruns common **apt** commands
@@ -62,6 +62,48 @@
    - Sets the **Virtual Host** for each domain and **`www` CNAME** 
    - Creates each domain directories with a default `index.(html|php)` setted in `.svpsrc.js`
       - The domains previously set up or repeated in the list will be ignored
+
+   #### For Node.js
+   - The proxy is already auto-configured to route all local ports to 80, then just add the domains with local port in `.domains.json`:
+      
+      ```javascript
+         [
+            ...,
+            "mysite.com:3000",
+            // 📁 mysite.com/app.js
+            // 📁 mysite.com/public_html/index.html
+
+            "mycname.mysite.com:3001",
+            // 📁 mycname.mysite.com/app.js
+            // 📁 mycname.mysite.com/public_html/index.html
+
+            "myothersite.com:3002",
+            // 📁 myothersite.com/app.js
+            // 📁 myothersite.com/public_html/index.html
+         ]
+      ```
+      - Don't repeat local ports!
+
+   #### For PHP
+   - Just add the domains in `.domains.json`:
+   
+      ```javascript
+         [
+            ...,
+            "mysite.com",
+            // 📁 mysite.com/public_html/index.html
+
+            "mycname.mysite.com",
+            // 📁 mycname.mysite.com/public_html/index.html
+
+            "myothersite.com",
+            // 📁 myothersite.com/public_html/index.html
+         ]
+      ```
+
+   #### Notes
+   - Both **PHP** and **NodeJS** can work together 👨‍👨‍👧‍👦
+   - All automatically generated files are disposable
 <hr />
 
 ### Important

@@ -42,8 +42,13 @@ module.exports = {
       npm: {
          global: [
             'yarn',
-            'bower'
-         ]
+            'bower',
+            'pm2',
+         ],
+         server: {
+            /* Using "pm2" global module */
+            autostart: true,
+         }
       }
    },
 

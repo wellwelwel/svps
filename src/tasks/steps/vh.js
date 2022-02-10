@@ -12,8 +12,7 @@ module.exports = () => {
 
       `echo "${sh.startTitle}Setting up Rewrite Virtual Hosts${sh.endTitle}"`,
       `echo ${escapeQuotes(fs.readFileSync(normalize(default_000), 'utf-8'))} | cat > /etc/apache2/sites-available/000-default.conf`,
-      'a2enmod rewrite',
-      'a2enmod headers',
+      'a2enmod proxy proxy_http rewrite headers expires',
       'systemctl reload apache2',
       'systemctl restart apache2',
    ];
