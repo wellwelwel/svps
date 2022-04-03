@@ -25,7 +25,7 @@ module.exports = () => new Promise((resolve, reject) => {
 
          await SSH(VPS, [
 
-            require('./apt'),
+            require('./apt')(),
             'history -c'
          ]);
          clearInterval(reconnect);
