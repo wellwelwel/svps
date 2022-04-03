@@ -15,7 +15,7 @@ module.exports = () => new Promise((resolve, reject) => {
 
    const reconnect = setInterval(async () => {
 
-      if (count > 10) {
+      if (count > 30) {
 
          clearInterval(reconnect);
          reject('Restarting Failed!');
@@ -23,7 +23,11 @@ module.exports = () => new Promise((resolve, reject) => {
 
       try {
 
-         await SSH(VPS, [ 'history -c' ]);
+         await SSH(VPS, [
+
+            require('./apt'),
+            'history -c'
+         ]);
          clearInterval(reconnect);
          resolve(true);
       }
@@ -31,5 +35,5 @@ module.exports = () => new Promise((resolve, reject) => {
 
          count++;
       }
-   }, 10000);
+   }, 15000);
 });
