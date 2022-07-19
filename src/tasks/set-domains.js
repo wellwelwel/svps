@@ -8,7 +8,6 @@ const axios = require('axios');
 
 const vh = async () => {
 
-   console.clear();
    console.log(`${sh.startTitle}Setting up domains in "${DOMAINS}"${sh.endTitle}\n`);
 
    const fileNormalize = path => fs.readFileSync(normalize(path), 'utf-8');

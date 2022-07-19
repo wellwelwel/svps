@@ -5,8 +5,6 @@ const { VPS, APPEND_COMMANDS, OPTIONS } = require(`${process.cwd()}/.svpsrc.js`)
 
 const mount = async () => {
 
-   console.clear();
-
    const commands = [];
    const steps = {
 
