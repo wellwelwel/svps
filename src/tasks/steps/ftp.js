@@ -32,6 +32,8 @@ module.exports = () => {
       ]);
 
       if (!FTP?.append) sub_steps.push(`echo "${user.name}"`);
+      if (FTP?.user?.administrator) sub_steps.push(`gpasswd -a "${user.name}" sudo`);
+
       userlist.push(user.name);
    }
 
