@@ -60,4 +60,10 @@ const mount = async () => {
 };
 
 /* Run */
-(async () => console.log(`\x1b[33m> \x1b[0m${await mount() ? 'Success' : 'Fail'}\n`))();
+(async () => {
+
+   const result = await mount();
+
+   console.log(`\x1b[33m> \x1b[0m${result ? 'Success' : 'Fail'}\n`);
+   process.exit(result ? 0 : 1);
+})();
