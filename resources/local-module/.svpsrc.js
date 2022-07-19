@@ -19,7 +19,8 @@ module.exports = {
          {
             name: '',
             pass: '',
-            path: '/var/www'
+            path: '/var/www',
+            administrator: false,
          },
       ],
       append: false
