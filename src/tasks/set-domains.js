@@ -55,7 +55,7 @@ const vh = async () => {
          }
 
          if (!isProxy) continue;
-         if (!NODE?.npm?.autostart) continue;
+         if (!NODE?.npm?.server?.autostart) continue;
 
          /* Creates app.js */
          const app_js = fileNormalize(`${root_path}/resources/node/app.js`).replace(/'{!PORT}'/gm, port);
