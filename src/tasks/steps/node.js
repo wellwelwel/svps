@@ -33,5 +33,7 @@ module.exports = () => {
       sh.done,
    ]);
 
+   if (npm?.server?.autostart) sub_steps.push('pm2 startup');
+
    return sub_steps;
 };
