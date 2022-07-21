@@ -62,7 +62,8 @@ const vh = async () => {
          Object.assign(commands, [
 
             ...commands,
-            `if ! ls /var/www/${domain}/app.js &> /dev/null; then echo ${escapeQuotes(app_js)} | cat > /var/www/${domain}/app.js && (pm2 delete ${domain} || true) && pm2 start /var/www/${domain}/app.js --name ${domain} --watch; fi`,
+            `if ! ls /var/www/${domain}/app.js &> /dev/null; then echo ${escapeQuotes(app_js)} | cat > /var/www/${domain}/app.js && (pm2 delete ${domain} || true) && pm2 start /var/www/${domain}/app.js --name ${domain} --watch --ignore-watch="node_modules"; fi`,
+            'pm2 save',
          ]);
       }
 
