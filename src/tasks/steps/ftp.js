@@ -31,8 +31,8 @@ module.exports = () => {
          `echo ${escapeQuotes(user_conf)} | cat > /etc/vsftpd/user_config_dir/${user.name}`,
       ]);
 
+      if (user?.administrator) sub_steps.push(`gpasswd -a "${user.name}" sudo`);
       if (!FTP?.append) sub_steps.push(`echo "${user.name}"`);
-      if (FTP?.user?.administrator) sub_steps.push(`gpasswd -a "${user.name}" sudo`);
 
       userlist.push(user.name);
    }
