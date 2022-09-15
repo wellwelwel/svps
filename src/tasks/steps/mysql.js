@@ -34,7 +34,7 @@ module.exports = () => {
       Object.assign(sub_steps, [
 
          ...sub_steps,
-         `mysql -e "CREATE USER '${user.name}'@'${user.ip}' IDENTIFIED BY '${user.pass}';" || echo "> No changes to ${user.name}@${user.ip}"`,
+         `mysql -e "CREATE USER '${user.name}'@'${user.ip}' IDENTIFIED WITH mysql_native_password BY '${user.pass}';" || echo "> No changes to ${user.name}@${user.ip}"`,
          `mysql -e "GRANT ALL PRIVILEGES ON *.* TO '${user.name}'@'${user.ip}' WITH GRANT OPTION;"`,
       ]);
    }
