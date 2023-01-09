@@ -42,14 +42,23 @@ module.exports = () => {
       FTP.ssl = {
          days: 365,
          rsa: 4096,
-         country: '',
-         state: '',
-         location: '',
-         organization: '',
-         organizationUnit: '',
-         commonName: '',
+         country: "''",
+         state: "''",
+         location: "''",
+         organization: "''",
+         organizationUnit: "''",
+         commonName: "''",
       };
    }
+
+   if (!FTP.ssl?.days || FTP.ssl?.days <= 0) FTP.ssl.days = 365;
+   if (!FTP.ssl?.rsa || FTP.ssl?.rsa <= 0) FTP.ssl.rsa = 4096;
+   if (FTP.ssl?.country?.trim().length === 0) FTP.ssl.country = "''";
+   if (FTP.ssl?.state?.trim().length === 0) FTP.ssl.state = "''";
+   if (FTP.ssl?.location?.trim().length === 0) FTP.ssl.location = "''";
+   if (FTP.ssl?.organization?.trim().length === 0) FTP.ssl.organization = "''";
+   if (FTP.ssl?.organizationUnit?.trim().length === 0) FTP.ssl.organizationUnit = "''";
+   if (FTP.ssl?.commonName?.trim().length === 0) FTP.ssl.commonName = "''";
 
    const { ssl } = FTP;
 
