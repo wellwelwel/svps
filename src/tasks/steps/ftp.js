@@ -37,6 +37,29 @@ module.exports = () => {
       userlist.push(user.name);
    }
 
+   if (!FTP?.ssl || typeof FTP?.ssl !== 'object') {
+
+      FTP.ssl = {
+         days: 365,
+         rsa: 4096,
+         country: '',
+         state: '',
+         location: '',
+         organization: '',
+         organizationUnit: '',
+         commonName: '',
+      };
+   }
+
+   const { ssl } = FTP;
+
+   Object.assign(sub_steps, [
+
+      ...sub_steps,
+      'echo "Generating the FTP SSL Certificate..."',
+      `openssl req -x509 -nodes -days ${ssl.days} -new -newkey rsa:${ssl.rsa} -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=${ssl.country}/ST=${ssl.state}/L=${ssl.location}/O=${ssl.organization}/OU=${ssl.organizationUnit}/CN=${ssl.commonName}"`,
+   ]);
+
    Object.assign(sub_steps, [
 
       ...sub_steps,

@@ -1,16 +1,15 @@
 module.exports = {
-
    /* Set the SSH access from VPS */
    VPS: {
-      host: '', /* Allows: String or Array | To use an array with multiple hosts, all hosts must have the same access */
+      host: '' /* Allows: String or Array | To use an array with multiple hosts, all hosts must have the same access */,
       port: 22,
       username: 'root',
       password: '',
       crontab: {
          /* Change to "false" to disable auto import cronjobs */
          path: './.cronjobs.sh',
-         append: false
-      }
+         append: false,
+      },
    },
 
    /* Set the accesses you want to be created */
@@ -19,26 +18,59 @@ module.exports = {
          {
             name: '',
             pass: '',
-            path: '/var/www', /* Directory that the content will be displayed when logging into FTP */
-            administrator: false, /* Allows use of "sudo" commands */
+            path: '/var/www' /* Directory that the content will be displayed when logging into FTP */,
+            administrator: false /* Allows use of "sudo" commands */,
          },
       ],
-      append: false
+      ssl: {
+         days: 365,
+         rsa: 4096,
+         country: '',
+         state: '',
+         location: '',
+         organization: '',
+         organizationUnit: '',
+         commonName: '',
+      },
+      append: false,
    },
 
    APACHE: {
-      /* 5.6, 7.4 or 8.1 */
-      'php-version': 8.1,
+      /* 5.6, 7.4, 8.1, 8.2... */
+      'php-version': 8.2,
       /* You can create a .html or .php file and set as default index.(html|php) */
       'default-page': './index.html',
       'auto-assigin-www': true,
-      'deny-access-to-default-virtual-host': true, /* Prevents your server from being accessed directly by IP */
-      modules: [ 'cli', 'common', 'bz2', 'curl', 'gmp', 'readline', 'sqlite3', 'xml', 'bcmath', 'gd', 'imagick', 'imap', 'intl', 'json', 'mbstring', 'mysql', 'opcache', 'soap', 'tidy', 'xmlrpc', 'xsl', 'zip' ],
+      'deny-access-to-default-virtual-host': true /* Prevents your server from being accessed directly by IP */,
+      modules: [
+         'cli',
+         'common',
+         'bz2',
+         'curl',
+         'gmp',
+         'readline',
+         'sqlite3',
+         'xml',
+         'bcmath',
+         'gd',
+         'imagick',
+         'imap',
+         'intl',
+         'json',
+         'mbstring',
+         'mysql',
+         'opcache',
+         'soap',
+         'tidy',
+         'xmlrpc',
+         'xsl',
+         'zip',
+      ],
    },
 
    NODE: {
-      /* 12, 14, 16, 17 or 18 */
-      version: 16,
+      /* 12, 14, 16, 18, 19... */
+      version: 18,
       npm: {
          global: [
             // 'yarn',
@@ -48,8 +80,8 @@ module.exports = {
          server: {
             /* Using "pm2" global module */
             autostart: true,
-         }
-      }
+         },
+      },
    },
 
    /* Set an absolute JSON path or a HTTP GET Request JSON with domains to create the Virtaul Hosts */
@@ -59,18 +91,16 @@ module.exports = {
    SQL: {
       root: {
          name: 'root',
-         pass: 'dbrootpassword'
+         pass: '',
       },
       users: [
          {
             ip: 'localhost',
-            name: 'dbuser',
-            pass: 'dbpassword'
+            name: '',
+            pass: '',
          },
       ],
-      databases: [
-         'mydb',
-      ]
+      databases: ['mydb'],
    },
 
    OPTIONS: {
@@ -87,8 +117,8 @@ module.exports = {
          node: true,
          mysql: true,
          crontab: true,
-         reboot: true
-      }
+         reboot: true,
+      },
    },
 
    /**
@@ -106,6 +136,6 @@ module.exports = {
     * APPEND_COMMANDS: () => [ ...require('./my-module-1')(), ...require('./my-module-2')() ],
     *
     * You can set all steps as "false" to run only your commands
-   **/
+    **/
    APPEND_COMMANDS: () => [],
 };
