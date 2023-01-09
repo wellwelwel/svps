@@ -1,54 +1,54 @@
 {
-  "name": "svps",
-  "version": "1.1.14",
-  "main": "./bin/index.js",
-  "dependencies": {
-    "async": "^3.2.4",
-    "axios": "^0.27.2",
-    "ssh2": "^1.11.0"
-  },
-  "devDependencies": {
-    "eslint": "^8.23.1",
-    "npm-check-updates": "^16.1.3"
-  },
-  "bin": {
-    "svps": "bin/index.js"
-  },
-  "scripts": {
-    "patch": "npx ncu -u; npm i; npm audit fix; npm version patch --no-git-tag-version;",
-    "minor": "npx ncu -u; npm i; npm audit fix; npm version minor --no-git-tag-version;",
-    "major": "npx ncu -u; npm i; npm audit fix; npm version major --no-git-tag-version;"
-  },
-  "author": "https://github.com/wellwelwel",
-  "license": "MIT",
-  "description": "🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS",
-  "engines": {
-    "node": ">=14.5.0",
-    "npm": ">=7.0.2"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wellwelwel/svps.git"
-  },
-  "bugs": {
-    "url": "https://github.com/wellwelwel/svps/issues"
-  },
-  "homepage": "https://github.com/wellwelwel/svps#readme",
-  "keywords": [
-    "apache",
-    "cli",
-    "cronjobs",
-    "crontab",
-    "ufw",
-    "vsftpd",
-    "mysql",
-    "php",
-    "nodejs",
-    "sh",
-    "ssh",
-    "ubuntu",
-    "virtualhost",
-    "vps",
-    "vps-setup"
-  ]
+   "name": "svps",
+   "version": "1.1.14",
+   "main": "./bin/index.js",
+   "dependencies": {
+      "async": "^3.2.4",
+      "ssh2": "^1.11.0"
+   },
+   "devDependencies": {
+      "eslint": "^8.31.0",
+      "packages-update": "^1.2.1"
+   },
+   "bin": {
+      "svps": "bin/index.js"
+   },
+   "scripts": {
+      "patch": "npx ncu -u; npm i; npm audit fix; npm version patch --no-git-tag-version;",
+      "minor": "npx ncu -u; npm i; npm audit fix; npm version minor --no-git-tag-version;",
+      "major": "npx ncu -u; npm i; npm audit fix; npm version major --no-git-tag-version;",
+      "update": "npx npu; npm i --ignore-scripts;"
+   },
+   "author": "https://github.com/wellwelwel",
+   "license": "MIT",
+   "description": "🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS",
+   "engines": {
+      "node": ">=14.5.0",
+      "npm": ">=7.0.2"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/wellwelwel/svps.git"
+   },
+   "bugs": {
+      "url": "https://github.com/wellwelwel/svps/issues"
+   },
+   "homepage": "https://github.com/wellwelwel/svps#readme",
+   "keywords": [
+      "apache",
+      "cli",
+      "cronjobs",
+      "crontab",
+      "ufw",
+      "vsftpd",
+      "mysql",
+      "php",
+      "nodejs",
+      "sh",
+      "ssh",
+      "ubuntu",
+      "virtualhost",
+      "vps",
+      "vps-setup"
+   ]
 }

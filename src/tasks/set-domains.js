@@ -4,7 +4,6 @@ const SSH = require('../modules/set-ssh');
 const escapeQuotes = require('../modules/escape-quotes');
 const sh = require('../modules/sh');
 const { VPS, APACHE, DOMAINS, OPTIONS, NODE } = require(`${process.cwd()}/.svpsrc.js`);
-const axios = require('axios');
 
 const vh = async () => {
 
@@ -16,7 +15,7 @@ const vh = async () => {
 
       const root_path = `${__dirname}../../..`;
       const vh_path = '/resources/virtual-host/';
-      const list_domains = /http/gim.test(DOMAINS) ? (await axios.get(DOMAINS)).data : JSON.parse(fs.readFileSync(DOMAINS, 'utf-8'));
+      const list_domains = JSON.parse(fs.readFileSync(DOMAINS, 'utf-8'));
 
       if (!list_domains || list_domains.length <= 0) throw(`Failed to find ${DOMAINS}`);
 
