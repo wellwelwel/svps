@@ -14,6 +14,7 @@ export default () => {
       'node -v',
       'echo "{}" | cat > package.json',
       'npm install --package-lock-only',
+      'npm i npm@latest -g 2>/dev/null',
    ];
 
    if (npm.global.length > 0)

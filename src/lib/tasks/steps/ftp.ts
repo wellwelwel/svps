@@ -64,7 +64,7 @@ export default () => {
    Object.assign(sub_steps, [
       ...sub_steps,
       'echo "Generating FTP SSL Certificate..."',
-      `if openssl req -x509 -nodes -days ${ssl.days} -new -newkey rsa:${ssl.rsa} -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=${ssl.country}/ST=${ssl.state}/L=${ssl.location}/O=${ssl.organization}/OU=${ssl.organizationUnit}/CN=${ssl.commonName}" &> /dev/null; then echo true; else echo false; fi;`,
+      `if openssl req -x509 -nodes -days ${ssl.days} -new -newkey rsa:${ssl.rsa} -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=${ssl.country}/ST=${ssl.state}/L=${ssl.location}/O=${ssl.organization}/OU=${ssl.organizationUnit}/CN=${ssl.commonName}" 2>/dev/null; then echo true; else echo false; fi;`,
    ]);
 
    Object.assign(sub_steps, [

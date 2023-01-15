@@ -1,6 +1,6 @@
 import fs from 'fs';
-import { normalize } from 'path';
-import { __dirname, cwd } from '../modules/root.js';
+import { resolve } from 'path';
+import { __dirname } from '../modules/root.js';
 
 (() => {
    const resources = [
@@ -25,9 +25,9 @@ import { __dirname, cwd } from '../modules/root.js';
    for (const resource of resources) {
       const { from, to } = resource;
 
-      const source = normalize(`${__dirname}/resources/local-module/${from}`);
-      const dest = normalize(`${cwd}/${to}`);
+      const source = resolve(`${__dirname}/resources/local-module/${from}`);
+      const dest = resolve(to);
 
-      if (!fs.existsSync(dest)) fs.writeFileSync(dest, fs.readFileSync(source, 'utf-8'));
+      if (!fs.existsSync(dest)) fs.copyFileSync(source, dest);
    }
 })();

@@ -6,9 +6,10 @@ export default defineConfig({
       host: '',
       username: 'root',
       password: '',
-      crontab: {
-         path: './.cronjobs.sh',
-      },
+   },
+
+   CRONTAB: {
+      path: './.cronjobs.sh',
    },
 
    FTP: {
@@ -22,12 +23,6 @@ export default defineConfig({
       ssl: {
          days: 365,
          rsa: 4096,
-         country: '',
-         state: '',
-         location: '',
-         organization: '',
-         organizationUnit: '',
-         commonName: '',
       },
       append: false,
    },

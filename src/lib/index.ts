@@ -1,6 +1,7 @@
 import { ConnectConfig } from 'ssh2';
 
 export interface VPS extends ConnectConfig {
+   host: string;
    username: string;
 }
 
@@ -16,39 +17,42 @@ export interface CRONTAB {
 }
 
 export interface FTP {
-   users: [
-      {
-         name: string;
-         pass: string;
-         /** Directory that the content will be displayed when logging into FTP */
-         path: string;
-         /** Allows user to use "sudo" commands */
-         administrator: boolean;
-      }
-   ];
-   ssl: {
+   users: {
+      name: string;
+      pass: string;
+      /** Directory that the content will be displayed when logging into FTP */
+      path: string;
+      /**
+       * Allows user to use "sudo" commands
+       *
+       * default: `false`
+       */
+      administrator?: boolean;
+   }[];
+   ssl?: {
       /** default: `365` */
-      days: number;
+      days?: number;
       /** default: `4096` */
-      rsa: number;
+      rsa?: number;
       /** default: `''` */
-      country: string;
+      country?: string;
       /** default: `''` */
-      state: string;
+      state?: string;
       /** default: `''` */
-      location: string;
+      location?: string;
       /** default: `''` */
-      organization: string;
+      organization?: string;
       /** default: `''` */
-      organizationUnit: string;
+      organizationUnit?: string;
       /** default: `''` */
-      commonName: string;
+      commonName?: string;
    };
    append: boolean;
 }
 
 export interface APACHE {
-   'php-version': 5.6 | 7.4 | 8.2;
+   /** 5.6, 7.4, 8.1, 8.2... */
+   'php-version': number;
    /* You can create a .html or .php file and set as default index.(html|php) */
    'default-page': string;
    'auto-assigin-www': boolean;
@@ -57,7 +61,8 @@ export interface APACHE {
 }
 
 export interface NODE {
-   version: 12 | 14 | 16 | 18 | 19;
+   /** 12, 14, 16, 18, 19... */
+   version: number;
    npm: {
       global: string[];
       server: {
