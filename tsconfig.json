@@ -20,6 +20,7 @@
       "removeComments": false,
       "sourceMap": false,
       "declaration": true,
+      "listEmittedFiles": true,
 
       "outDir": "",
       "declarationDir": "",

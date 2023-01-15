@@ -13,42 +13,45 @@ import node from './steps/node.js';
 import mysql from './steps/mysql.js';
 import crontab from './steps/crontab.js';
 import reboot from './steps/reboot.js';
+import { forceArray } from '../modules/force-array.js';
 
-const mount = async () => {
-   const commands: string[] = [];
-   const { steps } = OPTIONS;
+let errors = false;
 
-   steps.repare && Object.assign(commands, [...commands, ...repare()]);
-   steps.apt && Object.assign(commands, [...commands, ...apt()]);
-   steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
-   steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
-   steps.ftp && Object.assign(commands, [...commands, ...ftp()]);
-   steps.vh && Object.assign(commands, [...commands, ...vh()]);
-   steps.php && Object.assign(commands, [...commands, ...php()]);
-   steps.node && Object.assign(commands, [...commands, ...node()]);
-   steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
-   steps.crontab && Object.assign(commands, [...commands, ...crontab()]);
-   steps.user && Object.assign(commands, [...commands, ...APPEND_COMMANDS()]);
+const commands: string[] = [];
+const { steps } = OPTIONS;
 
-   if (OPTIONS?.verbose) console.log(commands, '\n');
-   console.log(`\x1b[32m${VPS.username}@${VPS.host} > \x1b[0m`, '\x1b[3m');
+steps.repare && Object.assign(commands, [...commands, ...repare()]);
+steps.apt && Object.assign(commands, [...commands, ...apt()]);
+steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
+steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
+steps.ftp && Object.assign(commands, [...commands, ...ftp()]);
+steps.vh && Object.assign(commands, [...commands, ...vh()]);
+steps.php && Object.assign(commands, [...commands, ...php()]);
+steps.node && Object.assign(commands, [...commands, ...node()]);
+steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
+steps.crontab && Object.assign(commands, [...commands, ...crontab()]);
+steps.user && Object.assign(commands, [...commands, ...APPEND_COMMANDS()]);
+
+if (OPTIONS?.verbose) console.log(commands, '\n');
+
+const hosts = forceArray(VPS);
+
+for (const host of hosts) {
+   console.log(`\x1b[32m${host.username}@${host.host} > \x1b[0m`, '\x1b[3m');
 
    try {
-      await connect(VPS);
+      await connect(host);
       for (const command of commands) await exec(command);
       await exec('history -c');
       steps.reboot && (await reboot());
       await end();
 
       console.log('\x1b[0m');
-      return true;
    } catch (error) {
       console.log(`\x1b[0m${error}`);
-      return false;
+      errors = true;
    }
-};
+}
 
-const result = await mount();
-
-console.log(`\x1b[33m> \x1b[0m${result ? 'Success' : 'Fail'}\n`);
-process.exit(result ? 0 : 1);
+console.log(`\x1b[0m\x1b[1m${!errors ? '\x1b[32m✔︎ Success' : '\n\x1b[31m✖︎ Fail'}\x1b[0m\n`);
+process.exit(!errors ? 0 : 1);

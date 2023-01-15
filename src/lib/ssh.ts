@@ -1,5 +1,6 @@
 import { Client, ConnectConfig } from 'ssh2';
 import { dirname, resolve as pathResolve } from 'path';
+import { VPS } from './modules/configs.js';
 
 const ssh2 = new Client();
 
@@ -20,6 +21,11 @@ export const connect = (access: ConnectConfig): Promise<true> =>
 
 export const exec = (command: string): Promise<true> =>
    new Promise((resolve, reject) => {
+      const errorTitle = (title: string) => `\x1b[0m\x1b[31m\x1b[1m${title}\x1b[0m`;
+      const errorResponse = (response: any) => `\n  ${response}`;
+
+      let executed = false;
+
       try {
          ssh2.exec(command, (err, stream) => {
             if (err) {
@@ -28,11 +34,26 @@ export const exec = (command: string): Promise<true> =>
             }
 
             stream
-               .on('data', (message: Buffer) => {
-                  process.stdout.write(message);
+               .on('data', (data: any) => {
+                  data && process.stdout.write(data);
                })
-               .on('exit', () => {
+               .on('exit', (code: number) => {
+                  if (code !== 0)
+                     reject(
+                        `${errorTitle('Exit code')}${errorResponse(code)}\n${errorTitle('Command')}${errorResponse(
+                           command
+                        )}`
+                     );
+
                   resolve(true);
+               })
+               .stderr.on('data', (chunk: any) => {
+                  if (!executed) {
+                     process.stdout.write(`${errorTitle(`Remote error \x1b[2m[ ${VPS.host} ]`)}${errorResponse('')}`);
+                     executed = true;
+                  }
+
+                  process.stdout.write(chunk);
                });
          });
       } catch (error) {

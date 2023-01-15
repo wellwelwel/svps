@@ -107,7 +107,7 @@ export type APPEND_COMMANDS = () => string[];
 
 export interface svpsOptions {
    /** Set the SSH access from VPS */
-   VPS: VPS;
+   VPS: VPS | VPS[];
 
    CRONTAB?: CRONTAB;
 

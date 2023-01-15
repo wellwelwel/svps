@@ -15,6 +15,7 @@
       "svps": "bin/index.js"
    },
    "scripts": {
+      "build": "rm -rf ./bin ./lib; npx tsc;",
       "patch": "npm run update; npm audit fix; npm version patch --no-git-tag-version;",
       "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version;",
       "major": "npm run update; npm audit fix; npm version major --no-git-tag-version;",
