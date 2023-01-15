@@ -1,27 +1,28 @@
-const fs = require('fs');
-const { normalize } = require('path');
-const sh = require('../../modules/sh');
-const { FTP } = require(`${process.cwd()}/.svpsrc.js`);
-const escapeQuotes = require('../../modules/escape-quotes');
+import fs from 'fs';
+import { normalize } from 'path';
+import sh from '../../modules/sh.js';
+import { FTP } from '../../modules/configs.js';
+import { __dirname } from '../../modules/root.js';
+import escapeQuotes from '../../modules/escape-quotes.js';
 
-module.exports = () => {
+export default () => {
+   if (!FTP) return [] as string[];
 
    const sub_steps = [
-
       `echo "${sh.startTitle}Setting up FTP${sh.endTitle}"`,
       'apt install vsftpd',
       'mkdir -p /etc/vsftpd/user_config_dir',
    ];
-   const userlist = [];
+   const userlist: string[] = [];
    const root_path = `${__dirname}../../../..`;
    const vsftpd_conf = `${root_path}/resources/ftp/vsftpd.conf`;
 
    for (const user of FTP.users) {
-
-      const user_conf = fs.readFileSync(normalize(`${root_path}/resources/ftp/user.conf`), 'utf-8').replace(/{!PATH}/gm, user.path);
+      const user_conf = fs
+         .readFileSync(normalize(`${root_path}/resources/ftp/user.conf`), 'utf-8')
+         .replace(/{!PATH}/gm, user.path);
 
       Object.assign(sub_steps, [
-
          ...sub_steps,
          `id -u ${user.name} &>/dev/null || adduser --disabled-password --gecos "" ${user.name}`,
          `mkdir -p ${user.path}`,
@@ -38,7 +39,6 @@ module.exports = () => {
    }
 
    if (!FTP?.ssl || typeof FTP?.ssl !== 'object') {
-
       FTP.ssl = {
          days: 365,
          rsa: 4096,
@@ -63,14 +63,12 @@ module.exports = () => {
    const { ssl } = FTP;
 
    Object.assign(sub_steps, [
-
       ...sub_steps,
       'echo "Generating the FTP SSL Certificate..."',
       `openssl req -x509 -nodes -days ${ssl.days} -new -newkey rsa:${ssl.rsa} -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=${ssl.country}/ST=${ssl.state}/L=${ssl.location}/O=${ssl.organization}/OU=${ssl.organizationUnit}/CN=${ssl.commonName}"`,
    ]);
 
    Object.assign(sub_steps, [
-
       ...sub_steps,
       `echo ${escapeQuotes(fs.readFileSync(normalize(vsftpd_conf), 'utf-8'))} | cat > /etc/vsftpd.conf`,
       `echo "${userlist.join('\n')}" | ${FTP?.append ? 'tee -a' : 'cat >'} /etc/vsftpd.userlist`,

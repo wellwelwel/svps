@@ -1,0 +1,7 @@
+- verificar `__dirname` nos recursos
+- trocar `FTP` para `USERS`
+   - adicionar `ftp: {...}`
+   - adicionar `sftp: {...}`
+- trocar `SQL` para `MYSQL`
+- Desmembrar `php` da opção `APACHE`
+   - Adicionar `composer` nas opções

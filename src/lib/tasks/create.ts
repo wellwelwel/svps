@@ -1,29 +1,27 @@
-const fs = require('fs');
-const { normalize } = require('path');
+import fs from 'fs';
+import { normalize } from 'path';
 
 (() => {
-
    const resources = [
       {
          from: '../../resources/local-module/.svpsrc.js',
-         to: '.svpsrc.js'
+         to: '.svpsrc.js',
       },
       {
          from: '../../resources/local-module/.cronjobs.sh',
-         to: '.cronjobs.sh'
+         to: '.cronjobs.sh',
       },
       {
          from: '../../resources/local-module/.domains.json',
-         to: '.domains.json'
+         to: '.domains.json',
       },
       {
          from: '../../resources/local-module/.default.html',
-         to: 'index.html'
+         to: 'index.html',
       },
    ];
 
    for (const resource of resources) {
-
       const { from, to } = resource;
 
       const source = normalize(`${__dirname}/${from}`);

@@ -1,7 +1,6 @@
-const sh = require('../../modules/sh');
+import sh from '../../modules/sh.js';
 
-module.exports = () => [
-
+export default () => [
    `echo "${sh.startTitle}Repairing common Ubuntu errors${sh.endTitle}"`,
    'rm -rf /var/lib/apt/lists/lock',
    'rm -rf /var/lib/dpkg/lock',

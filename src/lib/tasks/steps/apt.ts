@@ -1,7 +1,6 @@
-const sh = require('../../modules/sh');
+import sh from '../../modules/sh.js';
 
-module.exports = () => [
-
+export default () => [
    `echo "${sh.startTitle}Preparing the Environment${sh.endTitle}"`,
    'apt update',
    'DEBIAN_FRONTEND="noninteractive" apt -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" upgrade',

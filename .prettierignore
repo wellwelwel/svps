@@ -2,3 +2,4 @@
 !package.json
 !resources/local-module/.svpsrc.js
 !README.md
+!*.ts

@@ -1,30 +1,31 @@
-const fs = require('fs');
-const { normalize } = require('path');
-const sh = require('../../modules/sh');
-const { APACHE } = require(`${process.cwd()}/.svpsrc.js`);
-const escapeQuotes = require('../../modules/escape-quotes');
+import fs from 'fs';
+import { normalize } from 'path';
+import sh from '../../modules/sh.js';
+import escapeQuotes from '../../modules/escape-quotes.js';
+import { APACHE } from '../../modules/configs.js';
+import { __dirname } from '../../modules/root.js';
 
-module.exports = () => {
+export default () => {
+   if (!APACHE) return [] as string[];
 
    const root_path = `${__dirname}../../../..`;
    const php_ini = `${root_path}/resources/php-resources/php.ini`;
    const modules = APACHE.modules;
-   const deprecated = {
-
-      8: [ 'json' ],
+   const deprecated: { [key: number]: string[] } = {
+      8: ['json'],
    };
    const version = APACHE['php-version'];
-   const remove_deprecated = v => deprecated[v.toFixed()].forEach(m => {
 
-      const index = modules.indexOf(m);
+   const remove_deprecated = (version: number): void =>
+      deprecated?.[+version.toFixed()].forEach((module: string) => {
+         const index = modules.indexOf(module);
 
-      if (index >= 0) modules.splice(index, 1);
-   });
+         if (index >= 0) modules.splice(index, 1);
+      });
 
    if (version >= 8) remove_deprecated(version);
 
    return [
-
       `echo "${sh.startTitle}Setting up PHP${sh.endTitle}"`,
       'apt -y install software-properties-common',
       'add-apt-repository ppa:ondrej/php',

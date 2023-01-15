@@ -1,5 +1,4 @@
-const escapeQuotes = string => {
-
+const escapeQuotes = (string: string) => {
    const hash = 'QSByYW5kb21pemVkIGhhc2g=';
    const encrypted = string.replace(/\n|\r/gm, hash);
    const escaped = JSON.stringify(encrypted);
@@ -7,4 +6,4 @@ const escapeQuotes = string => {
    return escaped.replace(new RegExp(hash, 'gm'), '\n');
 };
 
-module.exports = escapeQuotes;
+export default escapeQuotes;

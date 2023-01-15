@@ -117,6 +117,7 @@ module.exports = {
          node: true,
          mysql: true,
          crontab: true,
+         user: true,
          reboot: true,
       },
    },

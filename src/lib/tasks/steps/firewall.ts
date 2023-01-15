@@ -1,10 +1,8 @@
-const sh = require('../../modules/sh');
-const config = require(`${process.cwd()}/.svpsrc.js`);
+import sh from '../../modules/sh.js';
+import { SQL } from '../../modules/configs.js';
 
-module.exports = () => {
-
+export default () => {
    const sub_steps = [
-
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
       'apt install ufw',
       'ufw default deny incoming',
@@ -21,13 +19,9 @@ module.exports = () => {
       "sed -i '/ufw-before-input.*icmp/s/ACCEPT/DROP/g' /etc/ufw/before.rules",
    ];
 
-   if (config?.SQL) {
-
-      const { SQL } = config;
-
+   if (SQL) {
       for (const user of SQL.users) {
-
-         const localhost = [ '127.0.0.1', 'localhost' ];
+         const localhost = ['127.0.0.1', 'localhost'];
 
          if (localhost.includes(user.ip)) continue;
 
