@@ -51,5 +51,10 @@
       "virtualhost",
       "vps",
       "vps-setup"
+   ],
+   "files": [
+      "bin",
+      "lib",
+      "resources"
    ]
 }
