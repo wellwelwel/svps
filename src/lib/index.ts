@@ -84,23 +84,25 @@ export interface SQL {
    databases: string[];
 }
 
+export interface STEPS {
+   repare: boolean;
+   apt: boolean;
+   firewall: boolean;
+   apache: boolean;
+   ftp: boolean;
+   vh: boolean;
+   php: boolean;
+   node: boolean;
+   mysql: boolean;
+   crontab: boolean;
+   user: boolean;
+   reboot: boolean;
+}
+
 export interface OPTIONS {
    /** Set "true" to see all commands on console. Not secure, this will display the passwords. */
    verbose?: boolean;
-   steps: {
-      repare: boolean;
-      apt: boolean;
-      firewall: boolean;
-      apache: boolean;
-      ftp: boolean;
-      vh: boolean;
-      php: boolean;
-      node: boolean;
-      mysql: boolean;
-      crontab: boolean;
-      user: boolean;
-      reboot: boolean;
-   };
+   steps: STEPS;
 }
 
 export type APPEND_COMMANDS = () => string[];
@@ -129,4 +131,15 @@ export interface svpsOptions {
 
    /** The commands entered here will be executed after all steps are completed and before rebooting */
    APPEND_COMMANDS?: APPEND_COMMANDS;
+}
+
+export function defineConfig(
+   options:
+      | { VPS: VPS; OPTIONS: { steps: STEPS }; SQL: SQL }
+      | { VPS: VPS; OPTIONS: { steps: STEPS }; CRONTAB: CRONTAB }
+      | { VPS: VPS; OPTIONS: { steps: STEPS }; APACHE: APACHE }
+      | { VPS: VPS; OPTIONS: { steps: STEPS }; NODE: NODE }
+): svpsOptions;
+export function defineConfig(options: svpsOptions): svpsOptions {
+   return options;
 }

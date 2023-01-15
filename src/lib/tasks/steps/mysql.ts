@@ -16,7 +16,7 @@ export default () => {
       .replace(/{!PASS}/gm, SQL.root.pass);
    const sub_steps = [
       `echo "${sh.startTitle}Setting up MySQL${sh.endTitle}"`,
-      'apt install mysql-server -y',
+      'apt-get install mysql-server -y',
       `echo ${escapeQuotes(
          fs.readFileSync(normalize(mysqld_cnf), 'utf-8')
       )} | cat > /etc/mysql/mysql.conf.d/mysqld.cnf`,

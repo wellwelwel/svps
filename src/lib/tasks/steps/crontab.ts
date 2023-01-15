@@ -2,9 +2,10 @@ import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import escapeQuotes from '../../modules/escape-quotes.js';
-import { CRONTAB, VPS } from '../../modules/configs.js';
+import { VPS as VPS } from '../../index.js';
+import { CRONTAB } from '../../modules/configs.js';
 
-export default () => {
+export default (VPS: VPS) => {
    if (!CRONTAB || !CRONTAB?.path) return [] as string[];
 
    const append = CRONTAB?.append || false;

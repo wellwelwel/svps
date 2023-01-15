@@ -1,7 +1,7 @@
 {
    "name": "svps",
    "version": "1.2.1",
-   "main": "./bin/index.js",
+   "main": "./lib/index.js",
    "type": "module",
    "dependencies": {
       "ssh2": "^1.11.0"

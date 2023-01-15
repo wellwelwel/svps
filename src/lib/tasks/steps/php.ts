@@ -26,9 +26,9 @@ export default () => {
 
    return [
       `echo "${sh.startTitle}Setting up PHP${sh.endTitle}"`,
-      'apt -y install software-properties-common',
+      'apt-get -y install software-properties-common',
       'add-apt-repository ppa:ondrej/php',
-      `apt install -y php${version} php${version}-{${modules.join(',')}}`,
+      `apt-get install -y php${version} php${version}-{${modules.join(',')}}`,
       'curl -sS https://getcomposer.org/installer -o composer-setup.php',
       'php composer-setup.php --install-dir=/usr/local/bin --filename=composer || true',
       `echo ${escapeQuotes(fs.readFileSync(normalize(php_ini), 'utf-8'))} | cat > /etc/php/${version}/cli/php.ini`,

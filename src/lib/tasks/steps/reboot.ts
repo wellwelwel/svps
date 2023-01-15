@@ -1,8 +1,9 @@
 import { connect, end, exec } from '../../ssh.js';
-import { VPS, OPTIONS } from '../../modules/configs.js';
+import { OPTIONS } from '../../modules/configs.js';
 import apt from './apt.js';
+import { VPS } from '../../index.js';
 
-export default (): Promise<true> =>
+export default (VPS: VPS): Promise<true> =>
    new Promise(async (resolve, reject) => {
       console.log('\n\x1b[33mRestarting...\x1b[0m');
 
@@ -29,7 +30,7 @@ export default (): Promise<true> =>
             if (OPTIONS?.steps?.apt) {
                const commands = apt();
 
-               for (const command of commands) await exec(command);
+               for (const command of commands) await exec(command, VPS);
             }
 
             await exec('history -c');

@@ -10,7 +10,7 @@ export default async () => {
 
    const sub_steps = [
       `echo "${sh.startTitle}Setting up Apache2${sh.endTitle}"`,
-      'apt install apache2 -y',
+      'apt-get install apache2 -y',
       'mkdir -p /var/www',
       'setfacl -R -m u:"www-data":rwx /var/www /tmp',
       'setfacl -dR -m u:"www-data":rwx /var/www /tmp',

@@ -4,7 +4,7 @@ import { SQL } from '../../modules/configs.js';
 export default () => {
    const sub_steps = [
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
-      'apt install ufw',
+      'apt-get install ufw',
       'ufw default deny incoming',
       'ufw default allow outgoing',
       'ufw allow ssh',

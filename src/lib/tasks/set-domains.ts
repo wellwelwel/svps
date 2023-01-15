@@ -5,6 +5,7 @@ import { __dirname } from '../modules/root.js';
 import escapeQuotes from '../modules/escape-quotes.js';
 import sh from '../modules/sh.js';
 import { VPS, APACHE, DOMAINS, OPTIONS } from '../modules/configs.js';
+import { forceArray } from '../modules/force-array.js';
 
 const vh = async () => {
    if (!APACHE) return false;
@@ -81,9 +82,15 @@ const vh = async () => {
 
       try {
          if (OPTIONS?.verbose) console.log(commands, '\n');
-         await connect(VPS);
-         await exec(commands.join(' && '));
-         await end();
+
+         const hosts = forceArray(VPS);
+
+         for (const host of hosts) {
+            await connect(host);
+            for (const command of commands) await exec(command, host);
+            await exec('history -c', host);
+            await end();
+         }
 
          return true;
       } catch (error) {

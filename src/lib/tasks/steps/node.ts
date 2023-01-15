@@ -8,9 +8,9 @@ export default () => {
 
    const sub_steps = [
       `echo "${sh.startTitle}Setting up Node.js${sh.endTitle}"`,
-      'apt remove nodejs npm -y',
+      'apt-get remove nodejs npm -y',
       `curl -fsSL https://deb.nodesource.com/setup_${NODE.version}.x | bash -`,
-      'apt install nodejs',
+      'apt-get install nodejs',
       'node -v',
       'echo "{}" | cat > package.json',
       'npm install --package-lock-only',
