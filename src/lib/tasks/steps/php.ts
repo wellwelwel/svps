@@ -8,8 +8,7 @@ import { __dirname } from '../../modules/root.js';
 export default () => {
    if (!APACHE) return [] as string[];
 
-   const root_path = `${__dirname}../../../..`;
-   const php_ini = `${root_path}/resources/php-resources/php.ini`;
+   const php_ini = `${__dirname}/resources/php-resources/php.ini`;
    const modules = APACHE.modules;
    const deprecated: { [key: number]: string[] } = {
       8: ['json'],

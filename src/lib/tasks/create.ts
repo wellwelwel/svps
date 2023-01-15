@@ -1,22 +1,23 @@
 import fs from 'fs';
 import { normalize } from 'path';
+import { __dirname, cwd } from '../modules/root.js';
 
 (() => {
    const resources = [
       {
-         from: '../../resources/local-module/.svpsrc.js',
+         from: '.svpsrc.js',
          to: '.svpsrc.js',
       },
       {
-         from: '../../resources/local-module/.cronjobs.sh',
+         from: '.cronjobs.sh',
          to: '.cronjobs.sh',
       },
       {
-         from: '../../resources/local-module/.domains.json',
+         from: '.domains.json',
          to: '.domains.json',
       },
       {
-         from: '../../resources/local-module/.default.html',
+         from: '.default.html',
          to: 'index.html',
       },
    ];
@@ -24,8 +25,8 @@ import { normalize } from 'path';
    for (const resource of resources) {
       const { from, to } = resource;
 
-      const source = normalize(`${__dirname}/${from}`);
-      const dest = normalize(`${process.cwd()}/${to}`);
+      const source = normalize(`${__dirname}/resources/local-module/${from}`);
+      const dest = normalize(`${cwd}/${to}`);
 
       if (!fs.existsSync(dest)) fs.writeFileSync(dest, fs.readFileSync(source, 'utf-8'));
    }

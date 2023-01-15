@@ -5,8 +5,7 @@ import { __dirname } from '../../modules/root.js';
 import escapeQuotes from '../../modules/escape-quotes.js';
 
 export default () => {
-   const root_path = `${__dirname}../../../..`;
-   const default_000 = `${root_path}/resources/virtual-host/000-default.conf`;
+   const default_000 = `${__dirname}/resources/virtual-host/000-default.conf`;
 
    const sub_steps = [
       `echo "${sh.startTitle}Setting up Rewrite Virtual Hosts${sh.endTitle}"`,

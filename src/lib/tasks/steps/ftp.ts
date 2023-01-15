@@ -14,12 +14,11 @@ export default () => {
       'mkdir -p /etc/vsftpd/user_config_dir',
    ];
    const userlist: string[] = [];
-   const root_path = `${__dirname}../../../..`;
-   const vsftpd_conf = `${root_path}/resources/ftp/vsftpd.conf`;
+   const vsftpd_conf = `${__dirname}/resources/ftp/vsftpd.conf`;
 
    for (const user of FTP.users) {
       const user_conf = fs
-         .readFileSync(normalize(`${root_path}/resources/ftp/user.conf`), 'utf-8')
+         .readFileSync(normalize(`${__dirname}/resources/ftp/user.conf`), 'utf-8')
          .replace(/{!PATH}/gm, user.path);
 
       Object.assign(sub_steps, [

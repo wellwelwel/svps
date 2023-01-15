@@ -8,9 +8,8 @@ import { __dirname } from '../../modules/root.js';
 export default () => {
    if (!SQL) return [] as string[];
 
-   const root_path = `${__dirname}../../../..`;
-   const mysqld_cnf = `${root_path}/resources/mysql/mysqld.cnf`;
-   const my_cnf = `${root_path}/resources/mysql/.my.cnf`;
+   const mysqld_cnf = `${__dirname}/resources/mysql/mysqld.cnf`;
+   const my_cnf = `${__dirname}/resources/mysql/.my.cnf`;
    const temp_access = fs
       .readFileSync(normalize(my_cnf), 'utf-8')
       .replace(/{!USER}/gm, SQL.root.name)

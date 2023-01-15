@@ -18,11 +18,10 @@ export default async () => {
       'mkdir -p /var/www/html',
       'systemctl restart apache2',
    ];
-   const root_path = `${__dirname}../../../..`;
 
    if (APACHE['deny-access-to-default-virtual-host']) {
-      const htaccess = `${root_path}/resources/php-resources/html/.htaccess`;
-      const _403 = `${root_path}/resources/php-resources/html/403.html`;
+      const htaccess = `${__dirname}/resources/php-resources/html/.htaccess`;
+      const _403 = `${__dirname}/resources/php-resources/html/403.html`;
 
       sub_steps.push(
          `echo ${escapeQuotes(fs.readFileSync(normalize(htaccess), 'utf-8'))} | cat > /var/www/html/.htaccess`

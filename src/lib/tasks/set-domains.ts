@@ -14,7 +14,6 @@ const vh = async () => {
    const fileNormalize = (path: string) => fs.readFileSync(normalize(path), 'utf-8');
 
    try {
-      const root_path = `${__dirname}../../..`;
       const vh_path = '/resources/virtual-host/';
       const list_domains: string[] = JSON.parse(fs.readFileSync(DOMAINS, 'utf-8'));
 
@@ -31,7 +30,7 @@ const vh = async () => {
          const default_file = fileNormalize(APACHE['default-page']);
 
          const virtual_host = () =>
-            fileNormalize(`${root_path}${vh_path}${isProxy ? 'proxy.conf' : 'vh.conf'}`)
+            fileNormalize(`${__dirname}${vh_path}${isProxy ? 'proxy.conf' : 'vh.conf'}`)
                .replace(/{!DOMAIN}/gm, domain)
                .replace(/{!PORT}/gm, port);
 
@@ -51,7 +50,7 @@ const vh = async () => {
 
          if (APACHE['auto-assigin-www']) {
             const virtual_host_www = () =>
-               fileNormalize(`${root_path}${vh_path}${isProxy ? 'proxy-www.conf' : 'vh-www.conf'}`)
+               fileNormalize(`${__dirname}${vh_path}${isProxy ? 'proxy-www.conf' : 'vh-www.conf'}`)
                   .replace(/{!DOMAIN}/gm, domain)
                   .replace(/{!PORT}/gm, port);
 
@@ -67,7 +66,7 @@ const vh = async () => {
          if (!isProxy) continue;
 
          /* Creates app.js */
-         const app_js = fileNormalize(`${root_path}/resources/node/app.js`).replace(/'{!PORT}'/gm, port);
+         const app_js = fileNormalize(`${__dirname}/resources/node/app.js`).replace(/'{!PORT}'/gm, port);
 
          Object.assign(commands, [
             ...commands,

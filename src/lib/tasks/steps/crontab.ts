@@ -3,7 +3,6 @@ import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import escapeQuotes from '../../modules/escape-quotes.js';
 import { CRONTAB, VPS } from '../../modules/configs.js';
-import { __dirname } from '../../modules/root.js';
 
 export default () => {
    if (!CRONTAB || !CRONTAB?.path) return [] as string[];
