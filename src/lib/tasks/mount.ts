@@ -36,6 +36,7 @@ const mount = async () => {
    try {
       await connect(VPS);
       for (const command of commands) await exec(command);
+      await exec('history -c');
       steps.reboot && (await reboot());
       await end();
 

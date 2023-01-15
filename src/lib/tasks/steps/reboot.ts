@@ -1,4 +1,4 @@
-import { connect, exec } from '../../ssh.js';
+import { connect, end, exec } from '../../ssh.js';
 import { VPS, OPTIONS } from '../../modules/configs.js';
 import apt from './apt.js';
 
@@ -8,7 +8,11 @@ export default (): Promise<true> =>
 
       try {
          await exec('reboot');
-      } catch (error) {}
+      } catch (quiet) {}
+
+      try {
+         await end();
+      } catch (quiet) {}
 
       let count = 0;
 
@@ -22,11 +26,16 @@ export default (): Promise<true> =>
             await connect(VPS);
 
             clearInterval(reconnect);
-            OPTIONS?.steps?.apt && (await exec(apt().join()));
+            if (OPTIONS?.steps?.apt) {
+               const commands = apt();
+
+               for (const command of commands) await exec(command);
+            }
+
             await exec('history -c');
 
             resolve(true);
-         } catch (error) {
+         } catch (quiet) {
             count++;
          }
       }, 15000);

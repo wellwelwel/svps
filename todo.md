@@ -3,5 +3,5 @@
    - adicionar `ftp: {...}`
    - adicionar `sftp: {...}`
 - trocar `SQL` para `MYSQL`
-- Desmembrar `php` da opção `APACHE`
-   - Adicionar `composer` nas opções
+- desmembrar `php` da opção `APACHE`
+   - adicionar `composer` nas opções
