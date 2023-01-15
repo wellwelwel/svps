@@ -133,13 +133,4 @@ export interface svpsOptions {
    APPEND_COMMANDS?: APPEND_COMMANDS;
 }
 
-export function defineConfig(
-   options:
-      | { VPS: VPS; OPTIONS: { steps: STEPS }; SQL: SQL }
-      | { VPS: VPS; OPTIONS: { steps: STEPS }; CRONTAB: CRONTAB }
-      | { VPS: VPS; OPTIONS: { steps: STEPS }; APACHE: APACHE }
-      | { VPS: VPS; OPTIONS: { steps: STEPS }; NODE: NODE }
-): svpsOptions;
-export function defineConfig(options: svpsOptions): svpsOptions {
-   return options;
-}
+export const defineConfig = (options: svpsOptions): svpsOptions => options;
