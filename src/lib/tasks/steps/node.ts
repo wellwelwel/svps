@@ -19,7 +19,7 @@ export default () => {
       for (const module of node.packages) {
          Object.assign(commands, [
             ...commands,
-            `echo "\n\x1b[0m\x1b[1m\x1b[34m‣ Global Module:\x1b[0m \x1b[22m\x1b[1m${module}\x1b[0m"`,
+            `echo "\n\x1b[0m\x1b[1m\x1b[36m‣ Global Module:\x1b[0m \x1b[22m\x1b[1m${module}\x1b[0m"`,
             `npm i ${module} -g`,
          ]);
       }

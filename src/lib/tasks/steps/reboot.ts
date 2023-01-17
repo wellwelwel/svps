@@ -5,7 +5,7 @@ import { VPS } from '../../index.js';
 
 export default (VPS: VPS): Promise<true> =>
    new Promise(async (resolve, reject) => {
-      console.log('\n\x1b[33mRestarting...\x1b[0m');
+      console.log('\n\x1b[0m\x1b[33m\x1b[1m⦿ Restarting\x1b[0m');
 
       try {
          await exec('reboot');

@@ -3,6 +3,7 @@ import { vps } from '../modules/configs/vps.js';
 import { steps } from '../modules/configs/steps.js';
 import { appendCommands } from '../modules/configs/append-commands.js';
 import { verbose } from '../modules/configs/verbose.js';
+import sh from '../modules/sh.js';
 
 // Get ssh
 import { connect, end, exec } from '../ssh.js';
@@ -25,7 +26,7 @@ try {
    const hosts = vps;
 
    for (const host of hosts) {
-      console.log(`\x1b[22m\x1b[34m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`);
+      console.log(`\x1b[22m\x1b[36m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`);
       const commands = [] as string[];
 
       steps.repare && Object.assign(commands, [...commands, ...repare()]);
@@ -37,7 +38,14 @@ try {
       steps.node && Object.assign(commands, [...commands, ...node()]);
       steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
       steps.crontab && Object.assign(commands, [...commands, ...crontab(host)]);
-      steps.appendCommands && Object.assign(commands, [...commands, ...appendCommands()]);
+      steps.appendCommands &&
+         appendCommands &&
+         Object.assign(commands, [
+            ...commands,
+            `echo "${sh.startTitle}Appending your personal commands${sh.endTitle}"`,
+            ...appendCommands(),
+            sh.done,
+         ]);
 
       if (verbose) console.log(commands, '\n');
 
