@@ -3,7 +3,7 @@ import { forceArray } from '../force-array.js';
 import { input } from './index.js';
 
 export const vps: VPS[] = (() => {
-   if (!input?.vps || !Array.isArray(input.vps) || typeof input.vps !== 'object') throw 'The field `vps` is required';
+   if (!input?.vps || (!Array.isArray(input.vps) && typeof input.vps !== 'object')) throw 'The field `vps` is required';
 
    const mapVPS = forceArray(input.vps);
 

@@ -3,4 +3,7 @@
 -  permitir e criar `groups` do usuário, caso não existam
 -  verificar se usuário já existe na lista `ftp`
 -  verificar se usuário já existe na lista `sftp`
--  pensar em uma forma melhor de organizar o certificado ftp
+-  pensar em uma forma melhor de organizar o certificado `ftp`
+-  função similar ao `reboot`, mas ao reiniciar o serviço `ssh` remotamente
+-  adicionar título e "`done`" para `appendCOmmands`
+-  Remover `dim` ao reiniciar
