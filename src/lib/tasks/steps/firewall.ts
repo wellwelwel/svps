@@ -1,8 +1,8 @@
 import sh from '../../modules/sh.js';
-import { SQL } from '../../modules/configs.js';
+import { mysql } from '../../modules/configs/mysql.js';
 
 export default () => {
-   const sub_steps = [
+   const commands = [
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
       'apt-get install ufw',
       'ufw default deny incoming',
@@ -15,22 +15,25 @@ export default () => {
       'ufw allow 21/tcp',
       'ufw allow 990/tcp',
       'ufw allow 40000:50000/tcp',
-      'ufw allow from 127.0.0.1 to any port 3306',
       "sed -i '/ufw-before-input.*icmp/s/ACCEPT/DROP/g' /etc/ufw/before.rules",
    ];
 
-   if (SQL) {
-      for (const user of SQL.users) {
-         const localhost = ['127.0.0.1', 'localhost'];
+   if (mysql) {
+      commands.push(`ufw allow from 127.0.0.1 to any port 3306`);
 
-         if (localhost.includes(user.ip)) continue;
+      if (mysql.users.length > 0) {
+         for (const user of mysql.users) {
+            const localhost = ['127.0.0.1', 'localhost'];
 
-         sub_steps.push(`ufw allow from ${user.ip} to any port 3306`);
+            if (localhost.includes(user.host)) continue;
+
+            commands.push(`ufw allow from ${user.host} to any port 3306`);
+         }
       }
    }
 
-   sub_steps.push('echo "y" | ufw enable');
-   sub_steps.push(sh.done);
+   commands.push('echo "y" | ufw enable');
+   commands.push(sh.done);
 
-   return sub_steps;
+   return commands;
 };

@@ -1,57 +1,64 @@
-'use strict';
+// Get user options in ".svpsrc.js"
+import { vps } from '../modules/configs/vps.js';
+import { steps } from '../modules/configs/steps.js';
+import { appendCommands } from '../modules/configs/append-commands.js';
+import { verbose } from '../modules/configs/verbose.js';
 
-import { VPS, OPTIONS, APPEND_COMMANDS } from '../modules/configs.js';
+// Get ssh
 import { connect, end, exec } from '../ssh.js';
+
+// Get steps
 import repare from './steps/repare.js';
 import apt from './steps/apt.js';
-import apache from './steps/apache.js';
 import firewall from './steps/firewall.js';
-import ftp from './steps/ftp.js';
-import vh from './steps/vh.js';
+import users from './steps/users/index.js';
+import apache from './steps/apache.js';
 import php from './steps/php.js';
 import node from './steps/node.js';
 import mysql from './steps/mysql.js';
 import crontab from './steps/crontab.js';
 import reboot from './steps/reboot.js';
-import { forceArray } from '../modules/force-array.js';
 
-let errors = false;
+try {
+   let errors = false;
 
-const hosts = forceArray(VPS);
-const { steps } = OPTIONS;
+   const hosts = vps;
 
-for (const host of hosts) {
-   console.log(`\x1b[32m${host.username}@${host.host} > \x1b[0m`, '\x1b[3m');
-   const commands: string[] = [];
+   for (const host of hosts) {
+      console.log(`\x1b[22m\x1b[34m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`);
+      const commands = [] as string[];
 
-   steps.repare && Object.assign(commands, [...commands, ...repare()]);
-   steps.apt && Object.assign(commands, [...commands, ...apt()]);
-   steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
-   steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
-   steps.ftp && Object.assign(commands, [...commands, ...ftp()]);
-   steps.vh && Object.assign(commands, [...commands, ...vh()]);
-   steps.php && Object.assign(commands, [...commands, ...php()]);
-   steps.node && Object.assign(commands, [...commands, ...node()]);
-   steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
-   steps.crontab && Object.assign(commands, [...commands, ...crontab(host)]);
-   steps.user && Object.assign(commands, [...commands, ...APPEND_COMMANDS()]);
+      steps.repare && Object.assign(commands, [...commands, ...repare()]);
+      steps.apt && Object.assign(commands, [...commands, ...apt()]);
+      steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
+      steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
+      steps.users && Object.assign(commands, [...commands, ...users()]);
+      steps.php && Object.assign(commands, [...commands, ...php()]);
+      steps.node && Object.assign(commands, [...commands, ...node()]);
+      steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
+      steps.crontab && Object.assign(commands, [...commands, ...crontab(host)]);
+      steps.appendCommands && Object.assign(commands, [...commands, ...appendCommands()]);
 
-   if (OPTIONS?.verbose) console.log(commands, '\n');
+      if (verbose) console.log(commands, '\n');
 
-   try {
-      await connect(host);
-      for (const command of commands) await exec(command, host);
-      await exec('history -c', host);
-      steps.reboot && (await reboot(host));
-      await end();
+      try {
+         await connect(host);
+         for (const command of commands) await exec(command, host);
+         await exec('history -c', host);
+         steps.reboot && (await reboot(host));
+         await end();
 
-      console.log('\x1b[0m');
-   } catch (error) {
-      console.log(`\x1b[0m${error}`);
-      errors = true;
-      break;
+         console.log('\x1b[0m');
+      } catch (error) {
+         console.log(`\x1b[0m${error}`);
+         errors = true;
+         break;
+      }
    }
-}
 
-console.log(`\x1b[0m\x1b[1m${!errors ? '\x1b[32m✔︎ Success' : '\n\x1b[31m✖︎ Fail'}\x1b[0m\n`);
-process.exit(!errors ? 0 : 1);
+   console.log(`\x1b[0m\x1b[1m${!errors ? '\x1b[32m✔︎ Success' : '\n\x1b[31m✖︎ Fail'}\x1b[0m\n`);
+   process.exit(!errors ? 0 : 1);
+} catch (error) {
+   console.log(`\x1b[0m\x1b[1m\x1b[31m✖︎`, error, '\x1b[0m\n');
+   process.exit(1);
+}

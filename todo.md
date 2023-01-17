@@ -1,6 +1,6 @@
--  trocar `FTP` para `USERS`
-   -  adicionar `ftp: {...}`
-   -  adicionar `sftp: {...}`
--  trocar `SQL` para `MYSQL`
--  desmembrar `php` da opção `APACHE`
-   -  adicionar `composer` nas opções
+-  adicionar `sftp`
+-  permitir criar `groups` do sistema
+-  permitir e criar `groups` do usuário, caso não existam
+-  verificar se usuário já existe na lista `ftp`
+-  verificar se usuário já existe na lista `sftp`
+-  pensar em uma forma melhor de organizar o certificado ftp

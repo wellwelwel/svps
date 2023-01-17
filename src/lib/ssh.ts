@@ -22,7 +22,7 @@ export const connect = (access: ConnectConfig): Promise<true> =>
 export const exec = (command: string, VPS?: VPS): Promise<true> =>
    new Promise((resolve, reject) => {
       const errorTitle = (title: string) => `\x1b[0m\x1b[31m\x1b[1m${title}\x1b[0m`;
-      const errorResponse = (response: any) => `\n  ${response}`;
+      const errorResponse = (response: any) => `\n\x1b[0m  \x1b[33m${response}`;
 
       let executed = false;
 
@@ -35,7 +35,10 @@ export const exec = (command: string, VPS?: VPS): Promise<true> =>
 
             stream
                .on('data', (data: any) => {
-                  data && process.stdout.write(data);
+                  if (data) {
+                     process.stdout.write('\x1b[0m\x1b[2m\x1b[3m');
+                     process.stdout.write(data);
+                  }
                })
                .on('exit', (code: number) => {
                   if (code !== 0)
@@ -49,11 +52,8 @@ export const exec = (command: string, VPS?: VPS): Promise<true> =>
                })
                .stderr.on('data', (chunk: any) => {
                   if (chunk && !executed) {
-                     if (VPS)
-                        process.stdout.write(
-                           `${errorTitle(`Remote error \x1b[2m[ ${VPS.host} ]`)}${errorResponse('')}`
-                        );
-                     else process.stdout.write(`${errorTitle('Remote error')}${errorResponse('')}`);
+                     if (VPS) process.stdout.write(`${errorTitle(`\n\x1b[2m[ ${VPS.host} ]`)}${errorResponse('')}`);
+                     else process.stdout.write(`${errorTitle('\nRemote error')}${errorResponse('')}`);
                      executed = true;
                   }
 

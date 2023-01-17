@@ -1,5 +1,5 @@
 import { connect, end, exec } from '../../ssh.js';
-import { OPTIONS } from '../../modules/configs.js';
+import { steps } from '../../modules/configs/steps.js';
 import apt from './apt.js';
 import { VPS } from '../../index.js';
 
@@ -27,7 +27,7 @@ export default (VPS: VPS): Promise<true> =>
             await connect(VPS);
 
             clearInterval(reconnect);
-            if (OPTIONS?.steps?.apt) {
+            if (steps.apt) {
                const commands = apt();
 
                for (const command of commands) await exec(command, VPS);

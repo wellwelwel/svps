@@ -1,15 +1,13 @@
 import sh from '../../modules/sh.js';
-import { NODE } from '../../modules/configs.js';
+import { node } from '../../modules/configs/node.js';
 
 export default () => {
-   if (!NODE) return [] as string[];
+   if (!node) return [] as string[];
 
-   const { npm } = NODE;
-
-   const sub_steps = [
+   const commands = [
       `echo "${sh.startTitle}Setting up Node.js${sh.endTitle}"`,
       'apt-get remove nodejs npm -y',
-      `curl -fsSL https://deb.nodesource.com/setup_${NODE.version}.x | bash -`,
+      `curl -fsSL https://deb.nodesource.com/setup_${node.version}.x | bash -`,
       'apt-get install nodejs',
       'node -v',
       'echo "{}" | cat > package.json',
@@ -17,18 +15,18 @@ export default () => {
       'npm i npm@latest -g 2>/dev/null',
    ];
 
-   if (npm.global.length > 0)
-      for (const module of npm.global) {
-         Object.assign(sub_steps, [
-            ...sub_steps,
-            `echo "\n\x1b[33mModule:\x1b[0m ${module}"`,
-            `npm install ${module} --global`,
+   if (node.packages.length > 0)
+      for (const module of node.packages) {
+         Object.assign(commands, [
+            ...commands,
+            `echo "\n\x1b[0m\x1b[1m\x1b[34m‣ Global Module:\x1b[0m \x1b[22m\x1b[1m${module}\x1b[0m"`,
+            `npm i ${module} -g`,
          ]);
       }
 
-   Object.assign(sub_steps, [...sub_steps, 'npm audit fix', sh.done]);
+   if (node.packages.includes('pm2')) commands.push('echo "\n"; pm2 startup');
 
-   if (npm?.global?.includes('pm2') && npm?.server?.autostart) sub_steps.push('pm2 startup');
+   Object.assign(commands, [...commands, 'npm audit fix', sh.done]);
 
-   return sub_steps;
+   return commands;
 };

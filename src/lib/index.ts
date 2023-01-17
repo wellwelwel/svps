@@ -6,8 +6,12 @@ export interface VPS extends ConnectConfig {
 }
 
 export interface CRONTAB {
-   /** Local path with the `crontab commands` */
-   path: string;
+   /**
+    * Local path with the `crontab commands`
+    *
+    * default: `./.cronjobs.sh`
+    */
+   path?: string;
    /**
     * Keeps or reset previous `crontabs` and append new commands
     *
@@ -16,79 +20,86 @@ export interface CRONTAB {
    append?: boolean;
 }
 
-export interface USERS {
+export interface CERTIFICATE {
+   /**
+    * Certificate validity days
+    *
+    * default: `365`
+    */
+   days?: number;
+   /**
+    * RSA cyptography
+    *
+    * default: `4096`
+    */
+   rsa?: number;
+   /** default: `''` */
+   country?: string;
+   /** default: `''` */
+   state?: string;
+   /** default: `''` */
+   location?: string;
+   /** default: `''` */
+   organization?: string;
+   /** default: `''` */
+   organizationUnit?: string;
+   /** default: `''` */
+   commonName?: string;
+}
+
+/** Install `FTP` protocol using the `vsftpd` */
+export interface FTP {
+   certificate?: CERTIFICATE;
+}
+
+/** Enable `SFTP` protocol to the current user */
+export interface SFTP {
+   /**
+    * Set the `ChrootDirectory`
+    *
+    * default: `/home`
+    */
+   chRoot?: string;
+   /**
+    * Set the user `SFTP` workspace
+    *
+    * default: `/home/%u`
+    */
+   chUser?: string;
+   /**
+    * Set the mask from `0777`
+    *
+    * Ex.: `0077` defines the default permissions to `0700` and `0600`
+    *
+    * default: `0022`
+    */
+   mask?: string;
+}
+
+export interface USER {
+   /** Username to login */
    name: string;
-   pass: string;
-   /** Directory that the content will be displayed when logging into FTP */
-   directory: string;
+   /** User password to login */
+   password: string;
+   /**
+    * Default directory for the current user
+    *
+    * default: `/home/%u`
+    */
+   directory?: string;
    /**
     * Allows user to use "sudo" commands
     *
     * default: `false`
     */
-   administrator?: boolean;
+   sudo?: boolean;
    /** Put the main group as the first item */
    groups?: string[];
-   /** Install `FTP` protocol using the `vsftpd` */
-   ftp?: {
-      ssl?: {
-         /** default: `365` */
-         days?: number;
-         /** default: `4096` */
-         rsa?: number;
-         /** default: `''` */
-         country?: string;
-         /** default: `''` */
-         state?: string;
-         /** default: `''` */
-         location?: string;
-         /** default: `''` */
-         organization?: string;
-         /** default: `''` */
-         organizationUnit?: string;
-         /** default: `''` */
-         commonName?: string;
-      };
-      /**
-       * Keeps or reset previous users and append new users
-       */
-      append?: boolean;
-   };
-   /** Enable `SFTP` protocol to the current user */
-   sftp?: {
-      /** You need to define a directory for the root and user `SFTP` */
-      directories: {
-         /**
-          * Set the `ChrootDirectory`
-          *
-          * Ex.: `/home`
-          */
-         root: string;
-         /**
-          * Set the user `SFTP` workspace
-          *
-          * Ex.: `/home/user`
-          */
-         user: string;
-      };
-      /**
-       * Set the mask from 0777
-       *
-       * Ex.: `0077` defines the default permissions to `0700` and `0600`
-       *
-       * default: `0022`
-       */
-      mask?: string;
-   };
+   ftp?: FTP | false;
+   sftp?: SFTP | false;
 }
 
-export interface PHP {
-   /**
-    * 5.6, 7.4, 8.1, 8.2...
-    *
-    * default: `8.2`
-    */
-   version?: number;
+export interface APACHE {
    /**
     * You can create a .html or .php file and set as default index.(html|php)
     *
@@ -107,7 +118,27 @@ export interface PHP {
     * default: `false`
     */
    accessFromIP?: boolean;
+}
+
+export interface PHP {
+   /**
+    * 5.6, 7.4, 8.1, 8.2...
+    *
+    * default: `8.2`
+    */
+   version?: number;
+   /**
+    * Set PHP modules to install
+    *
+    * default: [ 'cli', 'common', 'bz2', 'curl', 'gmp', 'readline', 'sqlite3', 'xml', 'bcmath', 'gd', 'imagick', 'imap', 'intl', 'json', 'mbstring', 'mysql', 'opcache', 'soap', 'tidy', 'xmlrpc', 'xsl', 'zip' ]
+    */
    modules?: string[];
+   /**
+    * Install the PHP `compose`
+    *
+    * default: `true`
+    */
+   compose?: boolean;
 }
 
 export interface NODE {
@@ -116,89 +147,138 @@ export interface NODE {
     *
     * default: `18`
     */
-   version: number;
-   npm: {
-      /**
-       * `npmjs` packages to instaal globally
-       *
-       * To use domains with `node`, it needs `pm2` package
-       */
-      global: string[];
-   };
+   version?: number;
+   /**
+    * `npmjs` packages to install globally
+    *
+    * * To use `npx set domains` with `node`, it needs `pm2` as global package
+    *
+    * default: `[ 'pm2' ]`
+    */
+   packages?: string[];
 }
 
-/**
- * Local path with the domains list
- *
- * default: `./.domains.json`
- */
 export type DOMAINS = string;
 
+export interface MYSQL_ROOT {
+   /** Set the `root` password */
+   pass: string;
+   /**
+    * Change name of `root` user in `MySQL`
+    *
+    * default: `root`
+    */
+   name?: string;
+}
+
 export interface MYSQL {
-   /** Creates root password */
-   root: {
-      /** Set the `root` password */
-      pass: string;
-      /** Change name of `root` user in `MySQL` */
-      name?: string;
-   };
+   /** Creates root access */
+   root: MYSQL_ROOT;
    /** Creates `MySQL` users */
-   users: {
+   users?: {
       host: string;
       name: string;
       pass: string;
    }[];
    /** Creates the empty `databases` */
-   databases: string[];
+   databases?: string[];
 }
 
+/** Enable or disable steps */
 export interface STEPS {
+   /** default: `true` */
    repare?: boolean;
+   /** default: `true` */
    apt?: boolean;
+   /** default: `true` */
    firewall?: boolean;
+   /** default: `true` */
+   users?: boolean;
+   /**
+    * `Apache2` is required in `PHP` and `node.js`
+    *
+    * default: `true`
+    */
    apache?: boolean;
-   ftp?: boolean;
-   vh?: boolean;
+   /** default: `true` */
    php?: boolean;
+   /** default: `true` */
    node?: boolean;
+   /** default: `true` */
    mysql?: boolean;
+   /** default: `true` */
    crontab?: boolean;
-   user?: boolean;
+   /** default: `true` */
+   appendCommands?: boolean;
+   /** default: `true` */
    reboot?: boolean;
 }
 
-export interface OPTIONS {
-   /** Set "true" to see all commands on console. Not secure, this will display the passwords. */
-   verbose?: boolean;
-   steps: STEPS;
-}
+export type VERBOSE = boolean;
 
 export type APPEND_COMMANDS = () => string[];
 
 export interface svpsOptions {
    /** Set the SSH access from VPS */
-   VPS: VPS | VPS[];
+   vps: VPS | VPS[];
 
-   CRONTAB?: CRONTAB;
+   /** Set `crontabs` from a local file */
+   crontab?: CRONTAB;
+
+   /** Set the accesses you want to be created */
+   users?: USER | USER[];
 
    /** Enable or disable the steps */
-   OPTIONS: OPTIONS;
+   steps?: STEPS;
+
+   /**
+    * Set "true" to see all commands in console
+    *
+    * Becareful, this will **display the passwords**
+    *
+    * default: `false`
+    */
+   verbose?: VERBOSE;
+   /**
+    * Set `Apache2` configurations
+    *
+    * `Apache2` is required in `PHP` and `node.js`
+    *
+    * default: `true`
+    */
+   apache?: APACHE;
+   /**
+    * Set `PHP` configurations
+    *
+    * default version: `8.2`
+    */
+   php?: PHP;
+
+   /**
+    * Set `node.js` configurations
+    *
+    * default version: `18`
+    */
+   node?: NODE;
+
+   /**
+    * Local path with the domains list
+    *
+    * * Use with `npx svps set domains`
+    *
+    * default: `./.domains.json`
+    */
+   domains?: DOMAINS;
 
    /** Set the accesses you want to be created */
-   USERS?: USERS[];
+   mysql?: MYSQL;
 
-   PHP?: PHP;
-
-   NODE?: NODE;
-
-   /** Set an absolute JSON path or a HTTP GET Request JSON with domains to create the Virtaul Hosts */
-   DOMAINS?: DOMAINS;
-
-   /** Set the accesses you want to be created */
-   MYSQL?: MYSQL;
-
-   /** The commands entered here will be executed after all steps are completed and before rebooting */
-   APPEND_COMMANDS?: APPEND_COMMANDS;
+   /** Your personal commands will be executed after all enabled steps and before rebooting */
+   appendCommands?: APPEND_COMMANDS;
 }
 
+/**
+ * Auxiliary function to define the `svps` configurations
+ * @param options
+ */
 export const defineConfig = (options: svpsOptions): svpsOptions => options;

@@ -2,106 +2,54 @@
 import { defineConfig } from 'svps';
 
 export default defineConfig({
-   VPS: {
-      host: '',
-      username: 'root',
-      password: '',
-   },
-
-   CRONTAB: {
-      path: './.cronjobs.sh',
-   },
-
-   FTP: {
-      users: [
-         {
-            name: '',
-            pass: '',
-            path: '/var/www',
-         },
-      ],
-      ssl: {
-         days: 365,
-         rsa: 4096,
+   vps: [
+      {
+         host: '',
+         username: 'root',
+         password: '',
       },
-      append: false,
-   },
-
-   APACHE: {
-      'php-version': 8.2,
-      'default-page': './index.html',
-      'auto-assigin-www': true,
-      'deny-access-to-default-virtual-host': true,
-      modules: [
-         'cli',
-         'common',
-         'bz2',
-         'curl',
-         'gmp',
-         'readline',
-         'sqlite3',
-         'xml',
-         'bcmath',
-         'gd',
-         'imagick',
-         'imap',
-         'intl',
-         'json',
-         'mbstring',
-         'mysql',
-         'opcache',
-         'soap',
-         'tidy',
-         'xmlrpc',
-         'xsl',
-         'zip',
-      ],
-   },
-
-   NODE: {
-      version: 18,
-      npm: {
-         global: ['pm2'],
-         server: {
-            autostart: true,
-         },
+   ],
+   users: [
+      {
+         name: 'user',
+         password: '',
+         sudo: false,
+         directory: '/home/user',
+         ftp: false,
+         sftp: false,
       },
-   },
-
-   DOMAINS: './.domains.json',
-
-   SQL: {
+   ],
+   apache: {},
+   php: {},
+   node: {},
+   mysql: {
       root: {
-         name: 'root',
          pass: '',
       },
       users: [
          {
-            ip: 'localhost',
+            host: 'localhost',
             name: '',
             pass: '',
          },
       ],
-      databases: ['mydb'],
    },
-
-   OPTIONS: {
-      verbose: false,
-      steps: {
-         repare: true,
-         apt: true,
-         firewall: true,
-         apache: true,
-         ftp: true,
-         vh: true,
-         php: true,
-         node: true,
-         mysql: true,
-         crontab: true,
-         user: true,
-         reboot: true,
-      },
+   domains: './.domains.json',
+   crontab: {
+      path: './.cronjobs.sh',
    },
-
-   APPEND_COMMANDS: () => [],
+   steps: {
+      repare: true,
+      apt: true,
+      firewall: true,
+      users: true,
+      apache: true,
+      php: true,
+      node: true,
+      mysql: true,
+      crontab: true,
+      appendCommands: true,
+      reboot: true,
+   },
+   appendCommands: () => [],
 });
