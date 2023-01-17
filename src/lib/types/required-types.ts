@@ -1,4 +1,4 @@
-import { FTP, SFTP, CERTIFICATE, USER, MYSQL, MYSQL_ROOT } from '../lib/index.js';
+import { FTP, SFTP, CERTIFICATE, USER, MYSQL, MYSQL_ROOT } from '../index.js';
 
 export interface REQUIRED_FTP extends Required<FTP> {
    certificate: Required<CERTIFICATE>;

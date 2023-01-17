@@ -1,4 +1,4 @@
-import { REQUIRED_MYSQL } from '../../../types/required-types.js';
+import { REQUIRED_MYSQL } from '../../types/required-types.js';
 import { input } from './index.js';
 import { steps } from './steps.js';
 

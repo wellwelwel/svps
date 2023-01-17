@@ -1,4 +1,4 @@
-import { REQUIRED_USER } from '../../../types/required-types.js';
+import { REQUIRED_USER } from '../../types/required-types.js';
 import { forceArray } from '../force-array.js';
 import { input } from './index.js';
 import { steps } from './steps.js';
