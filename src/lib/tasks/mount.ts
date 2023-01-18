@@ -1,6 +1,7 @@
 // Get user options in ".svpsrc.js"
 import { access } from '../modules/configs/access.js';
 import { steps } from '../modules/configs/steps.js';
+import { users as userConfigs } from '../modules/configs/users.js';
 import { appendCommands } from '../modules/configs/append-commands.js';
 import { verbose } from '../modules/configs/verbose.js';
 import sh from '../modules/sh.js';
@@ -13,6 +14,7 @@ import repare from './steps/repare.js';
 import apt from './steps/apt.js';
 import firewall from './steps/firewall.js';
 import users from './steps/users/index.js';
+import restartSSH from './steps/users/restart-ssh.js';
 import certificate from './steps/certificate.js';
 import apache from './steps/apache.js';
 import php from './steps/php.js';
@@ -34,7 +36,12 @@ try {
       steps.apt && Object.assign(commands, [...commands, ...apt()]);
       steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
       steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
-      steps.users && Object.assign(commands, [...commands, ...users()]);
+
+      if (steps.users) {
+         if (userConfigs?.some((userConfig) => typeof userConfig.sftp === 'object')) commands.push('--restart-ssh');
+         Object.assign(commands, [...commands, ...users()]);
+      }
+
       steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
       steps.php && Object.assign(commands, [...commands, ...php()]);
       steps.node && Object.assign(commands, [...commands, ...node()]);
@@ -53,7 +60,21 @@ try {
 
       try {
          await connect(host);
-         for (const command of commands) await exec(command, host);
+
+         for (const command of commands) {
+            if (/--restart-ssh/g.test(command)) {
+               await restartSSH(host);
+               continue;
+            }
+
+            if (/--reboot/g.test(command)) {
+               await reboot(host);
+               continue;
+            }
+
+            await exec(command, host);
+         }
+
          await exec('history -c', host);
          steps.reboot && (await reboot(host));
          await end();

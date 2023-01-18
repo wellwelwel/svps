@@ -1,5 +1,3 @@
--  permitir e criar `groups` do usuário, caso não existam
--  função similar ao `reboot`, mas ao reiniciar o serviço `ssh` remotamente
 -  adicionar `sftp`
 -  verificar se usuário já existe na lista `ftp`
 -  verificar se usuário já existe na lista `sftp`

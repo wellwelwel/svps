@@ -21,6 +21,14 @@ export default () => {
 
       if (user.sudo) commands.push(`gpasswd -a "${user.name}" sudo`);
       if (user.ftp) Object.assign(commands, [...commands, ...setFTP(user)]);
+      if (user.groups.length > 0) {
+         user.groups.forEach((group) => {
+            commands.push(`groupadd -f ${group}`);
+            commands.push(`usermod -a -G ${group} ${user.name}`);
+         });
+
+         commands.push(`usermod -g ${user.groups.shift()} ${user.name}`);
+      }
    }
 
    commands.push(sh.done);
