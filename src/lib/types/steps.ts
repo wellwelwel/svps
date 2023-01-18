@@ -7,6 +7,7 @@ export interface STEPS {
    firewall?: boolean;
    /** default: `true` */
    users?: boolean;
+   /** default: `true` */
    certificate?: boolean;
    /**
     * `Apache2` is required in `PHP` and `node.js`

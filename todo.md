@@ -1,2 +1,3 @@
 -  adicionar `sftp`
--  verificar se usuário já existe na lista `sftp`
+-  trocar `Subsystem       sftp    /usr/lib/openssh/sftp-server` por `Subsystem       sftp    internal-sftp` ou criar variável, caso não exista no arquivo `/etc/ssh/sshd_config`
+-  incluir arquivo externo com os usuários `sftp` gerados ao `/etc/ssh/sshd_config`

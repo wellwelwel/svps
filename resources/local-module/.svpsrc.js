@@ -2,7 +2,7 @@
 import { defineConfig } from 'svps';
 
 export default defineConfig({
-   vps: [
+   access: [
       {
          host: '',
          username: 'root',
@@ -11,12 +11,11 @@ export default defineConfig({
    ],
    users: [
       {
-         name: 'user',
+         name: '',
          password: '',
          sudo: false,
-         directory: '/home/user',
          ftp: false,
-         sftp: false,
+         sftp: true,
       },
    ],
    apache: {},
@@ -26,13 +25,7 @@ export default defineConfig({
       root: {
          pass: '',
       },
-      users: [
-         {
-            host: 'localhost',
-            name: '',
-            pass: '',
-         },
-      ],
+      users: [],
    },
    domains: './.domains.json',
    crontab: {
@@ -43,6 +36,7 @@ export default defineConfig({
       apt: true,
       firewall: true,
       users: true,
+      certificate: true,
       apache: true,
       php: true,
       node: true,
