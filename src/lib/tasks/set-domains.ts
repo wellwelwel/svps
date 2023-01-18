@@ -4,7 +4,7 @@ import { connect, exec, end } from '../ssh.js';
 import { __dirname } from '../modules/root.js';
 import escapeQuotes from '../modules/escape-quotes.js';
 import sh from '../modules/sh.js';
-import { vps } from '../modules/configs/vps.js';
+import { access } from '../modules/configs/access.js';
 import { apache } from '../modules/configs/apache.js';
 import { domains as domainsFile } from '../modules/configs/domains.js';
 import { verbose } from '../modules/configs/verbose.js';
@@ -82,7 +82,7 @@ if (apache) {
 
       if (verbose) console.log(commands, '\n');
 
-      const hosts = vps;
+      const hosts = access;
 
       for (const host of hosts) {
          await connect(host);

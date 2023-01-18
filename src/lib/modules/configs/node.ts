@@ -1,4 +1,4 @@
-import { NODE } from '../../index.js';
+import { NODE } from '../../types/node.js';
 import { input } from './index.js';
 import { steps } from './steps.js';
 

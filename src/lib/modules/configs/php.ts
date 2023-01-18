@@ -1,8 +1,8 @@
-import { PHP } from '../../index.js';
+import { PHP } from '../../types/php.js';
 import { input } from './index.js';
 import { steps } from './steps.js';
 
-export const php = (() => {
+export const php: Required<PHP> | null = (() => {
    if (!steps.php || !input?.php || typeof input?.php !== 'object') return null;
 
    return {
@@ -34,5 +34,6 @@ export const php = (() => {
                  'xsl',
                  'zip',
               ],
+      compose: input?.php && typeof input.php?.compose === 'boolean' ? input.php.compose : true,
    };
-})() as Required<PHP> | null;
+})();

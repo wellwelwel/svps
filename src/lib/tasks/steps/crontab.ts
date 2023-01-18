@@ -2,11 +2,11 @@ import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import escapeQuotes from '../../modules/escape-quotes.js';
-import { VPS as VPS } from '../../index.js';
 import { crontab } from '../../modules/configs/crontab.js';
 import { steps } from '../../modules/configs/steps.js';
+import { ACCESS } from '../../types/acess.js';
 
-export default (VPS: VPS) => {
+export default (VPS: ACCESS) => {
    if (!crontab || !steps.crontab) return [] as string[];
 
    const append = crontab.append || false;

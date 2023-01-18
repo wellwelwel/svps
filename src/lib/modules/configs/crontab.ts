@@ -1,4 +1,4 @@
-import { CRONTAB } from '../../index.js';
+import { CRONTAB } from '../../types/crontab.js';
 import { input } from './index.js';
 import { steps } from './steps.js';
 

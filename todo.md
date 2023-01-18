@@ -1,6 +1,4 @@
--  permitir criar `groups` do sistema
 -  permitir e criar `groups` do usuário, caso não existam
--  pensar em uma forma melhor de organizar o certificado `ftp`
 -  função similar ao `reboot`, mas ao reiniciar o serviço `ssh` remotamente
 -  adicionar `sftp`
 -  verificar se usuário já existe na lista `ftp`

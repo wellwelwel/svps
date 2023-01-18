@@ -1,5 +1,5 @@
 // Get user options in ".svpsrc.js"
-import { vps } from '../modules/configs/vps.js';
+import { access } from '../modules/configs/access.js';
 import { steps } from '../modules/configs/steps.js';
 import { appendCommands } from '../modules/configs/append-commands.js';
 import { verbose } from '../modules/configs/verbose.js';
@@ -13,6 +13,7 @@ import repare from './steps/repare.js';
 import apt from './steps/apt.js';
 import firewall from './steps/firewall.js';
 import users from './steps/users/index.js';
+import certificate from './steps/certificate.js';
 import apache from './steps/apache.js';
 import php from './steps/php.js';
 import node from './steps/node.js';
@@ -23,7 +24,7 @@ import reboot from './steps/reboot.js';
 try {
    let errors = false;
 
-   const hosts = vps;
+   const hosts = access;
 
    for (const host of hosts) {
       console.log(`\x1b[22m\x1b[36m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`);
@@ -34,6 +35,7 @@ try {
       steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
       steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
       steps.users && Object.assign(commands, [...commands, ...users()]);
+      steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
       steps.php && Object.assign(commands, [...commands, ...php()]);
       steps.node && Object.assign(commands, [...commands, ...node()]);
       steps.mysql && Object.assign(commands, [...commands, ...mysql()]);

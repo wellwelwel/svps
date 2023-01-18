@@ -1,9 +1,9 @@
 import { connect, end, exec } from '../../ssh.js';
 import { steps } from '../../modules/configs/steps.js';
 import apt from './apt.js';
-import { VPS } from '../../index.js';
+import { ACCESS } from '../../types/acess.js';
 
-export default (VPS: VPS): Promise<true> =>
+export default (VPS: ACCESS): Promise<true> =>
    new Promise(async (resolve, reject) => {
       console.log('\n\x1b[0m\x1b[33m\x1b[1m⦿ Restarting\x1b[0m');
 

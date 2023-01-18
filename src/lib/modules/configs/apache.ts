@@ -1,4 +1,4 @@
-import { APACHE } from '../../index.js';
+import { APACHE } from '../../types/apache.js';
 import { input } from './index.js';
 import { steps } from './steps.js';
 
