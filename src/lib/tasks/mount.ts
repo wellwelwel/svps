@@ -38,8 +38,8 @@ try {
       steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
 
       if (steps.users) {
-         if (userConfigs?.some((userConfig) => typeof userConfig.sftp === 'object')) commands.push('--restart-ssh');
          Object.assign(commands, [...commands, ...users()]);
+         if (userConfigs?.some((userConfig) => typeof userConfig.sftp === 'object')) commands.push('--restart-ssh');
       }
 
       steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
