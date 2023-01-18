@@ -12,11 +12,11 @@ export interface SFTP {
     */
    chUser?: string;
    /**
-    * Set the mask from `0777`
+    * Set the mask from `777` (directories) and `666` (files)
     *
-    * Ex.: `0077` defines the default permissions to `0700` and `0600`
+    * Ex.: `077` defines the default permissions to `700` (directories) and `600` (files)
     *
-    * default: `0022`
+    * default: `022` (directories: `755`, files: `644`)
     */
    mask?: string;
 }
@@ -28,6 +28,14 @@ export interface FTP {
     * default: the same as setted in `user.directory`
     */
    directory?: string;
+   /**
+    * Set the mask from `777` (directories) and `666` (files)
+    *
+    * Ex.: `077` defines the default permissions to `700` (directories) and `600` (files)
+    *
+    * default: `022` (directories: `755`, files: `644`)
+    */
+   mask?: string;
 }
 
 export interface USER {
@@ -49,10 +57,37 @@ export interface USER {
    sudo?: boolean;
    /** Put the primary group as the first item */
    groups?: string[];
-   /** `FTP` protocol uses the `vsftpd` */
-   ftp?: FTP | false;
-   /** Enable `SFTP` protocol to the current user */
-   sftp?: SFTP | false;
+   /**
+    * Enable `FTP` protocol to the current user
+    *
+    * ```js
+    * export default {
+    *    // ...
+    *       // ...
+    *          ftp: {
+    *             directory: '/home/user',
+    *             mask: '022',
+    *          }
+    *       }
+    * ```
+    */
+   ftp?: FTP | boolean;
+   /**
+    * Enable `SFTP` protocol to the current user
+    *
+    * ```js
+    * export default {
+    *    // ...
+    *       // ...
+    *          sftp: {
+    *             chRoot: '/home',
+    *             chUser: '/home/user',
+    *             mask: '022',
+    *          }
+    *       }
+    * ```
+    */
+   sftp?: SFTP | boolean;
 }
 
 export interface REQUIRED_USER extends Required<USER> {

@@ -22,13 +22,14 @@ export const users = (() => {
          ? false
          : {
               directory: typeof user?.ftp?.directory === 'string' ? user.ftp.directory : mapUsers[key].directory,
+              mask: typeof user?.ftp?.mask === 'string' ? user.ftp.mask : '022',
            };
       mapUsers[key].sftp = !user.sftp
          ? false
          : {
               chRoot: typeof user.sftp?.chRoot === 'string' ? user.sftp.chRoot : '/home',
               chUser: typeof user.sftp?.chUser === 'string' ? user.sftp.chUser : `/home/${user.name}`,
-              mask: user.sftp?.mask && typeof user.sftp.mask === 'string' ? user.sftp.mask : '0022',
+              mask: user.sftp?.mask && typeof user.sftp.mask === 'string' ? user.sftp.mask : '022',
            };
    }
 

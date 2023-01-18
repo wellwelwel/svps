@@ -1,7 +1,6 @@
 // Get user options in ".svpsrc.js"
 import { access } from '../modules/configs/access.js';
 import { steps } from '../modules/configs/steps.js';
-import { users as userConfigs } from '../modules/configs/users.js';
 import { appendCommands } from '../modules/configs/append-commands.js';
 import { verbose } from '../modules/configs/verbose.js';
 import sh from '../modules/sh.js';
@@ -34,15 +33,10 @@ try {
 
       steps.repare && Object.assign(commands, [...commands, ...repare()]);
       steps.apt && Object.assign(commands, [...commands, ...apt()]);
-      steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
       steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
-
-      if (steps.users) {
-         Object.assign(commands, [...commands, ...users()]);
-         if (userConfigs?.some((userConfig) => typeof userConfig.sftp === 'object')) commands.push('--restart-ssh');
-      }
-
+      steps.users && Object.assign(commands, [...commands, ...users()]);
       steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
+      steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
       steps.php && Object.assign(commands, [...commands, ...php()]);
       steps.node && Object.assign(commands, [...commands, ...node()]);
       steps.mysql && Object.assign(commands, [...commands, ...mysql()]);

@@ -15,10 +15,6 @@ export default async () => {
       `echo "${sh.startTitle}Setting up Apache2${sh.endTitle}"`,
       'apt-get install apache2 -y',
       'mkdir -p /var/www',
-      'find /var/www -type d -exec chmod 775 {} \\;',
-      'find /var/www -type f -exec chmod 664 {} \\;',
-      'setfacl -R -m u:"www-data":rwx /var/www /tmp',
-      'setfacl -dR -m u:"www-data":rwx /var/www /tmp',
       'rm -rf /var/www/html/index.html',
       'mkdir -p /var/www/html',
       `echo "${sh.startTitle}Setting up Rewrite Virtual Hosts${sh.endTitle}"`,
@@ -26,8 +22,6 @@ export default async () => {
          fs.readFileSync(normalize(default_000), 'utf-8')
       )} | cat > /etc/apache2/sites-available/000-default.conf`,
       'a2enmod proxy proxy_http rewrite headers expires',
-      'systemctl reload apache2',
-      'systemctl restart apache2',
    ];
 
    if (!apache.accessFromIP) {
@@ -39,9 +33,21 @@ export default async () => {
          ...[
             `echo ${escapeQuotes(fs.readFileSync(normalize(htaccess), 'utf-8'))} | cat > /var/www/html/.htaccess`,
             `echo ${escapeQuotes(fs.readFileSync(normalize(_403), 'utf-8'))} | cat > /var/www/html/403.html`,
+            'chmod 0755 /var/www/html',
          ],
       ]);
    }
+
+   Object.assign(commands, [
+      ...commands,
+      'find /var/www/ -type d -exec chmod 775 {} \\;',
+      'find /var/www/ -type f -exec chmod 664 {} \\;',
+      'setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',
+      'chown root:www-data /var/www',
+      'chmod 0755 /var/www',
+      'systemctl reload apache2',
+      'systemctl restart apache2',
+   ]);
 
    commands.push(sh.done);
 

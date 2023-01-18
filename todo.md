@@ -1,3 +1,2 @@
 -  adicionar `sftp`
--  verificar se usuário já existe na lista `ftp`
 -  verificar se usuário já existe na lista `sftp`
