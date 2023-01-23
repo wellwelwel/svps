@@ -6,6 +6,7 @@ import sh from '../../../modules/sh.js';
 import { users } from '../../../modules/configs/users.js';
 import { __dirname } from '../../../modules/root.js';
 import { setFTP } from './ftp.js';
+import { setSFTP } from './sftp.js';
 
 export default () => {
    if (!users) return [] as string[];
@@ -17,6 +18,9 @@ export default () => {
       fs.readFileSync(normalize(`${__dirname}/resources/ftp/vsftpd.conf`), 'utf-8')
    ).replace(/{!CERT}/gm, certificate?.output || '/etc/ssl/private/cert.pem');
 
+   const sshdConfigPath = '/etc/ssh/sshd_config';
+   const sftpConfigPath = '/etc/ssh/sshd_config.d/sftp.conf';
+
    if (hasFTP) {
       Object.assign(commands, [
          ...commands,
@@ -25,6 +29,14 @@ export default () => {
          'apt-get install vsftpd -y',
          'mkdir -p /etc/vsftpd/user_config_dir',
          `echo ${vsftpd_conf} | cat > /etc/vsftpd.conf`,
+      ]);
+   }
+
+   if (hasSFTP) {
+      Object.assign(commands, [
+         ...commands,
+         `sed -i 's/Subsystem\\ssftp\\s\\/usr\\/lib\\/openssh\\/sftp-server/Subsystem\\tsftp\\tinternal-sftp/g' ${sshdConfigPath}`,
+         `rm -f ${sftpConfigPath}`,
       ]);
    }
 
@@ -39,10 +51,11 @@ export default () => {
 
       if (user.sudo) commands.push(`gpasswd -a "${user.name}" sudo`);
       if (user.ftp) Object.assign(commands, [...commands, ...setFTP(user)]);
+      if (user.sftp) Object.assign(commands, [...commands, ...setSFTP(user)]);
       if (user.groups.length > 0) {
-         user.groups.forEach((group) => {
-            Object.assign(commands, [...commands, `groupadd -f ${group}`, `usermod -a -G ${group} ${user.name}`]);
-         });
+         user.groups.forEach((group) =>
+            Object.assign(commands, [...commands, `groupadd -f ${group}`, `usermod -a -G ${group} ${user.name}`])
+         );
 
          const primary = user.groups.shift();
 
