@@ -13,7 +13,7 @@
 ### Initializing the Environment
 
 ```sh
-   npx svps || npx svps init
+   npx svps || npx svps create
 ```
 
 -  This will create the default configuration files:
@@ -36,10 +36,10 @@
 1. Fixes common conflicts on **Ubuntu**
 2. Runs common **apt** commands
 3. Sets the most common **Firewall** settings
-4. Installs **Apache2** and forbids access to the default `html` directory
-5. Installs **vsftpd** with users setted in `.svpsrc.js`
+4. Creates the users setted in `.svpsrc.js`
+5. Installs **Apache2** and forbids access to the default `html` directory
 6. Prepares the **Virtual Host** and abilite **Rewrite**
-7. Installs **PHP** with the version setted in `.svpsrc.js`
+7. Installs **PHP** with the version and modules setted in `.svpsrc.js`
 8. Installs **Node.js** with the version and global modules setted in `.svpsrc.js`
 9. Installs **MySQL** and creates the databases and users setted in `.svpsrc.js`
 10.   Adds cronjobs setted on the file specified in `.svpsrc.js`

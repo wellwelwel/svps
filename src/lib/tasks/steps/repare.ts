@@ -12,7 +12,7 @@ export default () => [
    'apt-get clean',
    'apt-get update --fix-missing',
    'apt-get install -f -y',
-   'apt-get install software-properties-common build-essential gcc g++ make dialog apt-utils zip gzip tar unzip acl -y',
+   'apt-get install apt-utils coreutils sysvinit-utils systemd software-properties-common build-essential gcc g++ make dialog zip gzip tar unzip acl curl ssh -y',
    'echo "Y" | dpkg --configure -a',
    sh.done,
 ];

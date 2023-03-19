@@ -4,7 +4,7 @@ import { mysql } from '../../modules/configs/mysql.js';
 export default () => {
    const commands = [
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
-      'apt-get install ufw',
+      'apt-get install ufw -y',
       'ufw default deny incoming',
       'ufw default allow outgoing',
       'ufw allow ssh',

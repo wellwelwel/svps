@@ -6,7 +6,7 @@ export default (VPS: ACCESS): Promise<true> =>
       console.log('\n\x1b[0m\x1b[33m\x1b[1m⦿ Restarting SSH Service\x1b[0m');
 
       try {
-         await exec('systemctl restart ssh');
+         await exec('systemctl restart sshd');
       } catch (quiet) {}
 
       try {
@@ -28,5 +28,5 @@ export default (VPS: ACCESS): Promise<true> =>
          } catch (quiet) {
             count++;
          }
-      }, 1500);
+      }, 5000);
    });

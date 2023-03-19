@@ -25,8 +25,8 @@ export default (VPS: ACCESS): Promise<true> =>
 
          try {
             await connect(VPS);
-
             clearInterval(reconnect);
+
             if (steps.apt) {
                const commands = apt();
 

@@ -23,6 +23,7 @@ export const setSFTP = (user: REQUIRED_USER) => {
       `mkdir -p ${user.sftp.chRoot} ${user.sftp.chUser}`,
       `chown root:root ${user.sftp.chRoot}`,
       `chmod 0755 ${user.sftp.chRoot}`,
+      `groupadd -f ${user.name}`,
       `chown -R ${user.name}:${user.name} ${user.sftp.chUser}`,
       `chmod -R 0755 ${user.sftp.chUser}`,
    ];

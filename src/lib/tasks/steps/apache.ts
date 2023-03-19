@@ -45,8 +45,8 @@ export default async () => {
       'setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',
       'chown root:www-data /var/www',
       'chmod 0755 /var/www',
-      'systemctl reload apache2',
       'systemctl restart apache2',
+      'systemctl reload apache2',
    ]);
 
    commands.push(sh.done);
