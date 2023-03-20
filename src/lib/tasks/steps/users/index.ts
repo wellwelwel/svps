@@ -36,6 +36,7 @@ export default () => {
       Object.assign(commands, [
          ...commands,
          `sed -i 's/Subsystem\\ssftp\\s\\/usr\\/lib\\/openssh\\/sftp-server/Subsystem\\tsftp\\tinternal-sftp/g' ${sshdConfigPath}`,
+         `sed -i '/#svps-start/,/#svps-end/d' ${sshdConfigPath}`,
          `rm -f ${sftpConfigPath}`,
       ]);
    }

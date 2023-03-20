@@ -8,7 +8,6 @@ export const setSFTP = (user: REQUIRED_USER) => {
    if (!user?.sftp) return [] as string[];
 
    const sshdConfigPath = '/etc/ssh/sshd_config';
-   const sftpConfigPath = '/etc/ssh/sshd_config.d/sftp.conf';
 
    const user_conf = fs
       .readFileSync(normalize(`${__dirname}/resources/sftp/user.conf`), 'utf-8')
@@ -18,8 +17,7 @@ export const setSFTP = (user: REQUIRED_USER) => {
       .replace(/{!MASK}/gm, user.sftp.mask);
 
    const commands: string[] = [
-      `if ! grep -q 'Include ${sftpConfigPath}' ${sshdConfigPath}; then echo 'Include ${sftpConfigPath}' | tee -a ${sshdConfigPath}; fi`,
-      `echo ${escapeQuotes(user_conf)} | tee -a ${sftpConfigPath}`,
+      `echo ${escapeQuotes(user_conf)} | tee -a ${sshdConfigPath}`,
       `mkdir -p ${user.sftp.chRoot} ${user.sftp.chUser}`,
       `chown root:root ${user.sftp.chRoot}`,
       `chmod 0755 ${user.sftp.chRoot}`,

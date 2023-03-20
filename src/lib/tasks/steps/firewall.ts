@@ -4,10 +4,11 @@ import { mysql } from '../../modules/configs/mysql.js';
 export default () => {
    const commands = [
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
+      `if [ "$(grep -E '^VERSION_ID="18.04"' /etc/os-release)" ]; then apt-get install nftables -y; fi`,
       'apt-get install ufw -y',
       'ufw default deny incoming',
       'ufw default allow outgoing',
-      'ufw allow ssh',
+      `if [ "$(grep -E '^VERSION_ID="18.04"' /etc/os-release)" ]; then ufw allow OpenSSH; else ufw allow ssh; fi`,
       'ufw allow 22',
       'ufw allow 80',
       'ufw allow 443',

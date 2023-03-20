@@ -8,7 +8,7 @@ export default (VPS: ACCESS): Promise<true> =>
       console.log('\n\x1b[0m\x1b[33m\x1b[1m⦿ Restarting\x1b[0m');
 
       try {
-         await catchExec("shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown || reboot");
+         await catchExec("shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown");
       } catch (quiet) {}
 
       try {
