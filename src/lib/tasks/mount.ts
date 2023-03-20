@@ -6,7 +6,7 @@ import { verbose } from '../modules/configs/verbose.js';
 import sh from '../modules/sh.js';
 
 // Get ssh
-import { connect, end, exec } from '../ssh.js';
+import { catchExec, connect, end, exec } from '../ssh.js';
 
 // Get steps
 import repare from './steps/repare.js';
@@ -56,13 +56,18 @@ try {
          await connect(host);
 
          for (const command of commands) {
-            if (/--restart-ssh/g.test(command)) {
+            if (/^--restart-ssh$/.test(command)) {
                await restartSSH(host);
                continue;
             }
 
-            if (/--reboot/g.test(command)) {
+            if (/^--reboot$/.test(command)) {
                await reboot(host);
+               continue;
+            }
+
+            if (/^--catch\s/.test(command)) {
+               await catchExec(command.replace(/^--catch\s/, ''));
                continue;
             }
 
@@ -70,7 +75,9 @@ try {
          }
 
          await exec('history -c', host);
-         steps.reboot && (await reboot(host));
+
+         if (steps.reboot) await reboot(host);
+
          await end();
 
          console.log('\x1b[0m');

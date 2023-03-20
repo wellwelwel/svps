@@ -19,6 +19,34 @@ export const connect = (access: ConnectConfig): Promise<true> =>
       }
    });
 
+export const catchExec = (command: string): Promise<true> =>
+   new Promise((resolve, reject) => {
+      try {
+         ssh2.exec(command, (err, stream) => {
+            if (err) {
+               reject(err);
+               return;
+            }
+
+            stream
+               .on('data', (data: any) => {
+                  if (data) {
+                     process.stdout.write('\x1b[0m\x1b[2m\x1b[3m');
+                     process.stdout.write(data);
+                  }
+               })
+               .on('exit', (code: number) => {
+                  resolve(true);
+               })
+               .stderr.on('data', (chunk: any) => {
+                  chunk && process.stdout.write(chunk);
+               });
+         });
+      } catch (error) {
+         reject(error);
+      }
+   });
+
 export const exec = (command: string, VPS?: ACCESS): Promise<true> =>
    new Promise((resolve, reject) => {
       const errorTitle = (title: string) => `\x1b[0m\x1b[31m\x1b[1m${title}\x1b[0m`;

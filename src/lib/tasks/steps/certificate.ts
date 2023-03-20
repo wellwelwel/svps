@@ -9,7 +9,7 @@ export default () => {
 
    const commands = [
       'echo "Generating Open SSL RSA Certificate..."',
-      `if openssl req -x509 -nodes -days ${certificate.days} -new -newkey rsa:${certificate.rsa} -keyout /etc/ssl/private/cert.pem -out /etc/ssl/private/cert.pem -subj "/C=${country}/ST=${state}/L=${location}/O=${organization}/OU=${organizationUnit}/CN=${commonName}" 2>/dev/null; then echo true; else echo false; fi;`,
+      `--catch openssl req -x509 -nodes -days ${certificate.days} -new -newkey rsa:${certificate.rsa} -keyout /etc/ssl/private/cert.pem -out /etc/ssl/private/cert.pem -subj "/C=${country}/ST=${state}/L=${location}/O=${organization}/OU=${organizationUnit}/CN=${commonName}"`,
       sh.done,
    ];
 

@@ -20,11 +20,11 @@ export default () => {
          Object.assign(commands, [
             ...commands,
             `echo "\n\x1b[0m\x1b[1m\x1b[36m‣ Global Module:\x1b[0m \x1b[22m\x1b[1m${module}\x1b[0m"`,
-            `npm i ${module} -g`,
+            `--catch npm i ${module} -g`,
          ]);
       }
 
-   if (node.packages.includes('pm2')) commands.push('echo "\n"; pm2 startup');
+   if (node.packages.includes('pm2')) commands.push('--catch echo "\n"; pm2 startup');
 
    Object.assign(commands, [...commands, 'npm audit fix', sh.done]);
 

@@ -1,4 +1,4 @@
-import { connect, end, exec } from '../../../ssh.js';
+import { connect, end, catchExec } from '../../../ssh.js';
 import { ACCESS } from '../../../types/acess.js';
 
 export default (VPS: ACCESS): Promise<true> =>
@@ -6,7 +6,7 @@ export default (VPS: ACCESS): Promise<true> =>
       console.log('\n\x1b[0m\x1b[33m\x1b[1m⦿ Restarting SSH Service\x1b[0m');
 
       try {
-         await exec('systemctl restart sshd');
+         await catchExec('systemctl restart sshd');
       } catch (quiet) {}
 
       try {

@@ -1,4 +1,4 @@
-import { connect, end, exec } from '../../ssh.js';
+import { catchExec, connect, end, exec } from '../../ssh.js';
 import { steps } from '../../modules/configs/steps.js';
 import apt from './apt.js';
 import { ACCESS } from '../../types/acess.js';
@@ -8,7 +8,7 @@ export default (VPS: ACCESS): Promise<true> =>
       console.log('\n\x1b[0m\x1b[33m\x1b[1m⦿ Restarting\x1b[0m');
 
       try {
-         await exec('reboot');
+         await catchExec("shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown || reboot");
       } catch (quiet) {}
 
       try {
