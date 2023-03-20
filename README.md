@@ -121,6 +121,11 @@
 -  Don't run this package on a VPS that is already in production❗
 <hr />
 
+### Known Issues
+
+-  [`Node.js >=18` is not compatible with the `Ubuntu 18.04`](https://github.com/nodesource/distributions/issues/1392)
+<hr />
+
 ### Compatibility
 
 ![macOS](/.github/assets/readme/macos.svg)
