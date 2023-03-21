@@ -75,6 +75,7 @@
    ```
 
    -  Add `-p 3389:3389` if you want to test with **Remote Desktop**
+   -  See more in [https://hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
 
 -  Set the default access in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5):
 
@@ -87,8 +88,6 @@
       },
    ],
    ```
-
--  See more in [https://hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
 
 <hr />
 
