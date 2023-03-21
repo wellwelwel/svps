@@ -6,6 +6,7 @@ export default () => {
 
    const commands = [
       `echo "${sh.startTitle}Setting up Node.js${sh.endTitle}"`,
+      'apt-get update',
       'apt-get remove nodejs npm -y',
       `curl -fsSL https://deb.nodesource.com/setup_${node.version}.x | bash -`,
       'apt-get install nodejs',

@@ -6,6 +6,7 @@ import { ACCESS } from '../../types/acess.js';
 export default (VPS: ACCESS) => {
    const commands = [
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
+      'apt-get update',
       `if [ "$(grep -E '^VERSION_ID="18.04"' /etc/os-release)" ]; then apt-get install nftables -y; fi`,
       'apt-get install ufw -y',
       'ufw default deny incoming',

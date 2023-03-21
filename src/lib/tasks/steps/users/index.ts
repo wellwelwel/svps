@@ -24,6 +24,7 @@ export default () => {
    if (hasFTP) {
       Object.assign(commands, [
          ...commands,
+         'apt-get update',
          'apt-get purge vsftpd -y 2>/dev/null',
          'rm -rf /etc/vsftpd.userlist',
          'apt-get install vsftpd -y',

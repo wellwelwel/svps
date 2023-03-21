@@ -7,12 +7,13 @@ import { __dirname } from '../../modules/root.js';
 import { steps } from '../../modules/configs/steps.js';
 
 export default async () => {
-   if (!apache || !steps.apache) return [] as string[];
+   if (!steps.apache) return [] as string[];
 
    const default_000 = `${__dirname}/resources/apache/virtual-host/000-default.conf`;
 
    const commands = [
       `echo "${sh.startTitle}Setting up Apache2${sh.endTitle}"`,
+      'apt-get update',
       'apt-get install apache2 -y',
       'mkdir -p /var/www',
       'rm -rf /var/www/html/index.html',

@@ -26,6 +26,7 @@ export default () => {
 
    const commands: string[] = [
       `echo "${sh.startTitle}Setting up PHP${sh.endTitle}"`,
+      'apt-get update',
       'apt-get -y install software-properties-common',
       'add-apt-repository ppa:ondrej/php',
       `apt-get install -y php${version}`,
