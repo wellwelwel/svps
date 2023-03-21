@@ -75,10 +75,9 @@ try {
          `if ! ls /var/www/${domain}/app.js &> /dev/null; then echo ${escapeQuotes(
             app_js
          )} | cat > /var/www/${domain}/app.js && (pm2 delete ${domain} &> /dev/null || true) && pm2 start -f /var/www/${domain}/app.js --name ${domain} --watch --ignore-watch="node_modules"; fi`,
+         'pm2 update',
          'pm2 save',
       ]);
-
-      commands.push('pm2 update');
    }
 
    if (verbose) console.log(commands, '\n');
