@@ -23,6 +23,8 @@
    ```
 
 -  Then, edit [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) with the **SSH** access and your settings
+   -  You can see a practical example of `.svpsrc.js` in [.svpsrc.example.js](./.svpsrc.example.js)
+
 <hr />
 
 ### Second Step: Mount the VPS
