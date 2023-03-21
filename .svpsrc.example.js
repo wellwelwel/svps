@@ -78,6 +78,7 @@ export default defineConfig({
       users: true,
       certificate: true,
       apache: true,
+      docker: true,
       php: true,
       node: true,
       mysql: true,

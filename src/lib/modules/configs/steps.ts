@@ -8,6 +8,7 @@ export const steps: Required<STEPS> = {
    users: input?.steps && typeof input.steps?.users === 'boolean' ? input.steps.users : true,
    certificate: input?.steps && typeof input.steps?.certificate === 'boolean' ? input.steps.certificate : true,
    apache: input?.steps && typeof input.steps?.apache === 'boolean' ? input.steps.apache : true,
+   docker: input?.steps && typeof input.steps?.docker === 'boolean' ? input.steps.docker : true,
    php: input?.steps && typeof input.steps?.php === 'boolean' ? input.steps.php : true,
    node: input?.steps && typeof input.steps?.node === 'boolean' ? input.steps.node : true,
    mysql: input?.steps && typeof input.steps?.mysql === 'boolean' ? input.steps.mysql : true,

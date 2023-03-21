@@ -69,12 +69,14 @@ try {
 
       /* Creates app.js */
       const app_js = fileNormalize(`${__dirname}/resources/node/app.js`).replace(/'{!PORT}'/gm, port);
+      const pm2Start = `pm2 start -f /var/www/${domain}/app.js --name ${domain} --watch --ignore-watch="node_modules"`;
 
       Object.assign(commands, [
          ...commands,
          `if ! ls /var/www/${domain}/app.js &> /dev/null; then echo ${escapeQuotes(
             app_js
-         )} | cat > /var/www/${domain}/app.js && (pm2 delete ${domain} &> /dev/null || true) && pm2 start -f /var/www/${domain}/app.js --name ${domain} --watch --ignore-watch="node_modules"; fi`,
+         )} | cat > /var/www/${domain}/app.js && (pm2 delete ${domain} &> /dev/null || true) && ${pm2Start}; fi`,
+         `pm2 list | grep -q "${domain}" &> /dev/null || ${pm2Start}`,
          'pm2 update',
          'pm2 save',
       ]);

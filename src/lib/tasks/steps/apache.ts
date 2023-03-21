@@ -6,7 +6,7 @@ import { apache } from '../../modules/configs/apache.js';
 import { __dirname } from '../../modules/root.js';
 import { steps } from '../../modules/configs/steps.js';
 
-export default async () => {
+export default () => {
    if (!steps.apache) return [] as string[];
 
    const default_000 = `${__dirname}/resources/apache/virtual-host/000-default.conf`;

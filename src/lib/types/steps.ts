@@ -24,6 +24,8 @@ export interface STEPS {
     */
    apache?: boolean;
    /** default: `true` */
+   docker?: boolean;
+   /** default: `true` */
    php?: boolean;
    /** default: `true` */
    node?: boolean;

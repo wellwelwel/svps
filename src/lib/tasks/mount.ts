@@ -16,6 +16,7 @@ import users from './steps/users/index.js';
 import restartSSH from './steps/users/restart-ssh.js';
 import certificate from './steps/certificate.js';
 import apache from './steps/apache.js';
+import docker from './steps/docker.js';
 import php from './steps/php.js';
 import node from './steps/node.js';
 import mysql from './steps/mysql.js';
@@ -37,7 +38,8 @@ try {
       steps.firewall && Object.assign(commands, [...commands, ...firewall(host)]);
       steps.users && Object.assign(commands, [...commands, ...users()]);
       steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
-      steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
+      steps.apache && Object.assign(commands, [...commands, ...apache()]);
+      steps.docker && Object.assign(commands, [...commands, ...docker()]);
       steps.php && Object.assign(commands, [...commands, ...php()]);
       steps.node && Object.assign(commands, [...commands, ...node()]);
       steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
