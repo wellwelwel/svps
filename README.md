@@ -97,9 +97,11 @@
 <details>
 <summary>View examples</summary>
 
-```sh
-   npx svps set domains
-```
+-  ```sh
+    npx svps set domains
+   ```
+
+   -  It's recommended to enable the `apache` step when using Virutal Hosts
 
 -  Gets listed domains in `.domains.json`
 -  Sets the **Virtual Host** for each domain and **`www` CNAME**
@@ -109,6 +111,7 @@
 #### For Node.js:
 
 -  The proxy is already auto-configured to route all local ports to 80, then just add the domains with local port in `.domains.json`:
+-  It's recommended to enable the `apache` and `node` steps when using Virutal Hosts with **Node.js**
 
    ```javascript
       [
@@ -132,6 +135,7 @@
 #### For PHP:
 
 -  Just add the domains in `.domains.json`:
+-  It's recommended to enable the `apache` and `php` steps when using Virutal Hosts with **PHP**
 
    ```javascript
       [
