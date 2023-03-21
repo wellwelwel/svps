@@ -105,12 +105,12 @@
 -  Sets the **Virtual Host** for each domain and **`www` CNAME**
 -  Creates each domain directories with a default `index.(html|php)` setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
    -  The domains previously set up or repeated in the list will be ignored
--  It's recommended to enable the `apache` step when using Virutal Hosts
+-  It's recommended to enable the `apache` step when using **SVPS Virutal Hosts**
 
 #### For Node.js:
 
 -  The proxy is already auto-configured to route all local ports to 80, then just add the domains with local port in `.domains.json`:
--  It's recommended to enable the `apache` and `node` steps when using Virutal Hosts with **Node.js**
+-  It's recommended to enable the `apache` and `node` steps when using **SVPS Virutal Hosts** with **Node.js**
 
    ```javascript
       [
@@ -134,7 +134,7 @@
 #### For PHP and HTML:
 
 -  Just add the domains in `.domains.json`:
--  It's recommended to enable the `apache` and `php` steps when using Virutal Hosts with **PHP**
+-  It's recommended to enable the `apache` and `php` steps when using **SVPS Virutal Hosts** with **PHP**
 
    ```javascript
       [
