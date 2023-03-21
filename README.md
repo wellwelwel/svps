@@ -129,7 +129,7 @@
       ]
    ```
 
-   -  ❌ Don't repeat local ports
+   -  Don't repeat local ports❗
 
 #### For PHP and HTML:
 
