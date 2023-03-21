@@ -31,34 +31,34 @@
    npx svps mount
 ```
 
-#### Setps:
+#### Default Setps:
 
 1. Fixes common conflicts on **Ubuntu**
 2. Runs common **apt** commands
 3. Sets the most common **Firewall** settings
-4. Creates the users setted in `.svpsrc.js`
+4. Creates the users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
 5. Installs **Apache2** and forbids access to the default `html` directory
 6. Prepares the **Virtual Host** and abilite **Rewrite**
-7. Installs **PHP** with the version and modules setted in `.svpsrc.js`
-8. Installs **Node.js** with the version and global modules setted in `.svpsrc.js`
-9. Installs **MySQL** and creates the databases and users setted in `.svpsrc.js`
-10.   Adds cronjobs setted on the file specified in `.svpsrc.js`
+7. Installs **PHP** with the version and modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+8. Installs **Node.js** with the version and global modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+9. Installs **MySQL** and creates the databases and users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+10.   Adds cronjobs setted on the file specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
 11.   Reruns common **apt** commands
-12.   Executes your personal **sh commands** specified in `.svpsrc.js`
+12.   Executes your personal **sh commands** specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
 13.   Restart VPS
 
 #### Notes:
 
--  **All steps are optional:** You can enable or disable any step in `.svpsrc.js`
--  You are free to disable all the steps and create your own module of **sh commands** ˣ‿ˣ
-   -  See `APPEND_COMMANDS` in `.svpsrc.js`
+-  **All steps are optional:** You can enable or disable any step in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+-  You are free to **disable all the steps** and **create your own modules of sh commands** 🤹🏻‍♀️
+   -  See `appendCommands` in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
 -  The entire remote process is displayed on console in real time
 -  This may take a long time depending on your VPS plan
 <hr />
 
 ### Turning VPS Server into Desktop
 
--  In `.svpsrc.js`, set `steps.desktop` to `true`.
+-  In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js), set `steps.desktop` to `true`.
 -  It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
 -  If you are using a **container**, remember to expose the `3389` port first
 -  To access, use the **host**, **user** and **password** in your remote desktop software
@@ -73,7 +73,7 @@
    docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
    ```
 
--  Set the default access in `.svpsrc.js`:
+-  Set the default access in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js):
 
    ```js
    access: [
@@ -100,7 +100,7 @@
 
 -  Gets listed domains in `.domains.json`
 -  Sets the **Virtual Host** for each domain and **`www` CNAME**
--  Creates each domain directories with a default `index.(html|php)` setted in `.svpsrc.js`
+-  Creates each domain directories with a default `index.(html|php)` setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
    -  The domains previously set up or repeated in the list will be ignored
 
 #### For Node.js:
