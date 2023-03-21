@@ -24,7 +24,12 @@ export default defineConfig({
          name: 'support',
          password: '123',
          sudo: true,
-         sftp: true,
+         sftp: {
+            mask: '077',
+         },
+         ftp: {
+            mask: '077',
+         },
       },
       {
          name: 'manager',
@@ -32,6 +37,9 @@ export default defineConfig({
          sftp: {
             chRoot: '/var/www',
             chUser: '/var/www/domains',
+         },
+         ftp: {
+            directory: '/var/www',
          },
          groups: ['www-data'],
       },
@@ -78,5 +86,5 @@ export default defineConfig({
       appendCommands: true,
       reboot: true,
    },
-   appendCommands: () => ['echo "(„• ᴗ •„)"'],
+   appendCommands: () => ['echo "\n🍃 („• ᴗ •„) 🌸\n"'],
 });
