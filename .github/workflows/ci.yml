@@ -11,8 +11,8 @@ on:
          - 'docs/**'
          - 'LICENSE'
 jobs:
-   Latest:
-      name: Testing Services
+   latest:
+      name: Ubuntu Latest
       runs-on: ${{ matrix.os }}
       strategy:
          matrix:
@@ -49,8 +49,8 @@ jobs:
          - name: ✅ Finishing
            run: npm run tests:reset >/dev/null 2>&1 || true
 
-   Ubuntu 22.04:
-      name: Testing Services
+   ubuntu-22:
+      name: Ubuntu 22.04
       runs-on: ${{ matrix.os }}
       strategy:
          matrix:
@@ -87,8 +87,8 @@ jobs:
          - name: ✅ Finishing
            run: npm run tests:reset >/dev/null 2>&1 || true
 
-   Ubuntu 20:
-      name: Testing Services
+   ubuntu-20:
+      name: Ubuntu 20.04
       runs-on: ${{ matrix.os }}
       strategy:
          matrix:
@@ -125,8 +125,8 @@ jobs:
          - name: ✅ Finishing
            run: npm run tests:reset >/dev/null 2>&1 || true
 
-   Ubuntu 18.04:
-      name: Testing Services
+   ubuntu-18:
+      name: Ubuntu 18.04
       runs-on: ${{ matrix.os }}
       strategy:
          matrix:
