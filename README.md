@@ -22,7 +22,7 @@
    ['.svpsrc.js', '.domains.json', '.cronjobs.sh', 'index.html'];
    ```
 
--  Then, edit [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js) with the **SSH** access and your settings
+-  Then, edit [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) with the **SSH** access and your settings
 <hr />
 
 ### Second Step: Mount the VPS
@@ -36,29 +36,29 @@
 1. Fixes common conflicts on **Ubuntu**
 2. Runs common **apt** commands
 3. Sets the most common **Firewall** settings
-4. Creates the users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+4. Creates the users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L12)
 5. Installs **Apache2** and forbids access to the default `html` directory
 6. Prepares the **Virtual Host** and abilite **Rewrite**
-7. Installs **PHP** with the version and modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
-8. Installs **Node.js** with the version and global modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
-9. Installs **MySQL** and creates the databases and users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
-10.   Adds cronjobs setted on the file specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+7. Installs **PHP** with the version and modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L22)
+8. Installs **Node.js** with the version and global modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L23)
+9. Installs **MySQL** and creates the databases and users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L24)
+10.   Adds cronjobs setted on the file specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L31)
 11.   Reruns common **apt** commands
-12.   Executes your personal **sh commands** specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+12.   Executes your personal **sh commands** specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
 13.   Restart VPS
 
 #### Notes:
 
 -  **All steps are optional:** You can enable or disable any step in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L34)
 -  You are free to **disable all the steps** and **create your own modules of sh commands** 🤹🏻‍♀️
-   -  See `appendCommands` in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+   -  See `appendCommands` in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
 -  The entire remote process is displayed on console in real time
 -  This may take a long time depending on your VPS plan
 <hr />
 
 ### Turning VPS Server into Desktop (Remote Access)
 
--  In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js), set `steps.desktop` to `true`
+-  In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L45), set `steps.desktop` to `true`
    -  It's recommended to enable the `repare`, `apt` and `reboot` steps when installing the desktop
    -  It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
    -  ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB)
@@ -76,7 +76,7 @@
 
    -  Add `-p 3389:3389` if you want to test with **Remote Desktop**
 
--  Set the default access in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js):
+-  Set the default access in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5):
 
    ```js
    access: [
@@ -103,7 +103,7 @@
 
 -  Gets listed domains in `.domains.json`
 -  Sets the **Virtual Host** for each domain and **`www` CNAME**
--  Creates each domain directories with a default `index.(html|php)` setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+-  Creates each domain directories with a default `index.(html|php)` setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L30)
    -  The domains previously set up or repeated in the list will be ignored
 -  It's recommended to enable the `apache` step when using **SVPS Virutal Hosts**
 
