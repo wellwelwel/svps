@@ -49,7 +49,7 @@
 
 #### Notes:
 
--  **All steps are optional:** You can enable or disable any step in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
+-  **All steps are optional:** You can enable or disable any step in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L34)
 -  You are free to **disable all the steps** and **create your own modules of sh commands** 🤹🏻‍♀️
    -  See `appendCommands` in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
 -  The entire remote process is displayed on console in real time
