@@ -59,9 +59,9 @@
 ### Turning VPS Server into Desktop (Remote Access)
 
 -  In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js), set `steps.desktop` to `true`
-   -  It's recommended to enable the `repare` and `apt` steps when installing the desktop
+   -  It's recommended to enable the `repare`, `apt` and `reboot` steps when installing the desktop
    -  It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
-   -  ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB).
+   -  ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB)
 -  If you are using a **container**, remember to expose the `3389` port first
 -  To access, use the **host**, **user** and **password** in your Remote Desktop Software
 <hr />
