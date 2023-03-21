@@ -38,7 +38,7 @@ jobs:
            run: npm run tests:install
 
          - name: 🧪 Testing Services - Create
-           run: ls ./tests -shla && ls ./tests/node_modules -shla && npm run tests:create
+           run: ls ./tests -shla && npm run tests:create
 
          - name: 🧪 Testing Services - Connection
            run: npm run tests:connection
