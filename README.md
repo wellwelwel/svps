@@ -101,12 +101,11 @@
     npx svps set domains
    ```
 
-   -  It's recommended to enable the `apache` step when using Virutal Hosts
-
 -  Gets listed domains in `.domains.json`
 -  Sets the **Virtual Host** for each domain and **`www` CNAME**
 -  Creates each domain directories with a default `index.(html|php)` setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js)
    -  The domains previously set up or repeated in the list will be ignored
+-  It's recommended to enable the `apache` step when using Virutal Hosts
 
 #### For Node.js:
 
@@ -132,7 +131,7 @@
 
    -  Don't repeat local ports!
 
-#### For PHP:
+#### For PHP and HTML:
 
 -  Just add the domains in `.domains.json`:
 -  It's recommended to enable the `apache` and `php` steps when using Virutal Hosts with **PHP**
