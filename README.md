@@ -56,7 +56,7 @@
 -  This may take a long time depending on your VPS plan
 <hr />
 
-### Turning VPS Server into Desktop
+### Turning VPS Server into Desktop (Remote Access)
 
 -  In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js), set `steps.desktop` to `true`.
 -  It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
