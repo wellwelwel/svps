@@ -12,9 +12,9 @@ export interface PHP {
     */
    modules?: string[];
    /**
-    * Install the PHP `compose`
+    * Install the PHP `composer`
     *
     * default: `true`
     */
-   compose?: boolean;
+   composer?: boolean;
 }

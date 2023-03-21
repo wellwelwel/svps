@@ -34,6 +34,6 @@ export const php: Required<PHP> | null = (() => {
                  'xsl',
                  'zip',
               ],
-      compose: input?.php && typeof input.php?.compose === 'boolean' ? input.php.compose : true,
+      composer: input?.php && typeof input.php?.composer === 'boolean' ? input.php.composer : true,
    };
 })();

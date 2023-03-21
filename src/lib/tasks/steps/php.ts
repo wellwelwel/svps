@@ -33,7 +33,7 @@ export default () => {
 
    if (php.modules.length > 0) commands.push(`apt-get install -y php${version}-{${modules.join(',')}}`);
 
-   if (php.compose) {
+   if (php.composer) {
       Object.assign(commands, [
          ...commands,
          ...[

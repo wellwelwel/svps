@@ -60,7 +60,7 @@ export default defineConfig({
       },
    },
    php: {
-      compose: true,
+      composer: true,
       version: 8.2,
    },
    steps: {
