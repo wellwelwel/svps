@@ -28,7 +28,7 @@ jobs:
            with:
               node-version: ${{ matrix.node-version }}
 
-        - name: 🏠 Create a local VPS using Docker Container
+         - name: 🏠 Create a local VPS using Docker Container
            run: npm run test:docker
 
          - name: ⚙️ Testing Services - Install
