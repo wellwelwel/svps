@@ -32,13 +32,13 @@ jobs:
            run: npm run tests:docker
 
          - name: 🏠 Preparing the Environment
-           run: npm i typescript ssh2 file:./
+           run: npm i typescript ssh2
 
          - name: ⚙️ Testing Services - Install
            run: npm run tests:install
 
          - name: 🧪 Testing Services - Create
-           run: npm run tests:create
+           run: ls -shla && npm run tests:create
 
          - name: 🧪 Testing Services - Connection
            run: npm run tests:connection
