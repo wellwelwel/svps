@@ -26,10 +26,10 @@
       "pretests:install": "rm -rf ./tests; npm run build; npm i",
       "tests:install": "mkdir -p ./tests && cd ./tests && echo '{\"type\": \"module\"}' | cat > ./package.json && npm i file:../",
       "tests:create": "cd ./tests && npx svps create",
-      "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js && sed -i '' \"s/\\(password: 'root'\\,\\)/& port: 2222,/\" ./tests/.svpsrc.js",
-      "pretests:connection": "sed -i '' -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/true/false/' ./tests/.svpsrc.js",
+      "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js && sed -i \"s/\\(password: 'root'\\,\\)/& port: 2222,/\" ./tests/.svpsrc.js",
+      "pretests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/true/false/' ./tests/.svpsrc.js",
       "tests:connection": "cd ./tests && npx svps mount",
-      "posttests:connection": "sed -i '' -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/false/true/' ./tests/.svpsrc.js",
+      "posttests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/false/true/' ./tests/.svpsrc.js",
       "tests:mount": "cd ./tests && npx svps mount",
       "tests:reset": "npm run docker:reset; rm -rf ./tests"
    },
