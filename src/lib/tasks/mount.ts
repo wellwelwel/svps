@@ -20,6 +20,7 @@ import php from './steps/php.js';
 import node from './steps/node.js';
 import mysql from './steps/mysql.js';
 import crontab from './steps/crontab.js';
+import desktop from './steps/deskop.js';
 import reboot from './steps/reboot.js';
 
 try {
@@ -33,7 +34,7 @@ try {
 
       steps.repare && Object.assign(commands, [...commands, ...repare()]);
       steps.apt && Object.assign(commands, [...commands, ...apt()]);
-      steps.firewall && Object.assign(commands, [...commands, ...firewall()]);
+      steps.firewall && Object.assign(commands, [...commands, ...firewall(host)]);
       steps.users && Object.assign(commands, [...commands, ...users()]);
       steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
       steps.apache && Object.assign(commands, [...commands, ...(await apache())]);
@@ -41,6 +42,7 @@ try {
       steps.node && Object.assign(commands, [...commands, ...node()]);
       steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
       steps.crontab && Object.assign(commands, [...commands, ...crontab(host)]);
+      steps.desktop && Object.assign(commands, [...commands, ...desktop()]);
       steps.appendCommands &&
          appendCommands &&
          Object.assign(commands, [

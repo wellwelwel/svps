@@ -12,6 +12,7 @@ export const steps: Required<STEPS> = {
    node: input?.steps && typeof input.steps?.node === 'boolean' ? input.steps.node : true,
    mysql: input?.steps && typeof input.steps?.mysql === 'boolean' ? input.steps.mysql : true,
    crontab: input?.steps && typeof input.steps?.crontab === 'boolean' ? input.steps.crontab : true,
+   desktop: input?.steps && typeof input.steps?.desktop === 'boolean' ? input.steps.desktop : false,
    appendCommands: input?.steps && typeof input.steps?.appendCommands === 'boolean' ? input.steps.appendCommands : true,
    reboot: input?.steps && typeof input.steps?.reboot === 'boolean' ? input.steps.reboot : true,
 };

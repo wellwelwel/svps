@@ -1,7 +1,9 @@
 import sh from '../../modules/sh.js';
 import { mysql } from '../../modules/configs/mysql.js';
+import { steps } from '../../modules/configs/steps.js';
+import { ACCESS } from '../../types/acess.js';
 
-export default () => {
+export default (VPS: ACCESS) => {
    const commands = [
       `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
       `if [ "$(grep -E '^VERSION_ID="18.04"' /etc/os-release)" ]; then apt-get install nftables -y; fi`,
@@ -9,7 +11,7 @@ export default () => {
       'ufw default deny incoming',
       'ufw default allow outgoing',
       `if [ "$(grep -E '^VERSION_ID="18.04"' /etc/os-release)" ]; then ufw allow OpenSSH; else ufw allow ssh; fi`,
-      'ufw allow 22',
+      `ufw allow ${VPS?.port || 22}`,
       'ufw allow 80',
       'ufw allow 443',
       'ufw allow 20/tcp',
@@ -31,6 +33,11 @@ export default () => {
             commands.push(`ufw allow from ${user.host} to any port 3306`);
          }
       }
+   }
+
+   if (steps.desktop) {
+      /* Open port to RDP */
+      Object.assign(commands, [...commands, 'ufw allow from any to any port 3389 proto tcp', 'ufw reload']);
    }
 
    commands.push('echo "y" | ufw enable');

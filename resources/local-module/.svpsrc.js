@@ -42,6 +42,7 @@ export default defineConfig({
       node: true,
       mysql: true,
       crontab: true,
+      desktop: false,
       appendCommands: true,
       reboot: true,
    },

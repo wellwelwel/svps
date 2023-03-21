@@ -2,15 +2,15 @@
 <h2 align="center">SVPS - Auto Mount VPS</h2>
 <p align="center">🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS</p>
 
-### Install
+## Install
 
 ```shell
    npm i svps
 ```
 
-<hr />
+## Usage
 
-### Initializing the Environment
+### First Step: Create
 
 ```sh
    npx svps || npx svps create
@@ -22,10 +22,10 @@
    ['.svpsrc.js', '.domains.json', '.cronjobs.sh', 'index.html'];
    ```
 
--  Edit **`.svpsrc.js`** with the **SSH** access and your settings
+-  Then, edit [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js) with the **SSH** access and your settings
 <hr />
 
-### Mounting VPS
+### Second Step: Mount the VPS
 
 ```sh
    npx svps mount
@@ -56,7 +56,43 @@
 -  This may take a long time depending on your VPS plan
 <hr />
 
+### Turning VPS Server into Desktop
+
+-  In `.svpsrc.js`, set `steps.desktop` to `true`.
+-  It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
+-  If you are using a **container**, remember to expose the `3389` port first
+-  To access, use the **host**, **user** and **password** in your remote desktop software
+-  ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB).
+<hr />
+
+### Testing with a Docker Container
+
+-  Create the container:
+
+   ```sh
+   docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
+   ```
+
+-  Set the default access in `.svpsrc.js`:
+
+   ```js
+   access: [
+      {
+         host: '127.0.0.1',
+         username: 'root',
+         password: 'root',
+      },
+   ],
+   ```
+
+-  See more in [https://hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
+
+<hr />
+
 ### Adding Virutal Hosts
+
+<details>
+<summary>View examples</summary>
 
 ```sh
    npx svps set domains
@@ -112,6 +148,8 @@
 
 -  Both **PHP** and **NodeJS** can work together 👨‍👨‍👧‍👦
 -  All automatically generated files are disposable
+
+</details>
 <hr />
 
 ### Important
