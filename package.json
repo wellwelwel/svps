@@ -4,12 +4,12 @@
    "main": "./lib/index.js",
    "type": "module",
    "dependencies": {
-      "@types/ssh2": "^1.11.7",
+      "@types/ssh2": "^1.11.8",
       "ssh2": "^1.11.0"
    },
    "devDependencies": {
       "packages-update": "^1.2.1",
-      "typescript": "^4.9.4"
+      "typescript": "^5.0.2"
    },
    "bin": {
       "svps": "bin/index.js"
@@ -19,7 +19,19 @@
       "patch": "npm run update; npm audit fix; npm version patch --no-git-tag-version;",
       "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version;",
       "major": "npm run update; npm audit fix; npm version major --no-git-tag-version;",
-      "update": "npx npu; npm i --ignore-scripts;"
+      "update": "npx npu; npm i --ignore-scripts;",
+      "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
+      "docker:run": "docker run -d --name test-vps --privileged -p 22:22 --restart always wellwelwel/vps:latest",
+      "tests:docker": "npm run docker:reset; npm run docker:run",
+      "pretests:install": "rm -rf ./tests; npm run build; npm i",
+      "tests:install": "mkdir -p ./tests && cd ./tests && echo '{\"type\": \"module\"}' | cat > ./package.json && npm i file:../",
+      "tests:create": "cd ./tests && npx svps create",
+      "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js",
+      "pretests:connection": "sed -i '' -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/true/false/' ./tests/.svpsrc.js",
+      "tests:connection": "cd ./tests && npx svps mount",
+      "posttests:connection": "sed -i '' -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/false/true/' ./tests/.svpsrc.js",
+      "tests:mount": "cd ./tests && npx svps mount",
+      "tests:reset": "npm run docker:reset; rm -rf ./tests"
    },
    "author": "https://github.com/wellwelwel",
    "license": "MIT",

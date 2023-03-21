@@ -5,3 +5,4 @@ package-lock.json
 /bin
 /lib
 /.svpsrc.ts
+/tests
