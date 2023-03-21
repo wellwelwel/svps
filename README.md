@@ -153,7 +153,7 @@
 #### Notes:
 
 -  Both **PHP** and **NodeJS** can work together 👨‍👨‍👧‍👦
--  All automatically generated files are disposable
+-  All automatically generated files by **SVPS Virutal Hosts** are disposable
 
 </details>
 <hr />
