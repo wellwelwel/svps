@@ -23,7 +23,7 @@
       "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
       "docker:run": "docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest",
       "tests:docker": "npm run docker:reset; npm run docker:run",
-      "pretests:install": "rm -rf ./tests; npm run build; npm i",
+      "pretests:install": "rm -rf ./tests; npm run build; npm i; npm i typescript -D",
       "tests:install": "mkdir -p ./tests && cd ./tests && echo '{\"type\": \"module\"}' | cat > ./package.json && npm i file:../",
       "tests:create": "cd ./tests && npx svps create",
       "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js && sed -i '' \"s/\\(password: 'root'\\,\\)/& port: 2222,/\" ./tests/.svpsrc.js",
