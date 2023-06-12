@@ -7,10 +7,14 @@ const desktop: string[] = [
    'apt-get update',
    'apt-get install software-properties-common -y',
    'echo | add-apt-repository ppa:xubuntu-dev/staging',
-   'apt-get install xfce4 xfce4-terminal tasksel ubuntu-drivers-common gnome-software -y',
+   'apt-get install -y tasksel xfce4 xfce4-terminal ubuntu-drivers-common gnome-software xfce4-goodies snapd',
    '--catch tasksel install xubuntu-desktop || apt-get install xubuntu-desktop -y',
    'update-alternatives --install /usr/bin/x-session-manager x-session-manager /usr/bin/startxfce4 60',
    'update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xfce4-terminal 60',
+   '--reboot',
+   'snap install snap-store firefox',
+   'apt-get update',
+   'apt-get install -y firefox',
 ];
 
 const rdp: string[] = [
