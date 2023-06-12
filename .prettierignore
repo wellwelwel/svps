@@ -1,5 +1,6 @@
 node_modules
 /bin
 /lib
+/resources
 .default.html
 403.html
