@@ -1,74 +1,84 @@
 {
-   "name": "svps",
-   "version": "1.2.1",
-   "main": "./lib/index.js",
-   "type": "module",
-   "dependencies": {
-      "@types/ssh2": "^1.11.11",
-      "ssh2": "^1.13.0"
-   },
-   "devDependencies": {
-      "packages-update": "^1.2.1",
-      "prettier": "^2.8.8",
-      "typescript": "^5.1.3"
-   },
-   "bin": {
-      "svps": "bin/index.js"
-   },
-   "scripts": {
-      "build": "rm -rf ./bin ./lib; npx tsc;",
-      "patch": "npm run update; npm audit fix; npm version patch --no-git-tag-version;",
-      "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version;",
-      "major": "npm run update; npm audit fix; npm version major --no-git-tag-version;",
-      "update": "npx npu; npm i --ignore-scripts;",
-      "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
-      "docker:run": "docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest",
-      "tests:docker": "npm run docker:reset; npm run docker:run",
-      "pretests:install": "rm -rf ./tests; npm run build; npm i",
-      "tests:install": "mkdir -p ./tests && cd ./tests && echo '{\"type\": \"module\"}' | cat > ./package.json && npm i file:../",
-      "tests:create": "cd ./tests && npx svps create",
-      "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js && sed -i \"s/\\(password: 'root'\\,\\)/& port: 2222,/\" ./tests/.svpsrc.js",
-      "pretests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|docker|php|node|mysql|crontab)/ s/true/false/' ./tests/.svpsrc.js",
-      "tests:connection": "cd ./tests && npx svps mount",
-      "posttests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/false/true/' ./tests/.svpsrc.js",
-      "tests:mount": "cd ./tests && npx svps mount",
-      "tests:reset": "npm run docker:reset; rm -rf ./tests"
-   },
-   "author": "https://github.com/wellwelwel",
-   "license": "MIT",
-   "description": "🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS",
-   "engines": {
-      "node": ">=14.5.0",
-      "npm": ">=7.0.2"
-   },
-   "repository": {
-      "type": "git",
-      "url": "git+https://github.com/wellwelwel/svps.git"
-   },
-   "bugs": {
-      "url": "https://github.com/wellwelwel/svps/issues"
-   },
-   "homepage": "https://github.com/wellwelwel/svps#readme",
-   "keywords": [
-      "apache",
-      "cli",
-      "cronjobs",
-      "crontab",
-      "ufw",
-      "sftp",
-      "vsftpd",
-      "mysql",
-      "php",
-      "ssh",
-      "ssh2",
-      "ubuntu",
-      "virtualhost",
-      "vps",
-      "vps-setup"
-   ],
-   "files": [
-      "bin",
-      "lib",
-      "resources"
-   ]
+  "name": "svps",
+  "version": "1.2.1",
+  "main": "./lib/index.js",
+  "type": "module",
+  "dependencies": {
+    "@types/ssh2": "^1.11.12",
+    "ssh2": "^1.14.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "eslint": "^8.44.0",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "eslint-plugin-import": "^2.27.5",
+    "packages-update": "^1.2.1",
+    "prettier": "^3.0.0",
+    "typescript": "^5.1.6"
+  },
+  "bin": {
+    "svps": "bin/index.js"
+  },
+  "scripts": {
+    "build": "rm -rf ./bin ./lib; npx tsc;",
+    "patch": "npm run update; npm audit fix; npm version patch --no-git-tag-version;",
+    "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version;",
+    "major": "npm run update; npm audit fix; npm version major --no-git-tag-version;",
+    "update": "npx npu; npm i --ignore-scripts;",
+    "lint:checker": "npx eslint . --ext .js,.ts",
+    "prettier:checker": "npx prettier --check .",
+    "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
+    "docker:run": "docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest",
+    "tests:docker": "npm run docker:reset; npm run docker:run",
+    "pretests:install": "rm -rf ./tests; npm run build; npm i",
+    "tests:install": "mkdir -p ./tests && cd ./tests && echo '{\"type\": \"module\"}' | cat > ./package.json && npm i file:../",
+    "tests:create": "cd ./tests && npx svps create",
+    "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js && sed -i \"s/\\(password: 'root'\\,\\)/& port: 2222,/\" ./tests/.svpsrc.js",
+    "pretests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|docker|php|node|mysql|crontab)/ s/true/false/' ./tests/.svpsrc.js",
+    "tests:connection": "cd ./tests && npx svps mount",
+    "posttests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/false/true/' ./tests/.svpsrc.js",
+    "tests:mount": "cd ./tests && npx svps mount",
+    "tests:reset": "npm run docker:reset; rm -rf ./tests"
+  },
+  "author": "https://github.com/wellwelwel",
+  "license": "MIT",
+  "description": "🚀 An easier CLI tool to automate the setup and pre-settings of your Ubuntu VPS",
+  "engines": {
+    "node": ">=14.5.0",
+    "npm": ">=7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellwelwel/svps.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wellwelwel/svps/issues"
+  },
+  "overrides": {
+    "semver": "^7.5.3"
+  },
+  "homepage": "https://github.com/wellwelwel/svps#readme",
+  "keywords": [
+    "apache",
+    "cli",
+    "cronjobs",
+    "crontab",
+    "ufw",
+    "sftp",
+    "vsftpd",
+    "mysql",
+    "php",
+    "ssh",
+    "ssh2",
+    "ubuntu",
+    "virtualhost",
+    "vps",
+    "vps-setup"
+  ],
+  "files": [
+    "bin",
+    "lib",
+    "resources"
+  ]
 }

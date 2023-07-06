@@ -1,6 +1,5 @@
 node_modules
 /bin
 /lib
-/tests
 /resources
-package-lock.json
+/tests

@@ -1,15 +1,8 @@
 name: 🔬
 on:
   push:
-    branches:
-      - '*'
-      - '!test-ci'
-    paths-ignore:
-      - '**.md'
-      - '.gitignore'
-      - '.github/assets/**/**'
-      - 'docs/**'
-      - 'LICENSE'
+  pull_request:
+  workflow_dispatch:
 jobs:
   latest:
     name: Ubuntu Latest
@@ -17,7 +10,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        node-version: ['19.x']
+        node-version: ['18.x']
     if: ${{ !startsWith(github.event.head_commit.message, 'no-ci') }}
     steps:
       - name: ➕ Actions - Checkout
@@ -28,11 +21,18 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
+      - name: ➕ Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
       - name: 🏠 Create a local VPS using Docker Container
         run: docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest
 
-      - name: 🏠 Preparing the Environment
-        run: npm i typescript -D
+      - name: 📦 Installing Dependencies
+        run: npm ci
 
       - name: ⚙️ Testing Services - Install
         run: npm run tests:install

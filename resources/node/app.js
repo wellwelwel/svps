@@ -1,1 +1,1 @@
-'use strict';!function(){var a=require('http'),b=require('fs');a.createServer(function(a,c){c.statusCode=200,c.setHeader('Content-Type','text/html'),c.end(b.readFileSync(__dirname+'/public_html/index.html'))}).listen('{!PORT}','127.0.0.1')}()
+'use strict'; !function (){let a=require('http'),b=require('fs'); a.createServer(function (a,c){c.statusCode=200,c.setHeader('Content-Type','text/html'),c.end(b.readFileSync(__dirname+'/public_html/index.html'));}).listen('{!PORT}','127.0.0.1');}();
