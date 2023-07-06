@@ -60,7 +60,7 @@ export default defineConfig({
     days: 365 * 3,
     fields: {
       commonName: 'My VPS',
-      country: 'Brasil',
+      country: 'Brazil',
       location: 'São Paulo',
       state: 'São Paulo',
       organization: 'Open Source',

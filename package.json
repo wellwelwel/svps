@@ -26,7 +26,7 @@
     "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version;",
     "major": "npm run update; npm audit fix; npm version major --no-git-tag-version;",
     "update": "npx npu; npm i --ignore-scripts;",
-    "lint:checker": "npx eslint . --ext .js,.ts",
+    "eslint:checker": "npx eslint . --ext .js,.ts",
     "prettier:checker": "npx prettier --check .",
     "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
     "docker:run": "docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest",
