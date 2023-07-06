@@ -51,7 +51,7 @@ try {
       Object.assign(commands, [
         ...commands,
         `echo "${sh.startTitle}Appending your personal commands${sh.endTitle}"`,
-        ...appendCommands(),
+        ...(await appendCommands()),
         sh.done,
       ]);
 
