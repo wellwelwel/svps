@@ -1,1 +1,1 @@
-export type APPEND_COMMANDS = () => string[];
+export type APPEND_COMMANDS = () => string[] | Promise<string[]>;
