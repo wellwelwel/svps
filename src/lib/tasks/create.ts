@@ -1,6 +1,9 @@
 import fs from 'fs';
 import { resolve } from 'path';
 import { __dirname } from '../modules/root.js';
+import { buildJSON, readJSON } from '../modules/json.js';
+
+const packagePath = 'package.json';
 
 const resources = [
   {
@@ -20,6 +23,16 @@ const resources = [
     to: 'index.html',
   },
 ];
+
+if (!fs.existsSync(packagePath)) fs.writeFileSync(packagePath, '{}');
+
+const packageFile: { type?: string } = readJSON(packagePath) || {};
+
+if (!('type' in packageFile)) {
+  packageFile.type = 'module';
+
+  fs.writeFileSync(packagePath, buildJSON(packageFile));
+}
 
 for (const resource of resources) {
   const { from, to } = resource;

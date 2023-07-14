@@ -2,29 +2,22 @@
   "include": ["src"],
   "compilerOptions": {
     "target": "ES2017",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-
-    // "resolveJsonModule": true,
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-
     "allowJs": false,
     "strict": true,
     "alwaysStrict": true,
     "strictFunctionTypes": false,
     "noUnusedLocals": true,
     "noImplicitAny": true,
-
     "removeComments": false,
     "sourceMap": false,
     "declaration": true,
-    // "listEmittedFiles": true,
-
     "outDir": "",
-    "declarationDir": "",
-    "typeRoots": ["./node_modules/@types"],
-    "types": ["ssh2"]
+    "declarationDir": ""
   }
 }
