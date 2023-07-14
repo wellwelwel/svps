@@ -12,7 +12,7 @@ import { USER } from './types/users.js';
 import { VERBOSE } from './types/verbose.js';
 
 export interface svpsOptions {
-  /** Set the SSH access from one or more VPS */
+  /** Set the SSH access for one or more VPS */
   access: ACCESS | ACCESS[];
   /** Set the accesses you want to be created */
   users?: USER | USER[];
