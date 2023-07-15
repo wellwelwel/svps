@@ -48,9 +48,9 @@ This will create the default configuration file:
 .svpsrc.js
 ```
 
-Then, edit the [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) using your **SSH** access and your settings
+Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your **SSH** access and your settings
 
-- You can see some practical examples of `.svpsrc.js` usage [here](./examples/.svpsrc.js/).
+- You can see some practical examples of _.svpsrc.js_ usage [here](./examples/.svpsrc.js/).
 
 ---
 
@@ -62,18 +62,17 @@ Then, edit the [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) using 
 
 #### Default Setps:
 
-1. Fixes common possible conflicts on **Ubuntu**
-2. Runs common **apt** commands
-3. Sets the most common **Firewall** settings
-4. Creates the users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L12)
-5. Installs **Apache2** and forbids access to the default `html` directory
-6. Reruns common **apt** commands
-7. Executes your personal **sh commands** specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
-8. Restarts the **VPS**
+- [Fix common possible conflicts on **Ubuntu**](./src/lib/tasks/steps/repare.ts)
+- [Run common **apt** commands](./src/lib/tasks/steps/apt.ts)
+- [Set the most common **Firewall** settings](./src/lib/tasks/steps/firewall.ts)
+- [Create users](./src/lib/tasks/steps/users/)
+- Execute your [personal **bash commands**](./examples/.svpsrc.js/appendCommands.ts)
+- [Restarts the **VPS**](./src/lib/tasks/steps/reboot.ts)
+- Reruns common [**repare**](./src/lib/tasks/steps/repare.ts) and [**apt**](./src/lib/tasks/steps/apt.ts) commands
 
 #### Available auto-installation:
 
-- Firewall (**ufw**)
+- [Firewall (**ufw**)](./src/lib/tasks/steps/firewall.ts)
   - This will activate the SSH port according to the entered in _.svpsrc.js_ or the `22` by default
 - [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/.svpsrc.js/sftp.ts)
 - [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/.svpsrc.js/ftp.ts)
@@ -90,18 +89,18 @@ Then, edit the [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) using 
 
 #### Notes:
 
-- **All steps are optional:** You can enable or disable any step in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L34)
+- **All steps are optional:** You can enable or disable any step in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L33)
 - You are free to **disable all the steps** and **create your own modules of sh commands** 🤹🏻‍♀️
-  - See `appendCommands` in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
+  - See `appendCommands` in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L49)
 - The entire remote process is displayed on console in real time
-- Find all commands in [src/lib/tasks/steps](./src/lib/tasks/steps/)
+- Find all commands in [_src/lib/tasks/steps_](./src/lib/tasks/steps/)
 - This may take a long time depending on your VPS plan
 
 ---
 
 ### Turning VPS Server into Desktop Server (RDP)
 
-- In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L45), set `steps.desktop` to `true`
+- In [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L45), set `steps.desktop` to `true`
   - It's recommended to enable the `repare`, `apt` and `reboot` steps when installing the desktop
   - It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
   - ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB)
@@ -121,7 +120,7 @@ Then, edit the [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) using 
   - Add `-p 3389:3389` if you want to test it using **Remote Desktop Protocol**
   - See more in [hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
 
-- Set the default access in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5):
+- Set the default access in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5):
 
   ```js
   access: [
@@ -145,13 +144,16 @@ Then, edit the [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) using 
 
 - This package is designed for pre-built VPS _(**Ubuntu** `>=18.04`)_
 - The VPS user needs to be the **root** or a **super user**
-- Don't run this package on a VPS that is already in production❗
+- Don't run this package on a **VPS** that is already in production!
+  - If you have your own bash commands, do it at your own risk 🧙🏻
 
 ---
 
 ### Known Issues
 
 - [`Node.js >=18` is not compatible with `Ubuntu 18.04`](https://github.com/nodesource/distributions/issues/1392)
+- I think it isn't possible to use a **Docker** container with **RDP** inside a **VPS** without **RDP**.
+  - Any help on this is welcome 🚀
 
 ---
 
