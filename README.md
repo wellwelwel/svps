@@ -1,7 +1,7 @@
 <h4 align="center">Next version in progress</h4>
 <h2 align="center">SVPS - Auto Mount VPS</h2>
 <p align="center">🚀 An easier CLI tool to automate the setup and pre-settings of your Ubuntu VPS</p>
-<div style="text-align: center;">
+<div align="center">
   <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
   <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci" alt="GitHub Workflow Status (with event)">
   <img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm">
