@@ -34,6 +34,9 @@ jobs:
       - name: 📦 Installing Dependencies
         run: npm ci
 
+      - name: ⚙️ Building
+        run: npm run build
+
       - name: 🧪 Testing Services - Create
         run: npm run tests:create
 
@@ -45,3 +48,29 @@ jobs:
 
       - name: ✅ Finishing
         run: npm run tests:reset >/dev/null 2>&1 || true
+
+      # DEBUG
+      - name: 🧬 Checking "package.json"
+        if: ${{ failure() }}
+        run: |
+          cat tests/package.json
+
+      - name: 🧬 Checking "package-lock.json"
+        if: ${{ failure() }}
+        run: |
+          cat tests/package-lock.json
+
+      - name: 🧬 Checking ".svpsrc.js"
+        if: ${{ failure() }}
+        run: |
+          cat tests/.svpsrc.js
+
+      - name: 🧬 Checking "node_modules"
+        if: ${{ failure() }}
+        run: |
+          ls -la tests/node_modules/
+
+      - name: 🧬 Listing installed packages
+        if: ${{ failure() }}
+        run: |
+          cd tests && npm ls
