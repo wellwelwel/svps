@@ -5,7 +5,14 @@ import { steps } from '../../modules/configs/steps.js';
 export default () => {
   if (!certificate || !steps.certificate) return [] as string[];
 
-  const { commonName, country, location, organization, organizationUnit, state } = certificate.fields;
+  const {
+    commonName,
+    country,
+    location,
+    organization,
+    organizationUnit,
+    state,
+  } = certificate.fields;
 
   const commands = [
     'echo "Generating Open SSL RSA Certificate..."',

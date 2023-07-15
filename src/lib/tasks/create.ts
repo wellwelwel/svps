@@ -3,42 +3,54 @@ import { resolve } from 'path';
 import { __dirname } from '../modules/root.js';
 import { buildJSON, readJSON } from '../modules/json.js';
 
-const packagePath = 'package.json';
+/** package.json */
+(() => {
+  const packagePath = 'package.json';
 
-const resources = [
-  {
-    from: '.svpsrc.js',
-    to: '.svpsrc.js',
-  },
-  {
-    from: '.cronjobs.sh',
-    to: '.cronjobs.sh',
-  },
-  {
-    from: '.domains.json',
-    to: '.domains.json',
-  },
-  {
-    from: '.default.html',
-    to: 'index.html',
-  },
-];
+  if (!fs.existsSync(packagePath)) fs.writeFileSync(packagePath, '{}');
 
-if (!fs.existsSync(packagePath)) fs.writeFileSync(packagePath, '{}');
+  const packageFile: { type?: string } = readJSON(packagePath) || {};
 
-const packageFile: { type?: string } = readJSON(packagePath) || {};
+  if (!('type' in packageFile)) {
+    packageFile.type = 'module';
 
-if (!('type' in packageFile)) {
-  packageFile.type = 'module';
+    fs.writeFileSync(packagePath, buildJSON(packageFile));
+  } else if ('type' in packageFile && packageFile.type !== 'module') {
+    throw new Error(
+      'SVPS is designed to be used with ECMAScript Modules (ESM)'
+    );
+  }
+})();
 
-  fs.writeFileSync(packagePath, buildJSON(packageFile));
-}
+/** resources */
+(() => {
+  const resources = [
+    {
+      from: '.svpsrc.js',
+      to: '.svpsrc.js',
+    },
+    {
+      from: '.cronjobs.sh',
+      to: 'svps/cronjobs.sh',
+    },
+    {
+      from: '.domains.json',
+      to: 'svps/domains.json',
+    },
+    {
+      from: '.default.html',
+      to: 'svps/index.html',
+    },
+  ];
 
-for (const resource of resources) {
-  const { from, to } = resource;
+  if (!fs.existsSync('svps')) fs.mkdirSync('svps');
 
-  const source = resolve(`${__dirname}/resources/local-module/${from}`);
-  const dest = resolve(to);
+  for (const resource of resources) {
+    const { from, to } = resource;
 
-  if (!fs.existsSync(dest)) fs.copyFileSync(source, dest);
-}
+    const source = resolve(`${__dirname}/resources/local-module/${from}`);
+    const dest = resolve(to);
+
+    if (!fs.existsSync(dest)) fs.copyFileSync(source, dest);
+  }
+})();

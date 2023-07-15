@@ -1,8 +1,34 @@
 <h4 align="center">Next version in progress</h4>
 <h2 align="center">SVPS - Auto Mount VPS</h2>
 <p align="center">🚀 An easier CLI tool to automate the setup and pre-settings of your Ubuntu VPS</p>
+<div style="text-align: center;">
+  <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
+  <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci" alt="GitHub Workflow Status (with event)">
+  <img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm">
+</div>
 
-## Install
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+  - [First Step: Create](#first-step-create)
+  - [Second Step: Mount the VPS](#second-step-mount-the-vps)
+    - [Default Setps](#default-setps)
+    - [Available auto-installation](#available-auto-installation)
+    - [Notes](#notes)
+  - [Turning VPS Server into Desktop Server (RDP)](#turning-vps-server-into-desktop-server-rdp)
+  - [Testing with a Docker Container](#testing-with-a-docker-container)
+  - [Adding Virtual Hosts](#adding-virtual-hosts)
+- [Important](#important)
+  - [Known Issues](#known-issues)
+  - [Compatibility](#compatibility)
+- [License](#license)
+- [Credits](#credits)
+- [Community](#community)
+
+---
+
+## Installation
 
 ```shell
    npm i svps
@@ -16,16 +42,17 @@
    npx svps || npx svps create
 ```
 
-- This will create the default configuration files:
+This will create the default configuration file:
 
-  ```javascript
-  ['.svpsrc.js', '.domains.json', '.cronjobs.sh', 'index.html'];
-  ```
+```
+.svpsrc.js
+```
 
-- Then, edit [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) with the **SSH** access and your settings
-  - You can see a practical example of `.svpsrc.js` in [.svpsrc.example.js](./.svpsrc.example.js)
+Then, edit the [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5) using your **SSH** access and your settings
 
-<hr />
+- You can see some practical examples of `.svpsrc.js` usage [here](./examples/.svpsrc.js/).
+
+---
 
 ### Second Step: Mount the VPS
 
@@ -35,19 +62,31 @@
 
 #### Default Setps:
 
-1. Fixes common conflicts on **Ubuntu**
+1. Fixes common possible conflicts on **Ubuntu**
 2. Runs common **apt** commands
 3. Sets the most common **Firewall** settings
 4. Creates the users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L12)
 5. Installs **Apache2** and forbids access to the default `html` directory
-6. Prepares the **Virtual Host** and abilite **Rewrite**
-7. Installs **PHP** with the version and modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L22)
-8. Installs **Node.js** with the version and global modules setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L23)
-9. Installs **MySQL** and creates the databases and users setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L24)
-10. Adds cronjobs setted on the file specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L31)
-11. Reruns common **apt** commands
-12. Executes your personal **sh commands** specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
-13. Restart VPS
+6. Reruns common **apt** commands
+7. Executes your personal **sh commands** specified in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
+8. Restarts the **VPS**
+
+#### Available auto-installation:
+
+- Firewall (**ufw**)
+  - This will activate the SSH port according to the entered in _.svpsrc.js_ or the `22` by default
+- [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/.svpsrc.js/sftp.ts)
+- [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/.svpsrc.js/ftp.ts)
+- [**RSA** Certificate](./examples/.svpsrc.js/rsa.ts)
+- Docker
+  - Required to use [Virtual Hosts](#adding-virtal-hosts)
+- [**PHP**](./examples/.svpsrc.js/php.ts)
+- [**Node.js**](./examples/.svpsrc.js/node.ts)
+- [**MySQL**](./examples/.svpsrc.js/mysql.ts)
+- Crontabs
+- [Remote Desktop Protocol (**RDP**)](./examples/.svpsrc.js/desktop.ts)
+
+> See some practical [examples](./examples/.svpsrc.js/).
 
 #### Notes:
 
@@ -55,18 +94,21 @@
 - You are free to **disable all the steps** and **create your own modules of sh commands** 🤹🏻‍♀️
   - See `appendCommands` in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L49)
 - The entire remote process is displayed on console in real time
+- Find all commands in [src/lib/tasks/steps](./src/lib/tasks/steps/)
 - This may take a long time depending on your VPS plan
-<hr />
 
-### Turning VPS Server into Desktop (Remote Access)
+---
+
+### Turning VPS Server into Desktop Server (RDP)
 
 - In [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L45), set `steps.desktop` to `true`
   - It's recommended to enable the `repare`, `apt` and `reboot` steps when installing the desktop
   - It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
   - ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB)
-- If you are using a **container**, remember to expose the `3389` port first
-- To access, use the **host**, **user** and **password** in your Remote Desktop Software
-<hr />
+- If you are using a **container**, remember to expose the port `3389`
+- To access use the **host**, **user** and **password** in your Remote Desktop Software
+
+---
 
 ### Testing with a Docker Container
 
@@ -76,8 +118,8 @@
   docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
   ```
 
-  - Add `-p 3389:3389` if you want to test with **Remote Desktop**
-  - See more in [https://hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
+  - Add `-p 3389:3389` if you want to test it using **Remote Desktop Protocol**
+  - See more in [hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
 
 - Set the default access in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L5):
 
@@ -91,85 +133,27 @@
   ],
   ```
 
-<hr />
+---
 
-### Adding Virutal Hosts
+### Adding Virtual Hosts
 
-<details>
-<summary>View examples</summary>
+> _In progress_ 🕐
 
-- ```sh
-   npx svps set domains
-  ```
+---
 
-- Gets listed domains in `.domains.json`
-- Sets the **Virtual Host** for each domain and **`www` CNAME**
-- Creates each domain directories with a default `index.(html|php)` setted in [**`.svpsrc.js`**](./resources/local-module/.svpsrc.js#L30)
-  - The domains previously set up or repeated in the list will be ignored
-- It's recommended to enable the `apache` step when using **SVPS Virutal Hosts**
-
-#### For Node.js:
-
-- The proxy is already auto-configured to route all local ports to 80, then just add the domains with local port in `.domains.json`:
-- It's recommended to enable the `apache` and `node` steps when using **SVPS Virutal Hosts** with **Node.js**
-
-  ```javascript
-     [
-        ...,
-        "mysite.com:3000",
-        // 📁 mysite.com/app.js
-        // 📁 mysite.com/public_html/index.html
-
-        "mycname.mysite.com:3001",
-        // 📁 mycname.mysite.com/app.js
-        // 📁 mycname.mysite.com/public_html/index.html
-
-        "myothersite.com:3002",
-        // 📁 myothersite.com/app.js
-        // 📁 myothersite.com/public_html/index.html
-     ]
-  ```
-
-  - Don't repeat local ports❗
-
-#### For PHP and HTML:
-
-- Just add the domains in `.domains.json`:
-- It's recommended to enable the `apache` and `php` steps when using **SVPS Virutal Hosts** with **PHP**
-
-  ```javascript
-     [
-        ...,
-        "mysite.com",
-        // 📁 mysite.com/public_html/index.html
-
-        "mycname.mysite.com",
-        // 📁 mycname.mysite.com/public_html/index.html
-
-        "myothersite.com",
-        // 📁 myothersite.com/public_html/index.html
-     ]
-  ```
-
-#### Notes:
-
-- Both **PHP** and **NodeJS** can work together 👨‍👨‍👧‍👦
-- All automatically generated files by **SVPS Virutal Hosts** are disposable
-
-</details>
-<hr />
-
-### Important
+## Important
 
 - This package is designed for pre-built VPS _(**Ubuntu** `>=18.04`)_
 - The VPS user needs to be the **root** or a **super user**
 - Don't run this package on a VPS that is already in production❗
-<hr />
+
+---
 
 ### Known Issues
 
-- [`Node.js >=18` is not compatible with the `Ubuntu 18.04`](https://github.com/nodesource/distributions/issues/1392)
-<hr />
+- [`Node.js >=18` is not compatible with `Ubuntu 18.04`](https://github.com/nodesource/distributions/issues/1392)
+
+---
 
 ### Compatibility
 
@@ -179,16 +163,22 @@
 ![node](/.github/assets/readme/node.svg)
 ![npm](/.github/assets/readme/npm.svg)
 
-<hr />
+---
 
-### License
+## License
 
 [![License](/.github/assets/readme/license.svg)](/LICENSE)
 
-<hr />
+---
 
-### Credits
+## Credits
 
 | Contributors | GitHub                                                                            |
 | ------------ | --------------------------------------------------------------------------------- |
 | Author       | [![wellwelwel](/.github/assets/readme/author.svg)](https://github.com/wellwelwel) |
+
+---
+
+## Community
+
+I'm always working to improve **SVPS**. If you've got something interesting to share, feel free to submit a [Pull Request](https://github.com/wellwelwel/svps/compare). If you notice something wrong, I'd appreciate if you'd open an [Issue](https://github.com/wellwelwel/svps/issues/new).

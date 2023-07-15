@@ -30,7 +30,9 @@ try {
   const hosts = access;
 
   for (const host of hosts) {
-    console.log(`\x1b[22m\x1b[36m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`);
+    console.log(
+      `\x1b[22m\x1b[36m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`
+    );
 
     const commands = [] as string[];
 
@@ -38,7 +40,8 @@ try {
     steps.apt && Object.assign(commands, [...commands, ...apt()]);
     steps.firewall && Object.assign(commands, [...commands, ...firewall(host)]);
     steps.users && Object.assign(commands, [...commands, ...users()]);
-    steps.certificate && Object.assign(commands, [...commands, ...certificate()]);
+    steps.certificate &&
+      Object.assign(commands, [...commands, ...certificate()]);
     steps.apache && Object.assign(commands, [...commands, ...apache()]);
     steps.docker && Object.assign(commands, [...commands, ...docker()]);
     steps.php && Object.assign(commands, [...commands, ...php()]);
@@ -93,7 +96,11 @@ try {
     }
   }
 
-  console.log(`\x1b[0m\x1b[1m${!errors ? '\x1b[32m✔︎ Success' : '\n\x1b[31m✖︎ Fail'}\x1b[0m\n`);
+  console.log(
+    `\x1b[0m\x1b[1m${
+      !errors ? '\x1b[32m✔︎ Success' : '\n\x1b[31m✖︎ Fail'
+    }\x1b[0m\n`
+  );
   process.exit(!errors ? 0 : 1);
 } catch (error) {
   console.log(`\x1b[0m\x1b[1m\x1b[31m✖︎`, error, '\x1b[0m\n');

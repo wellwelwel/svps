@@ -18,7 +18,9 @@ export default () => {
     `echo "${sh.startTitle}Setting up MySQL${sh.endTitle}"`,
     'apt-get update',
     'apt-get install mysql-server -y',
-    `echo ${escapeQuotes(fs.readFileSync(normalize(mysqld_cnf), 'utf-8'))} | cat > /etc/mysql/mysql.conf.d/mysqld.cnf`,
+    `echo ${escapeQuotes(
+      fs.readFileSync(normalize(mysqld_cnf), 'utf-8')
+    )} | cat > /etc/mysql/mysql.conf.d/mysqld.cnf`,
     `echo ${escapeQuotes(temp_access)} | cat > ~/.my.cnf`,
     'chmod 0600 ~/.my.cnf',
     'service mysql restart',
@@ -41,7 +43,10 @@ export default () => {
   /* Creates databases */
   if (mysql.databases.length > 0) {
     for (const db of mysql.databases)
-      Object.assign(commands, [...commands, `mysql -e "CREATE DATABASE IF NOT EXISTS ${db};"`]);
+      Object.assign(commands, [
+        ...commands,
+        `mysql -e "CREATE DATABASE IF NOT EXISTS ${db};"`,
+      ]);
   }
 
   Object.assign(commands, [

@@ -32,8 +32,12 @@ export default () => {
     Object.assign(commands, [
       ...commands,
       ...[
-        `echo ${escapeQuotes(fs.readFileSync(normalize(htaccess), 'utf-8'))} | cat > /var/www/html/.htaccess`,
-        `echo ${escapeQuotes(fs.readFileSync(normalize(_403), 'utf-8'))} | cat > /var/www/html/403.html`,
+        `echo ${escapeQuotes(
+          fs.readFileSync(normalize(htaccess), 'utf-8')
+        )} | cat > /var/www/html/.htaccess`,
+        `echo ${escapeQuotes(
+          fs.readFileSync(normalize(_403), 'utf-8')
+        )} | cat > /var/www/html/403.html`,
         'chmod 0755 /var/www/html',
       ],
     ]);

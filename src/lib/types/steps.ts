@@ -1,7 +1,7 @@
 export interface STEPS {
-  /** default: `true` */
+  /** default: `false` */
   repare?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   apt?: boolean;
   /**
    * 🤹🏻‍♀️ In case `mysql` has users, a firewall rule will be created for each one.
@@ -10,28 +10,28 @@ export interface STEPS {
    *
    * ⚠️ The firewall will add the `SSH` port according to the port set on the current VPS (host) or `22` if no port was entered
    *
-   *  default: `true`
+   *  default: `false`
    */
   firewall?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   users?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   certificate?: boolean;
   /**
    * `Apache2` is required in `PHP` and `node.js`
    *
-   * default: `true`
+   * default: `false`
    */
   apache?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   docker?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   php?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   node?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   mysql?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   crontab?: boolean;
   /**
    * 🖥️ Intalls the `Xubuntu Desktop` and `RDP Remote` in port `3389`
@@ -41,8 +41,8 @@ export interface STEPS {
    * default: `false`
    */
   desktop?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   appendCommands?: boolean;
-  /** default: `true` */
+  /** default: `false` */
   reboot?: boolean;
 }

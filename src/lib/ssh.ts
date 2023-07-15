@@ -51,7 +51,8 @@ export const catchExec = (command: string): Promise<true> =>
 
 export const exec = (command: string, VPS?: ACCESS): Promise<true> =>
   new Promise((resolve, reject) => {
-    const errorTitle = (title: string) => `\x1b[0m\x1b[31m\x1b[1m${title}\x1b[0m`;
+    const errorTitle = (title: string) =>
+      `\x1b[0m\x1b[31m\x1b[1m${title}\x1b[0m`;
     const errorResponse = (response: any) => `\n\x1b[0m  \x1b[33m${response}`;
 
     let executed = false;
@@ -73,15 +74,25 @@ export const exec = (command: string, VPS?: ACCESS): Promise<true> =>
           .on('exit', (code: number) => {
             if (code !== 0)
               reject(
-                `${errorTitle('Exit code')}${errorResponse(code)}\n${errorTitle('Command')}${errorResponse(command)}`
+                `${errorTitle('Exit code')}${errorResponse(code)}\n${errorTitle(
+                  'Command'
+                )}${errorResponse(command)}`
               );
 
             resolve(true);
           })
           .stderr.on('data', (chunk: any) => {
             if (chunk && !executed) {
-              if (VPS) process.stdout.write(`${errorTitle(`\n\x1b[2m[ ${VPS.host} ]`)}${errorResponse('')}`);
-              else process.stdout.write(`${errorTitle('\nRemote error')}${errorResponse('')}`);
+              if (VPS)
+                process.stdout.write(
+                  `${errorTitle(`\n\x1b[2m[ ${VPS.host} ]`)}${errorResponse(
+                    ''
+                  )}`
+                );
+              else
+                process.stdout.write(
+                  `${errorTitle('\nRemote error')}${errorResponse('')}`
+                );
               executed = true;
             }
 
@@ -123,7 +134,8 @@ export const uploadFile = (
         const resolvedPath = pathResolve(localPath);
         const remoteBasename = dirname(remotePath);
 
-        if (remoteBasename?.trim().length > 0 && remoteBasename !== '/') await exec(`mkdir -p ${remoteBasename}`);
+        if (remoteBasename?.trim().length > 0 && remoteBasename !== '/')
+          await exec(`mkdir -p ${remoteBasename}`);
 
         sftp.fastPut(resolvedPath, remotePath, async (err) => {
           if (err) {
@@ -132,21 +144,29 @@ export const uploadFile = (
           }
 
           const file =
-            options?.chmod?.file && options.chmod?.file?.trim().length > 0 ? options.chmod?.file : false || false;
+            options?.chmod?.file && options.chmod?.file?.trim().length > 0
+              ? options.chmod?.file
+              : false || false;
           const directory =
-            options?.chmod?.directory && options.chmod?.directory?.trim().length > 0
+            options?.chmod?.directory &&
+            options.chmod?.directory?.trim().length > 0
               ? options.chmod?.directory
               : false || false;
 
           const user =
-            options?.chown?.user && options?.chown?.user?.trim().length > 0 ? options.chown.user : false || false;
+            options?.chown?.user && options?.chown?.user?.trim().length > 0
+              ? options.chown.user
+              : false || false;
           const group =
-            options?.chown?.group && options?.chown?.group?.trim().length > 0 ? options.chown.group : false || false;
+            options?.chown?.group && options?.chown?.group?.trim().length > 0
+              ? options.chown.group
+              : false || false;
 
           if (directory) {
             await exec(`chmod ${directory} ${remoteBasename}`);
 
-            if (user && group) await exec(`chown -R ${user}:${group} ${remoteBasename}`);
+            if (user && group)
+              await exec(`chown -R ${user}:${group} ${remoteBasename}`);
             else if (user) await exec(`chown -R ${user} ${remoteBasename}`);
             else if (group) await exec(`chown -R :${group} ${remoteBasename}`);
           }
@@ -154,7 +174,8 @@ export const uploadFile = (
           if (file) {
             await exec(`chmod ${file} ${remotePath}`);
 
-            if (user && group) await exec(`chown ${user}:${group} ${remotePath}`);
+            if (user && group)
+              await exec(`chown ${user}:${group} ${remotePath}`);
             else if (user) await exec(`chown ${user} ${remotePath}`);
             else if (group) await exec(`chown :${group} ${remotePath}`);
           }

@@ -1,14 +1,3 @@
-/**
- * Using a Docker Container to create a local VPS:
- * docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
- *
- * If you want test with Remote Desktop, changing `steps.desktop` to `true`:
- * docker run -d --privileged -p 22:22 -p 3389:3389 --restart always wellwelwel/vps:latest
- *
- * Or just put your own VPS access to test
- */
-
-// @ts-check
 import { defineConfig } from 'svps';
 
 export default defineConfig({
@@ -17,6 +6,7 @@ export default defineConfig({
       host: '127.0.0.1',
       username: 'root',
       password: 'root',
+      port: 2222,
     },
   ],
   users: [
@@ -83,9 +73,8 @@ export default defineConfig({
     node: true,
     mysql: true,
     crontab: true,
-    desktop: false,
     appendCommands: true,
     reboot: true,
   },
-  appendCommands: () => ['echo "\n🍃 („• ᴗ •„) 🌸\n"'],
+  appendCommands: async () => ['echo "\n🍃 („• ᴗ •„) 🌸\n"'],
 });

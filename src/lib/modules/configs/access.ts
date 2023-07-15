@@ -3,7 +3,10 @@ import { forceArray } from '../force-array.js';
 import { input } from './index.js';
 
 export const access: ACCESS[] = (() => {
-  if (!input?.access || (!Array.isArray(input.access) && typeof input.access !== 'object'))
+  if (
+    !input?.access ||
+    (!Array.isArray(input.access) && typeof input.access !== 'object')
+  )
     throw 'The field `access` is required';
 
   const mapVPS = forceArray(input.access);

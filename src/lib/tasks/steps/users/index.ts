@@ -11,11 +11,16 @@ import { setSFTP } from './sftp.js';
 export default () => {
   if (!users) return [] as string[];
 
-  const commands: string[] = [`echo "${sh.startTitle}Setting up Users${sh.endTitle}"`];
+  const commands: string[] = [
+    `echo "${sh.startTitle}Setting up Users${sh.endTitle}"`,
+  ];
   const hasFTP = users?.some((user) => typeof user.ftp === 'object') || false;
   const hasSFTP = users?.some((user) => typeof user.sftp === 'object') || false;
   const vsftpd_conf = escapeQuotes(
-    fs.readFileSync(normalize(`${__dirname}/resources/ftp/vsftpd.conf`), 'utf-8')
+    fs.readFileSync(
+      normalize(`${__dirname}/resources/ftp/vsftpd.conf`),
+      'utf-8'
+    )
   ).replace(/{!CERT}/gm, certificate?.output || '/etc/ssl/private/cert.pem');
 
   const sshdConfigPath = '/etc/ssh/sshd_config';
@@ -56,7 +61,11 @@ export default () => {
     if (user.sftp) Object.assign(commands, [...commands, ...setSFTP(user)]);
     if (user.groups.length > 0) {
       user.groups.forEach((group) =>
-        Object.assign(commands, [...commands, `groupadd -f ${group}`, `usermod -a -G ${group} ${user.name}`])
+        Object.assign(commands, [
+          ...commands,
+          `groupadd -f ${group}`,
+          `usermod -a -G ${group} ${user.name}`,
+        ])
       );
 
       const primary = user.groups.shift();

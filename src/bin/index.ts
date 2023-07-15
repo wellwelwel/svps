@@ -8,7 +8,9 @@ const main = args.join('-') || 'create';
     const alloweds = ['create', 'mount', 'set-domains'];
 
     if (!alloweds.includes(main)) {
-      console.log('Enter one of the following commands: "create", "mount", "set domains"');
+      console.log(
+        'Enter one of the following commands: "create", "mount", "set domains"'
+      );
       return;
     }
 

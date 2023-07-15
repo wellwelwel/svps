@@ -38,7 +38,11 @@ export default (VPS: ACCESS) => {
 
   if (steps.desktop) {
     /* Open port to RDP */
-    Object.assign(commands, [...commands, 'ufw allow from any to any port 3389 proto tcp', 'ufw reload']);
+    Object.assign(commands, [
+      ...commands,
+      'ufw allow from any to any port 3389 proto tcp',
+      'ufw reload',
+    ]);
   }
 
   commands.push('echo "y" | ufw enable');

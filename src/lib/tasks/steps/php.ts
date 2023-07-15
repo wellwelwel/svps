@@ -32,7 +32,8 @@ export default () => {
     `apt-get install -y php${version}`,
   ];
 
-  if (php.modules.length > 0) commands.push(`apt-get install -y php${version}-{${modules.join(',')}}`);
+  if (php.modules.length > 0)
+    commands.push(`apt-get install -y php${version}-{${modules.join(',')}}`);
 
   if (php.composer) {
     Object.assign(commands, [
@@ -47,7 +48,9 @@ export default () => {
   Object.assign(commands, [
     ...commands,
     ...[
-      `echo ${escapeQuotes(fs.readFileSync(normalize(php_ini), 'utf-8'))} | cat > /etc/php/${version}/cli/php.ini`,
+      `echo ${escapeQuotes(
+        fs.readFileSync(normalize(php_ini), 'utf-8')
+      )} | cat > /etc/php/${version}/cli/php.ini`,
       'systemctl restart apache2',
       sh.done,
     ],

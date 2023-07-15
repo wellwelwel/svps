@@ -9,14 +9,27 @@ export const certificate: REQUIRED_CERTIFICATE | null = (() => {
   const emptyString = "''";
 
   return {
-    days: certificate && typeof certificate?.days === 'number' ? certificate.days : 365,
-    rsa: certificate && typeof certificate?.rsa === 'number' ? certificate.rsa : 4096,
+    days:
+      certificate && typeof certificate?.days === 'number'
+        ? certificate.days
+        : 365,
+    rsa:
+      certificate && typeof certificate?.rsa === 'number'
+        ? certificate.rsa
+        : 4096,
     fields: {
       country:
-        certificate && typeof certificate?.fields?.country === 'string' ? certificate.fields.country : emptyString,
-      state: certificate && typeof certificate?.fields?.state === 'string' ? certificate.fields.state : emptyString,
+        certificate && typeof certificate?.fields?.country === 'string'
+          ? certificate.fields.country
+          : emptyString,
+      state:
+        certificate && typeof certificate?.fields?.state === 'string'
+          ? certificate.fields.state
+          : emptyString,
       location:
-        certificate && typeof certificate?.fields?.location === 'string' ? certificate.fields.location : emptyString,
+        certificate && typeof certificate?.fields?.location === 'string'
+          ? certificate.fields.location
+          : emptyString,
       organization:
         certificate && typeof certificate?.fields?.organization === 'string'
           ? certificate.fields.organization
@@ -30,6 +43,9 @@ export const certificate: REQUIRED_CERTIFICATE | null = (() => {
           ? certificate.fields.commonName
           : emptyString,
     },
-    output: certificate && typeof certificate?.output === 'string' ? certificate.output : '/etc/ssl/private/cert.pem',
+    output:
+      certificate && typeof certificate?.output === 'string'
+        ? certificate.output
+        : '/etc/ssl/private/cert.pem',
   };
 })();

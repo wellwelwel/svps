@@ -34,9 +34,6 @@ jobs:
       - name: 📦 Installing Dependencies
         run: npm ci
 
-      - name: ⚙️ Testing Services - Install
-        run: npm run tests:install
-
       - name: 🧪 Testing Services - Create
         run: npm run tests:create
 

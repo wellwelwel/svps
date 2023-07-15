@@ -6,7 +6,10 @@ export const php: Required<PHP> | null = (() => {
   if (!steps.php || !input?.php || typeof input?.php !== 'object') return null;
 
   return {
-    version: input?.php && typeof input.php?.version === 'number' ? input.php.version : 8.2,
+    version:
+      input?.php && typeof input.php?.version === 'number'
+        ? input.php.version
+        : 8.2,
     modules:
       input?.php && Array.isArray(input.php?.modules)
         ? input.php.modules
@@ -34,6 +37,9 @@ export const php: Required<PHP> | null = (() => {
             'xsl',
             'zip',
           ],
-    composer: input?.php && typeof input.php?.composer === 'boolean' ? input.php.composer : true,
+    composer:
+      input?.php && typeof input.php?.composer === 'boolean'
+        ? input.php.composer
+        : true,
   };
 })();

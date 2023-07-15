@@ -4,13 +4,13 @@
   "main": "./lib/index.js",
   "type": "module",
   "dependencies": {
-    "@types/ssh2": "^1.11.12",
+    "@types/ssh2": "^1.11.13",
     "ssh2": "^1.14.0"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.61.0",
-    "@typescript-eslint/parser": "^5.61.0",
-    "eslint": "^8.44.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.45.0",
     "eslint-import-resolver-typescript": "^3.5.5",
     "eslint-plugin-import": "^2.27.5",
     "packages-update": "^1.2.1",
@@ -27,19 +27,24 @@
     "major": "npm run update; npm audit fix; npm version major --no-git-tag-version;",
     "update": "npx npu; npm i --ignore-scripts;",
     "eslint:checker": "npx eslint . --ext .js,.ts",
+    "eslint:fix": "npx eslint . --fix",
     "prettier:checker": "npx prettier --check .",
+    "prettier:fix": "npx prettier --write .github/workflows/*.yml .github/assets/.svpsrc.js/*.js examples/.svpsrc.js/*.ts *.md",
     "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
     "docker:run": "docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest",
     "tests:docker": "npm run docker:reset; npm run docker:run",
-    "pretests:install": "rm -rf ./tests; npm run build; npm i",
-    "tests:install": "mkdir -p ./tests && cd ./tests && echo '{\"type\": \"module\"}' | cat > ./package.json && npm i file:../",
+    "pretests:create": "mkdir -p ./tests && cd ./tests && echo '{}' | cat > ./package.json && npm i file:../",
     "tests:create": "cd ./tests && npx svps create",
-    "posttests:create": "cp -f .svpsrc.example.js ./tests/.svpsrc.js && sed -i \"s/\\(password: 'root'\\,\\)/& port: 2222,/\" ./tests/.svpsrc.js",
-    "pretests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|docker|php|node|mysql|crontab)/ s/true/false/' ./tests/.svpsrc.js",
-    "tests:connection": "cd ./tests && npx svps mount",
-    "posttests:connection": "sed -i -E '/(repare|apt|firewall|users|certificate|apache|php|node|mysql|crontab)/ s/false/true/' ./tests/.svpsrc.js",
+    "pretests:connection": "rm -rf ./tests/.svpsrc.js; cp ./.github/assets/.svpsrc.js/basic-connection.js ./tests/.svpsrc.js",
+    "tests:connection": "cd ./tests &&  npx svps mount",
+    "pretests:desktop": "rm -rf ./tests/.svpsrc.js; cp ./.github/assets/.svpsrc.js/desktop.js ./tests/.svpsrc.js",
+    "tests:desktop": "cd ./tests &&  npx svps mount",
+    "pretests:mount": "rm -rf ./tests/.svpsrc.js; cp ./.github/assets/.svpsrc.js/mount.js ./tests/.svpsrc.js",
     "tests:mount": "cd ./tests && npx svps mount",
-    "tests:reset": "npm run docker:reset; rm -rf ./tests"
+    "tests:reset": "npm run docker:reset; rm -rf ./tests",
+    "pretests": "rm -rf ./tests;",
+    "tests": "npm run tests:docker && npm run tests:create && npm run tests:connection && npm run tests:mount && npm run tests:reset",
+    "posttests": "rm -rf ./tests;"
   },
   "author": "https://github.com/wellwelwel",
   "license": "MIT",
@@ -55,14 +60,11 @@
   "bugs": {
     "url": "https://github.com/wellwelwel/svps/issues"
   },
-  "overrides": {
-    "semver": "^7.5.3"
-  },
   "homepage": "https://github.com/wellwelwel/svps#readme",
   "keywords": [
     "apache",
     "cli",
-    "cronjobs",
+    "cronjob",
     "crontab",
     "ufw",
     "sftp",
@@ -72,11 +74,13 @@
     "ssh",
     "ssh2",
     "ubuntu",
-    "virtualhost",
+    "virtual-host",
     "vps",
     "vps-setup",
     "vps-desktop",
+    "rdp",
     "remote-desktop",
+    "remote-desktop-protocol",
     "docker"
   ],
   "files": [

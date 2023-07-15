@@ -10,16 +10,22 @@ import { domains as domainsFile } from '../modules/configs/domains.js';
 import { verbose } from '../modules/configs/verbose.js';
 import { APACHE as I_APACHE } from '../types/apache.js';
 
-console.log(`${sh.startTitle}Setting up domains in "${domainsFile}"${sh.endTitle}\n`);
+console.log(
+  `${sh.startTitle}Setting up domains in "${domainsFile}"${sh.endTitle}\n`
+);
 
 const apache = APACHE as Required<I_APACHE>;
-const fileNormalize = (path: string) => fs.readFileSync(normalize(path), 'utf-8');
+const fileNormalize = (path: string) =>
+  fs.readFileSync(normalize(path), 'utf-8');
 
 try {
   const vh_path = '/resources/apache/virtual-host/';
-  const list_domains: string[] = JSON.parse(fs.readFileSync(domainsFile, 'utf-8'));
+  const list_domains: string[] = JSON.parse(
+    fs.readFileSync(domainsFile, 'utf-8')
+  );
 
-  if (!list_domains || list_domains.length <= 0) throw `Failed to find ${domainsFile}`;
+  if (!list_domains || list_domains.length <= 0)
+    throw `Failed to find ${domainsFile}`;
 
   const domains = [...new Set(list_domains)];
   const commands: string[] = [];
@@ -32,16 +38,22 @@ try {
     const default_file = fileNormalize(apache.defaultPage);
 
     const virtual_host = () =>
-      fileNormalize(`${__dirname}${vh_path}${isProxy ? 'proxy.conf' : 'vh.conf'}`)
+      fileNormalize(
+        `${__dirname}${vh_path}${isProxy ? 'proxy.conf' : 'vh.conf'}`
+      )
         .replace(/{!DOMAIN}/gm, domain)
         .replace(/{!PORT}/gm, port);
 
     Object.assign(commands, [
       ...commands,
       `if ! ls /var/www/${domain}/public_html &> /dev/null; then mkdir -p /var/www/${domain}/public_html; fi`,
-      `if ! ls /var/www/${domain}/public_html/${basename(apache.defaultPage)} &> /dev/null; then echo ${escapeQuotes(
+      `if ! ls /var/www/${domain}/public_html/${basename(
+        apache.defaultPage
+      )} &> /dev/null; then echo ${escapeQuotes(
         default_file
-      )} | cat > /var/www/${domain}/public_html/${basename(apache.defaultPage)}; fi`,
+      )} | cat > /var/www/${domain}/public_html/${basename(
+        apache.defaultPage
+      )}; fi`,
       `if ! ls /etc/apache2/sites-available/${domain}.conf &> /dev/null; then echo ${escapeQuotes(
         virtual_host()
       )} | cat > /etc/apache2/sites-available/${domain}.conf; fi`,
@@ -50,7 +62,9 @@ try {
 
     if (apache.www) {
       const virtual_host_www = () =>
-        fileNormalize(`${__dirname}${vh_path}${isProxy ? 'proxy-www.conf' : 'vh-www.conf'}`)
+        fileNormalize(
+          `${__dirname}${vh_path}${isProxy ? 'proxy-www.conf' : 'vh-www.conf'}`
+        )
           .replace(/{!DOMAIN}/gm, domain)
           .replace(/{!PORT}/gm, port);
 
@@ -68,7 +82,10 @@ try {
     if (!isProxy) continue;
 
     /* Creates app.js */
-    const app_js = fileNormalize(`${__dirname}/resources/node/app.js`).replace(/'{!PORT}'/gm, port);
+    const app_js = fileNormalize(`${__dirname}/resources/node/app.js`).replace(
+      /'{!PORT}'/gm,
+      port
+    );
     const pm2Start = `pm2 start -f /var/www/${domain}/app.js --name ${domain} --watch --ignore-watch="node_modules"`;
 
     Object.assign(commands, [

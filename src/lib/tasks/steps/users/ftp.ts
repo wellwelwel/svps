@@ -12,7 +12,11 @@ export const setFTP = (user: REQUIRED_USER) => {
     .replace(/{!PATH}/gm, user.ftp.directory)
     .replace(/{!MASK}/gm, user.ftp.mask);
 
-  const commands: string[] = [`echo ${escapeQuotes(user_conf)} | cat > /etc/vsftpd/user_config_dir/${user.name}`];
+  const commands: string[] = [
+    `echo ${escapeQuotes(user_conf)} | cat > /etc/vsftpd/user_config_dir/${
+      user.name
+    }`,
+  ];
 
   commands.push(`echo "${user.name}" | tee -a /etc/vsftpd.userlist`);
 

@@ -25,7 +25,8 @@ export default () => {
       ]);
     }
 
-  if (node.packages.includes('pm2')) commands.push('--catch echo "\n"; pm2 startup');
+  if (node.packages.includes('pm2'))
+    commands.push('--catch echo "\n"; pm2 startup');
 
   Object.assign(commands, [...commands, 'npm audit fix', sh.done]);
 
