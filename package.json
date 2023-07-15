@@ -31,7 +31,7 @@
     "prettier:checker": "npx prettier --check .",
     "prettier:fix": "npx prettier --write .github/workflows/*.yml .github/assets/.svpsrc.js/*.js examples/.svpsrc.js/*.ts *.md",
     "docker:reset": "docker rm --force test-vps >/dev/null 2>&1 || true",
-    "docker:run": "docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest",
+    "docker:run": "docker run -d --name test-vps --privileged -p ${PORT:-22}:${PORT:-22} -e PORT=${PORT:-22} --restart always wellwelwel/vps:latest",
     "tests:docker": "npm run docker:reset; npm run docker:run",
     "pretests:create": "mkdir -p ./tests && cd ./tests && echo '{}' | cat > ./package.json && npm i file:../",
     "tests:create": "cd ./tests && npx svps create",

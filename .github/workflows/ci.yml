@@ -3,6 +3,10 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+env:
+  USER: ${{ secrets.USER }}
+  PASS: ${{ secrets.PASS }}
+  PORT: ${{ secrets.PORT }}
 jobs:
   latest:
     name: Ubuntu Latest
@@ -29,7 +33,7 @@ jobs:
           restore-keys: npm-
 
       - name: 🏠 Create a local VPS using Docker Container
-        run: docker run -d --name test-vps --privileged -p 2222:2222 -e PORT=2222 --restart always wellwelwel/vps:latest
+        run: npm run docker:run
 
       - name: 📦 Installing Dependencies
         run: npm ci

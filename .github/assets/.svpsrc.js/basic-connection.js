@@ -3,10 +3,10 @@ import { defineConfig } from 'svps';
 export default defineConfig({
   access: [
     {
-      host: '127.0.0.1',
-      username: 'root',
-      password: 'root',
-      port: 2222,
+      host: process.env?.HOST || '127.0.0.1',
+      username: process.env.USER,
+      password: process.env.PASS,
+      port: Number(process.env.PORT) || 22,
     },
   ],
 });
