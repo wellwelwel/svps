@@ -78,12 +78,12 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 - [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/sftp/)
 - [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/ftp/)
 - [**RSA** Certificate](./examples/rsa/)
-- **Docker**
+- [**Docker**](./src/lib/tasks/steps/docker.ts)
   - Required to use [**Virtual Hosts**](#adding-virtal-hosts)
 - [**PHP**](./examples/php/)
 - [**Node.js**](./examples/node/)
 - [**MySQL**](./examples/mysql/)
-- Crontabs
+- [**Crontab**](./examples/crontab/)
 - [Remote Desktop Protocol (**RDP**)](./examples/desktop/)
 
 > See some practical [examples](./examples/).

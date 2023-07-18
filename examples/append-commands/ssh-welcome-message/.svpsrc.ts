@@ -9,7 +9,11 @@
 
 // @ts-check
 // import { defineConfig } from 'svps';
-import { defineConfig } from '../../lib/index.js';
+import { defineConfig, escapeQuotes } from '../../../lib/index.js';
+import fs from 'fs';
+
+const bashrc = fs.readFileSync('./my-bashrc.sh', 'utf-8');
+const quotedBashrc = escapeQuotes(bashrc);
 
 export default defineConfig({
   access: [
@@ -19,19 +23,11 @@ export default defineConfig({
       password: process.env.PASS,
     },
   ],
-  users: [
-    {
-      name: 'support',
-      password: String(process.env.SUPPORT_PASS),
-      sftp: {
-        /** default options */
-        mask: '077',
-        chRoot: '/home',
-        chUser: '/home/support',
-      },
-    },
-  ],
   steps: {
-    users: true,
+    appendCommands: true,
   },
+  /**
+   * Your personal `sh` commands will be executed after all enabled steps and before rebooting, case enabled
+   */
+  appendCommands: () => [`echo ${quotedBashrc} | cat > ~/.bashrc`],
 });

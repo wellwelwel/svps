@@ -1,4 +1,6 @@
 /**
+ * Use this file as `.svpsrc.js` 🧙🏻
+ *
  * Using a Docker Container to create a local VPS with RDP:
  * docker run -d --privileged -p 22:22 -p 3389:3389 --restart always wellwelwel/vps:latest
  *
@@ -18,10 +20,6 @@ export default defineConfig({
     },
   ],
   steps: {
-    repare: true,
-    apt: true,
-    firewall: true,
     desktop: true,
-    reboot: true,
   },
 });

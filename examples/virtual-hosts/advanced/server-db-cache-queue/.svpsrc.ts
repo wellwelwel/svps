@@ -1,4 +1,6 @@
 /**
+ * Use this file as `.svpsrc.js` 🧙🏻
+ *
  * Advanced Usage Limitations:
  *
  * - Requires Docker and Docker Compose knowledge
@@ -22,7 +24,7 @@ export default defineConfig({
       domain: 'site.com',
       port: 5000,
       www: true,
-      // This will compact every content into `compose.path` and send it to VPS on `/var/www/${domain}/`
+      // It will upload all local contents from **Docker Compose** file root via `SFTP` to this domain path: `/var/www/${domain}/`.
       compose: './docker-compose.yml',
     },
   ],

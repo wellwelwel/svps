@@ -1,4 +1,6 @@
 /**
+ * Use this file as `.svpsrc.js` 🧙🏻
+ *
  * Basic Usage Limitations:
  *
  * - The Basic Virtual Hosts can't access each other (for example, to use them like an API)
@@ -10,12 +12,19 @@
  *
  * ---
  *
- * Accessing your database from PHP:
+ * Accessing your database from Node.js:
  *
- * HOST: db_{domain} (ex.: db_site.com)
- * USER: root (always)
- * PORT: 3306 (always)
- * Then, your database name and password 🧙🏻
+ *  HOST: db_{domain} (ex.: db_site.com)
+ *  USER: root
+ *  PORT: 3306 (always)
+ *  Then, your database name and password 🔓
+ *
+ * Accessing your database externally:
+ *
+ *  HOST: {vps_host} (or "localhost" for use it on VPS itself)
+ *  USER: root
+ *  PORT: {exposed_port} (ex. 5001)
+ *  Then, your database name and password 🔓
  */
 
 // @ts-check

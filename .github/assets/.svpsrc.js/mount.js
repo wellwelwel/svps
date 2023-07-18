@@ -61,6 +61,10 @@ export default defineConfig({
     composer: true,
     version: 8.2,
   },
+  crontab: {
+    path: '../examples/crontab/crontab.sh',
+    append: false,
+  },
   steps: {
     repare: true,
     apt: true,
@@ -76,5 +80,5 @@ export default defineConfig({
     appendCommands: true,
     reboot: true,
   },
-  appendCommands: async () => ['echo "\n🍃 („• ᴗ •„) 🌸\n"'],
+  appendCommands: async () => ['crontab -l'],
 });

@@ -1,4 +1,6 @@
 /**
+ * Use this file as `.svpsrc.js` 🧙🏻
+ *
  * Using a Docker Container to create a local VPS:
  * docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
  *
@@ -33,11 +35,7 @@ export default defineConfig({
     packages: ['yarn'],
   },
   steps: {
-    repare: true,
-    apt: true,
-    firewall: true,
     users: true,
     node: true,
-    reboot: true,
   },
 });

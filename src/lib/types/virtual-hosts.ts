@@ -13,7 +13,7 @@ export interface VirtualHostDefaults {
   type: 'basic' | 'advanced';
   /** Ex.: `site.com` */
   domain: string;
-  /** Local Port fot this domain that will be exposed by Docker */
+  /** Local Port for this domain that will be exposed by Docker */
   port: number;
   /** Set `true` to create a "www" CNAME */
   www?: boolean;
@@ -59,7 +59,7 @@ export interface BasicVirtualHost extends VirtualHostDefaults {
   mysql?: {
     database: string;
     password: string;
-    /** For external access, you can expose your database, then access it using your **VPS** host and the exposed port */
+    /** For external access, you can expose your database by proxying the default port `3306`, then access it using your **VPS** host and the exposed port */
     expose?: number;
   };
 }

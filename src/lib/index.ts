@@ -82,7 +82,17 @@ export interface svpsOptions {
    * default: `false`
    */
   verbose?: VERBOSE;
-  /** Use with `npx svps set domains` command */
+  /**
+   * The **`virtualHosts`** is used with `npx svps set domains`.
+   *
+   * It requires these steps from `npx svps mount`:
+   * - repare
+   * - apt
+   * - firewall (optional)
+   * - apache
+   * - docker
+   * - reboot
+   */
   virtualHosts?: VIRTUAL_HOST[];
 }
 

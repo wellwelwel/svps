@@ -12,7 +12,7 @@ export default () => [
   'apt-get clean',
   'apt-get update --fix-missing',
   'apt-get install -f -y',
-  'apt-get install -y apt-utils coreutils sysvinit-utils systemd systemd-sysv software-properties-common build-essential gcc g++ make dialog zip gzip tar unzip acl curl wget --no-install-recommends --no-install-suggests ssh',
+  'apt-get install -y apt-utils coreutils sysvinit-utils systemd systemd-sysv software-properties-common build-essential gcc g++ make dialog zip gzip tar unzip acl curl cron wget --no-install-recommends --no-install-suggests ssh',
   'apt-get install -y zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev',
   'if dpkg -s python3-jwt >/dev/null 2>&1; then apt-get purge --autoremove -y python3-jwt; fi',
   'if dpkg -s python3-urllib3 >/dev/null 2>&1; then apt-get purge --autoremove -y python3-urllib3; fi',

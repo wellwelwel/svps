@@ -1,4 +1,6 @@
 /**
+ * Use this file as `.svpsrc.js` 🧙🏻
+ *
  * Using a Docker Container to create a local VPS:
  * docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
  *
@@ -17,11 +19,10 @@ export default defineConfig({
       password: process.env.PASS,
     },
   ],
-  /**
-   * Your personal `sh` commands will be executed after all enabled steps and before rebooting, case enabled
-   */
-  appendCommands: () => ['echo "\n🍃 („• ᴗ •„) 🌸\n"'],
+  crontab: {
+    path: './crontab.sh',
+  },
   steps: {
-    appendCommands: true,
+    crontab: true,
   },
 });
