@@ -74,7 +74,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 #### Available auto-installation:
 
 - [Firewall (`ufw`)](./src/lib/tasks/steps/firewall.ts)
-  - This will activate the **SSH** port according to the entered in _.svpsrc.js_ or the `22` by default
+  - This will activate the **SSH** port according to the entered in _.svpsrc.js_ or `22` by default
 - [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/sftp/)
 - [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/ftp/)
 - [**RSA** Certificate](./examples/rsa/)
