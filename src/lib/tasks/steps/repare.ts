@@ -3,7 +3,7 @@ import sh from '../../modules/sh.js';
 export default () => [
   `echo "${sh.startTitle}Repairing common Ubuntu errors${sh.endTitle}"`,
 
-  /** Resolving `apt` conflicts */
+  /** Resolving `dpkg` and `apt` conflicts */
   'rm -rf /var/lib/apt/lists/lock',
   'rm -rf /var/lib/dpkg/lock',
   'rm -rf /var/lib/dpkg/lock-frontend',
@@ -25,16 +25,16 @@ export default () => [
   /** Installing essential libs */
   'apt-get install -y zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev',
 
-  /** Fixing CVE-2022-39227 vunerability */
+  /** Fixing CVE-2022-39227 vulnerability */
   'if dpkg -s python3-jwt >/dev/null 2>&1; then apt-get purge --autoremove -y python3-jwt; fi',
 
-  /** Fixing CVE-2021-33503 vunerability */
+  /** Fixing CVE-2021-33503 vulnerability */
   'if dpkg -s python3-urllib3 >/dev/null 2>&1; then apt-get purge --autoremove -y python3-urllib3; fi',
 
-  /** Fixing CVE-2018-18074 vunerability */
+  /** Fixing CVE-2018-18074 vulnerability */
   'if dpkg -s requests >/dev/null 2>&1; then apt-get purge --autoremove -y requests; fi',
 
-  /** Fixing CVE-2022-23491 vunerability */
+  /** Fixing CVE-2022-23491 vulnerability */
   'if dpkg -s certifi >/dev/null 2>&1; then apt-get purge --autoremove -y certifi; fi',
 
   /** Releasing the `dpkg` and `apt` */

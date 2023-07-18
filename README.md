@@ -92,7 +92,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 - **All steps are optional:** You can enable or disable any step in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L29)
 - You are free to **disable all the steps** and **create your own modules of bash commands** 🤹🏻‍♀️
-  - See `appendCommands` in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L45) and an example [here](./examples/append-commands/ssh-welcome-message/)
+  - See `appendCommands` in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L45) and an example [here](./examples/append-commands/)
 - The entire remote process is displayed on console in real time
 - Find all commands behind **SVPS** in [_src/lib/tasks/steps_](./src/lib/tasks/steps/)
 - This may take a long time depending on your **VPS** plan
