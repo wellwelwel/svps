@@ -5,6 +5,7 @@
  * Or just put your own VPS access to test
  */
 
+// @ts-check
 // import { defineConfig } from 'svps';
 import { defineConfig } from '../../lib/index.js';
 
@@ -12,8 +13,8 @@ export default defineConfig({
   access: [
     {
       host: '127.0.0.1',
-      username: 'root',
-      password: 'root',
+      username: String(process.env.USER),
+      password: process.env.PASS,
     },
   ],
   certificate: {

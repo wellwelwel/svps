@@ -8,5 +8,10 @@
     "source.fixAll": true,
     "source.fixAll.eslint": true
   },
-  "eslint.validate": ["ts", "js"]
+  "eslint.validate": ["ts", "js"],
+  "files.exclude": {
+    "node_modules": true,
+    "lib": true,
+    "bin": true
+  }
 }

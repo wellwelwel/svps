@@ -11,24 +11,20 @@ export default defineConfig({
   ],
   users: [
     {
-        name: '',
-        password: '',
-        sudo: false,
-        sftp: true,
+      name: '',
+      password: '',
+      sudo: false,
+      sftp: true,
     },
   ],
   apache: {},
   php: {},
   node: {},
   mysql: {
-  root: {
-    pass: '',
-  },
-  users: [],
-  },
-    domains: './svps/domains.json',
-  crontab: {
-    path: './svps/cronjobs.sh',
+    root: {
+      pass: '',
+    },
+    users: [],
   },
   steps: {
     repare: true,

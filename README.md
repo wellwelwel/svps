@@ -51,7 +51,7 @@ This will create the default configuration file:
 
 Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your **SSH** access and your settings
 
-- You can see some practical examples of _.svpsrc.js_ usage [here](./examples/.svpsrc.js/).
+- You can see some practical examples of _.svpsrc.js_ usage [here](./examples/).
 
 ---
 
@@ -67,7 +67,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 - [Run common **apt** commands](./src/lib/tasks/steps/apt.ts)
 - [Set the most common **Firewall** settings](./src/lib/tasks/steps/firewall.ts)
 - [Create users](./src/lib/tasks/steps/users/)
-- Execute your [personal **bash commands**](./examples/.svpsrc.js/appendCommands.ts)
+- Execute your [personal **bash commands**](./examples/append-commands/)
 - [Restarts the **VPS**](./src/lib/tasks/steps/reboot.ts)
 - Reruns common [**repare**](./src/lib/tasks/steps/repare.ts) and [**apt**](./src/lib/tasks/steps/apt.ts) commands
 
@@ -75,18 +75,18 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 - [Firewall (`ufw`)](./src/lib/tasks/steps/firewall.ts)
   - This will activate the **SSH** port according to the entered in _.svpsrc.js_ or the `22` by default
-- [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/.svpsrc.js/sftp.ts)
-- [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/.svpsrc.js/ftp.ts)
-- [**RSA** Certificate](./examples/.svpsrc.js/rsa.ts)
+- [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/sftp/)
+- [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/ftp/)
+- [**RSA** Certificate](./examples/rsa/)
 - **Docker**
   - Required to use [**Virtual Hosts**](#adding-virtal-hosts)
-- [**PHP**](./examples/.svpsrc.js/php.ts)
-- [**Node.js**](./examples/.svpsrc.js/node.ts)
-- [**MySQL**](./examples/.svpsrc.js/mysql.ts)
+- [**PHP**](./examples/php/)
+- [**Node.js**](./examples/node/)
+- [**MySQL**](./examples/mysql/)
 - Crontabs
-- [Remote Desktop Protocol (**RDP**)](./examples/.svpsrc.js/desktop.ts)
+- [Remote Desktop Protocol (**RDP**)](./examples/desktop/)
 
-> See some practical [examples](./examples/.svpsrc.js/).
+> See some practical [examples](./examples/).
 
 #### Notes:
 
@@ -108,7 +108,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 - If you are using a **container**, remember to expose the port `3389`
 - To access use your credentials in a Remote Desktop Software
 
-> See a practical [example](./examples/.svpsrc.js/desktop.ts) using a **Docker** container.
+> See a practical [example](./examples/desktop/) using a **Docker** container.
 
 ---
 

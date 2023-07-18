@@ -29,21 +29,7 @@ import { buildJSON, readJSON } from '../modules/json.js';
       from: '.svpsrc.js',
       to: '.svpsrc.js',
     },
-    {
-      from: '.cronjobs.sh',
-      to: 'svps/cronjobs.sh',
-    },
-    {
-      from: '.domains.json',
-      to: 'svps/domains.json',
-    },
-    {
-      from: '.default.html',
-      to: 'svps/index.html',
-    },
   ];
-
-  if (!fs.existsSync('svps')) fs.mkdirSync('svps');
 
   for (const resource of resources) {
     const { from, to } = resource;

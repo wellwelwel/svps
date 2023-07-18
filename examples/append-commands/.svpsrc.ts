@@ -5,6 +5,7 @@
  * Or just put your own VPS access to test
  */
 
+// @ts-check
 // import { defineConfig } from 'svps';
 import { defineConfig } from '../../lib/index.js';
 
@@ -12,24 +13,15 @@ export default defineConfig({
   access: [
     {
       host: '127.0.0.1',
-      username: 'root',
-      password: 'root',
+      username: String(process.env.USER),
+      password: process.env.PASS,
     },
   ],
-  users: [
-    {
-      name: 'support',
-      password: '1234',
-      sftp: {
-        /** default options */
-        mask: '077',
-        chRoot: '/home',
-        chUser: '/home/support',
-      },
-    },
-  ],
+  /**
+   * Your personal `sh` commands will be executed after all enabled steps and before rebooting, case enabled
+   */
+  appendCommands: () => ['echo "\n🍃 („• ᴗ •„) 🌸\n"'],
   steps: {
-    firewall: true,
-    users: true,
+    appendCommands: true,
   },
 });

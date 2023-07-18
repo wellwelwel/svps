@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
-import escapeQuotes from '../../modules/escape-quotes.js';
+import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { php } from '../../modules/configs/php.js';
 import { __dirname } from '../../modules/root.js';
 

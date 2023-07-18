@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
-import escapeQuotes from '../../modules/escape-quotes.js';
+import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { crontab } from '../../modules/configs/crontab.js';
 import { steps } from '../../modules/configs/steps.js';
 import { ACCESS } from '../../types/acess.js';

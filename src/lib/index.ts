@@ -10,6 +10,23 @@ import { PHP } from './types/php.js';
 import { STEPS } from './types/steps.js';
 import { USER } from './types/users.js';
 import { VERBOSE } from './types/verbose.js';
+import { VIRTUAL_HOST } from './types/virtual-hosts.js';
+
+/* eslint-disable no-duplicate-imports */
+export type { ACCESS as Access } from './types/acess.js';
+export type { APACHE as Apache } from './types/apache.js';
+export type { APPEND_COMMANDS as AppendCommands } from './types/append-commands.js';
+export type { CERTIFICATE as Certificate } from './types/certificate.js';
+export type { CRONTAB as Crontab } from './types/crontab.js';
+export type { DOMAINS as Domains } from './types/domains.js';
+export type { MYSQL as MySQL } from './types/mysql.js';
+export type { NODE as Node } from './types/node.js';
+export type { PHP } from './types/php.js';
+export type { STEPS as Steps } from './types/steps.js';
+export type { USER as User } from './types/users.js';
+export type { VERBOSE as Verbose } from './types/verbose.js';
+export type { VIRTUAL_HOST as VirtualHost } from './types/virtual-hosts.js';
+/* eslint-enable no-duplicate-imports */
 
 export interface svpsOptions {
   /** Set the SSH access for one or more VPS */
@@ -58,13 +75,15 @@ export interface svpsOptions {
   /** Enable or disable the steps */
   steps?: STEPS;
   /**
-   * Set "true" to see all commands in console
+   * Set `true` to see all commands in console
    *
-   * Becareful, this will **display the passwords**
+   * Becareful, this will **display the passwords** on your console
    *
    * default: `false`
    */
   verbose?: VERBOSE;
+  /** Use with `npx svps set domains` command */
+  virtualHosts?: VIRTUAL_HOST[];
 }
 
 /**
@@ -72,3 +91,5 @@ export interface svpsOptions {
  * @param options
  */
 export const defineConfig = (options: svpsOptions): svpsOptions => options;
+
+export { escapeQuotes } from './modules/escape-quotes.js';

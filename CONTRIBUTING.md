@@ -13,7 +13,7 @@ I assume you already have these tools installed on your system:
 
 ---
 
-### Testing
+## Testing
 
 The tests are dynamic and can be easily run by performing:
 
@@ -33,8 +33,8 @@ npm run tests:reset
 
 ## Issues and Pull Requests
 
-By opening an **Issue** or submit a **Pull Request**, describe your problem or solution. If you can share a basic repro, it will great.
+By opening an **Issue** or submit a **Pull Request**, describe your problem or solution. If you can share a basic repro, it will be great.
 
 If you added a feature, make sure you set this feature step as `true` in [_.github/assets/.svpsrc.js/mount.js_](./.github/assets/.svpsrc.js/mount.js).
 
-> Naturally, please, be respectful 🙋🏻‍♂️
+> Naturally, please **be respectful** 🙋🏻‍♂️

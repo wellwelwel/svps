@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { normalize } from 'path';
-import escapeQuotes from '../../../modules/escape-quotes.js';
+import { escapeQuotes } from '../../../modules/escape-quotes.js';
 import { certificate } from '../../../modules/configs/certificate.js';
 import sh from '../../../modules/sh.js';
 import { users } from '../../../modules/configs/users.js';

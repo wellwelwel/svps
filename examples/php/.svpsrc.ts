@@ -5,6 +5,7 @@
  * Or just put your own VPS access to test
  */
 
+// @ts-check
 // import { defineConfig } from 'svps';
 import { defineConfig } from '../../lib/index.js';
 
@@ -12,25 +13,36 @@ export default defineConfig({
   access: [
     {
       host: '127.0.0.1',
-      username: 'root',
-      password: 'root',
+      username: String(process.env.USER),
+      password: process.env.PASS,
     },
   ],
-  mysql: {
-    root: {
-      pass: 'root',
+  users: [
+    {
+      name: 'manager',
+      password: String(process.env.MANAGER_PASS),
+      sftp: {
+        chRoot: '/var/www',
+        chUser: '/var/www/domains',
+        mask: '022',
+      },
+      groups: ['www-data'],
     },
-    databases: ['mydb'],
-    users: [
-      { host: '127.0.0.1', name: 'local_user', pass: '1234' },
-      { host: '192.168.0.1', name: 'external_user', pass: '1234' },
-    ],
+  ],
+  apache: {
+    accessFromIP: false,
+  },
+  php: {
+    composer: true,
+    version: 8.2,
   },
   steps: {
     repare: true,
     apt: true,
     firewall: true,
-    mysql: true,
+    users: true,
+    apache: true,
+    php: true,
     reboot: true,
   },
 });

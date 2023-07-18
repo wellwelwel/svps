@@ -5,6 +5,7 @@
  * Or just put your own VPS access to test
  */
 
+// @ts-check
 // import { defineConfig } from 'svps';
 import { defineConfig } from '../../lib/index.js';
 

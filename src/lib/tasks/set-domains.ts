@@ -2,7 +2,7 @@ import fs from 'fs';
 import { normalize, basename } from 'path';
 import { connect, exec, end } from '../ssh.js';
 import { __dirname } from '../modules/root.js';
-import escapeQuotes from '../modules/escape-quotes.js';
+import { escapeQuotes } from '../modules/escape-quotes.js';
 import sh from '../modules/sh.js';
 import { access } from '../modules/configs/access.js';
 import { apache as APACHE } from '../modules/configs/apache.js';

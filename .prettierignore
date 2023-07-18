@@ -2,6 +2,5 @@ node_modules
 /bin
 /lib
 /tests
-/resources
+/resources/**/*.html
 package-lock.json
-!resources/local-module/.svpsrc.js
