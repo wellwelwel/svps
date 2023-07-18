@@ -90,9 +90,9 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 #### Notes:
 
-- **All steps are optional:** You can enable or disable any step in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L33)
+- **All steps are optional:** You can enable or disable any step in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L29)
 - You are free to **disable all the steps** and **create your own modules of bash commands** 🤹🏻‍♀️
-  - See `appendCommands` in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L49)
+  - See `appendCommands` in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L45) and an example [here](./examples/append-commands/ssh-welcome-message/)
 - The entire remote process is displayed on console in real time
 - Find all commands behind **SVPS** in [_src/lib/tasks/steps_](./src/lib/tasks/steps/)
 - This may take a long time depending on your **VPS** plan
@@ -101,7 +101,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 ### Turning VPS Server into Desktop Server (RDP)
 
-- In [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L45), set `steps.desktop` to `true`
+- In [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L41), set `steps.desktop` to `true`
   - It's recommended to enable the `repare`, `apt` and `reboot` steps when installing the desktop
   - It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
   - ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB)
