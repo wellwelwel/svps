@@ -127,10 +127,9 @@ export const createBasicContainer = (
   }
 
   /** Composing container */
-  Object.assign(commands, [
-    ...commands,
-    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`,
-  ]);
+  commands.push(
+    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`
+  );
 
   return commands;
 };
