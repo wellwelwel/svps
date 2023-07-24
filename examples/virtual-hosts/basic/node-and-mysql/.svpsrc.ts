@@ -41,16 +41,17 @@ export default defineConfig({
   ],
   virtualHosts: [
     {
-      type: 'basic',
-      language: 'NODE',
       domain: 'site.com',
       port: 5000,
-      mysql: {
-        database: 'myLocalDB',
-        password: '1234',
-        expose: 5001,
-      },
       www: true,
+      server: {
+        language: 'node',
+        mysql: {
+          database: 'myLocalDB',
+          password: '1234',
+          expose: 5001,
+        },
+      },
     },
   ],
 });

@@ -58,8 +58,4 @@ Header set X-Frame-Options DENY
 Header set X-Content-Type-Options "nosniff"
 Header set X-Content-Security-Policy "allow 'self';"
 Header set X-XSS-Protection "1; mode=block"
-php_flag display_startup_errors off
-php_flag display_errors off
-php_flag html_errors off
-php_value display_errors off
 ErrorDocument 403 /403.html

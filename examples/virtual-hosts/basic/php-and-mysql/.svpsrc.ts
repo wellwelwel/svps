@@ -42,24 +42,17 @@ export default defineConfig({
   virtualHosts: [
     /** PHP 8.2 */
     {
-      type: 'basic',
-      language: 'PHP 8',
       domain: 'site.com',
       port: 5000,
-      mysql: {
-        database: 'myLocalDB',
-        password: '1234',
-        expose: 5001,
-      },
       www: true,
-    },
-
-    /** PHP 7.4 */
-    {
-      type: 'basic',
-      language: 'PHP 7',
-      domain: 'admin.site.com',
-      port: 5002,
+      server: {
+        language: 'php',
+        mysql: {
+          database: 'myLocalDB',
+          password: '1234',
+          expose: 5001,
+        },
+      },
     },
   ],
 });

@@ -27,7 +27,7 @@ export default () => {
   const commands: string[] = [
     `echo "${sh.startTitle}Setting up PHP${sh.endTitle}"`,
     'apt-get update',
-    'apt-get -y install software-properties-common',
+    'apt-get -y install acl software-properties-common',
     'add-apt-repository ppa:ondrej/php',
     `apt-get install -y php${version}`,
   ];
@@ -51,6 +51,12 @@ export default () => {
       `echo ${escapeQuotes(
         fs.readFileSync(normalize(php_ini), 'utf-8')
       )} | cat > /etc/php/${version}/cli/php.ini`,
+      'find /var/www/ -type d -exec chmod 775 {} \\;',
+      'find /var/www/ -type f -exec chmod 664 {} \\;',
+      'setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',
+      'chown root:www-data /var/www',
+      'chmod 0755 /var/www',
+      'systemctl reload apache2',
       'systemctl restart apache2',
       sh.done,
     ],

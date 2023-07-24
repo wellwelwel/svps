@@ -34,7 +34,15 @@ try {
       `\x1b[22m\x1b[36m\x1b[1m⦿ ${host.username}@${host.host}\x1b[0m`
     );
 
-    const commands = [] as string[];
+    const commands = [
+      /** Resolving `dpkg` and `apt` */
+      'rm -rf /var/lib/apt/lists/lock',
+      'rm -rf /var/lib/dpkg/lock',
+      'rm -rf /var/lib/dpkg/lock-frontend',
+      'rm -rf /var/cache/apt/archives/lock',
+      'echo "Y" | dpkg --configure -a',
+      'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
+    ];
 
     steps.repare && Object.assign(commands, [...commands, ...repare()]);
     steps.apt && Object.assign(commands, [...commands, ...apt()]);

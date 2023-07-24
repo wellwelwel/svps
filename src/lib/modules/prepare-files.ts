@@ -1,4 +1,5 @@
-import fs from 'fs/promises';
+import fs from 'fs';
+import fsp from 'fs/promises';
 import { join } from 'path';
 
 const blackList = ['.DS_Store', 'node_modules', '.git'];
@@ -9,12 +10,12 @@ export interface Entries {
 }
 
 export const isDir = async (path: string): Promise<boolean> => {
-  const stats = await fs.stat(path);
+  const stats = await fsp.stat(path);
   return stats.isDirectory();
 };
 
 export const isFile = async (path: string): Promise<boolean> => {
-  const stats = await fs.stat(path);
+  const stats = await fsp.stat(path);
   return stats.isFile();
 };
 
@@ -25,7 +26,7 @@ export const getContents = async (dirPath: string): Promise<Entries> => {
   };
 
   const readDir = async (dir: string) => {
-    const entries = await fs.readdir(dir, { withFileTypes: true });
+    const entries = await fsp.readdir(dir, { withFileTypes: true });
 
     for (const entry of entries) {
       if (blackList.includes(entry.name)) continue;
@@ -45,3 +46,5 @@ export const getContents = async (dirPath: string): Promise<Entries> => {
 
   return results;
 };
+
+export const importFile = (path: string) => fs.readFileSync(path, 'utf-8');

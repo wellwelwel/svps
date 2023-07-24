@@ -1,20 +1,31 @@
+import { escapeQuotes } from '../../index.js';
+import { importFile } from '../../modules/prepare-files.js';
 import sh from '../../modules/sh.js';
+import { __dirname } from '../../modules/root.js';
+
+const getList = (version: string) => {
+  const header = `if [ "$(grep -E '^VERSION_ID="${version}"' /etc/os-release)" ]; then echo`;
+  const main = escapeQuotes(
+    importFile(`${__dirname}/resources/sources-list/${version}.list`)
+  );
+  const footer = `| cat > /etc/apt/sources.list; fi`;
+
+  return `${header} ${main} ${footer}`;
+};
 
 export default () => [
   `echo "${sh.startTitle}Repairing common Ubuntu errors${sh.endTitle}"`,
 
-  /** Resolving `dpkg` and `apt` conflicts */
-  'rm -rf /var/lib/apt/lists/lock',
-  'rm -rf /var/lib/dpkg/lock',
-  'rm -rf /var/lib/dpkg/lock-frontend',
-  'rm -rf /var/cache/apt/archives/lock',
-  'echo "Y" | dpkg --configure -a',
-
   /** Resolving `/tmp` permissions */
   'chmod 1777 /tmp',
 
+  /** Restoring default sources list */
+  getList('18.04'),
+  getList('20.04'),
+  getList('22.04'),
+  getList('23.04'),
+
   /** Installing missing packages */
-  'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
   'apt-get clean',
   'apt-get update --fix-missing',
   'apt-get install -f -y',

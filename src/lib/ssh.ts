@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Client, ConnectConfig } from 'ssh2';
-import { resolve as pathResolve } from 'path';
 import { ACCESS } from './types/acess.js';
 
 const ssh2 = new Client();
@@ -104,49 +103,6 @@ export const exec = (command: string, VPS?: ACCESS): Promise<true> =>
     }
   });
 
-export const ensureDir = (remotePath: string): Promise<true> =>
-  new Promise((resolve, reject) => {
-    try {
-      const path = remotePath?.trim() || '';
-
-      if (path.length > 0 && path !== '/')
-        exec(`mkdir -p ${path}`).then(() => resolve(true));
-    } catch (error) {
-      reject(error);
-    }
-  });
-
-/** Uses `SFTP` to upload a local file to remote server */
-export const uploadFile = (
-  localPath: string,
-  remotePath: string
-): Promise<true> =>
-  new Promise((resolve, reject) => {
-    try {
-      ssh2.sftp((err, sftp) => {
-        if (err) {
-          reject(
-            '\x1b[31m\x1b[1mFailed to upload the file:\x1b[0m\x1b[31m check your remote SFTP connection.\x1b[0m\nYou can add "\x1b[33mSubsystem       sftp    internal-sftp\x1b[0m" in "\x1b[1m\x1b[4m/etc/ssh/sshd_config\x1b[0m" and then run `\x1b[33msystemctl restart ssh\x1b[0m` to restart the ssh service.'
-          );
-          return;
-        }
-
-        const resolvedPath = pathResolve(localPath);
-
-        sftp.fastPut(resolvedPath, remotePath, (err) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          resolve(true);
-        });
-      });
-    } catch (error) {
-      reject(error);
-    }
-  });
-
 export const end = (): Promise<true> =>
   new Promise((resolve, reject) => {
     ssh2
@@ -156,3 +112,51 @@ export const end = (): Promise<true> =>
       .on('end', () => resolve(true))
       .end();
   });
+
+/* eslint-enable @typescript-eslint/no-explicit-any */
+
+/** Upload Files Feature (Maybe later) */
+// import { resolve as pathResolve } from 'path';
+
+// export const ensureDir = (remotePath: string): Promise<true> =>
+//   new Promise((resolve, reject) => {
+//     try {
+//       const path = remotePath?.trim() || '';
+
+//       if (path.length > 0 && path !== '/')
+//         exec(`mkdir -p ${path}`).then(() => resolve(true));
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });
+
+// /** Uses `SFTP` to upload a local file to remote server */
+// export const uploadFile = (
+//   localPath: string,
+//   remotePath: string
+// ): Promise<true> =>
+//   new Promise((resolve, reject) => {
+//     try {
+//       ssh2.sftp((err, sftp) => {
+//         if (err) {
+//           reject(
+//             '\x1b[31m\x1b[1mFailed to upload the file:\x1b[0m\x1b[31m check your remote SFTP connection.\x1b[0m\nYou can add "\x1b[33mSubsystem       sftp    internal-sftp\x1b[0m" in "\x1b[1m\x1b[4m/etc/ssh/sshd_config\x1b[0m" and then run `\x1b[33msystemctl restart ssh\x1b[0m` to restart the ssh service.'
+//           );
+//           return;
+//         }
+
+//         const resolvedPath = pathResolve(localPath);
+
+//         sftp.fastPut(resolvedPath, remotePath, (err) => {
+//           if (err) {
+//             reject(err);
+//             return;
+//           }
+
+//           resolve(true);
+//         });
+//       });
+//     } catch (error) {
+//       reject(error);
+//     }
+//   });

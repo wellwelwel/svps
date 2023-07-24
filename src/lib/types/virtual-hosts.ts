@@ -1,77 +1,68 @@
-export interface VirtualHostDefaults {
+interface BasicVirtualHost {
+  language: 'php' | 'node';
   /**
-   * ### basic (easier)
-   * Allows you to create a default `index.html` page for a **PHP** (**7.4** and **8.2**) or **Node.js** (**LTS**) server and an optional **MySQL** empty database.
+   * Set a default `index.html` page at `/var/www/domains/${domain}/public_html/index.html`
+   */
+  defaultPage?: string;
+  /**
+   * Set `true` to allow the access of this **Virtual Host** directly from your **VPS Host**.
+   *
+   * Ex.: `http://${VPS_HOST}:5000`
    *
    * ---
    *
-   * ### advanced (manual)
-   * Allows you to create a completely customized server using your own **Docker Compose** file and upload all contents from the **Docker Compose** file root.
-   *
-   * - Requires **Docker** and **Docker Compose** knowledge
+   * default: `false`
    */
-  type: 'basic' | 'advanced';
+  isPublic?: boolean;
+  /**
+   * #### Accessing your database from **Node.js** or **PHP**
+   * - **host:** `${domain}-db` (ex.: `site.com-db`)
+   * - **user:** `root`
+   * - **port:** `3306`
+   *
+   * Then, your `database name` and `password`
+   */
+  mysql?: {
+    /** database name */
+    database: string;
+    /**
+     * `root` password
+     */
+    password: string;
+    /**
+     * To access your database outside the container, you can expose it to a **custom port** by proxying the container's default port `3306` , then access it using your **VPS** host and the exposed port.
+     */
+    expose?: number;
+    /**
+     * Set `true` to allow the access of this **Database** directly from your **VPS Host**.
+     *
+     * ---
+     *
+     * default: `false`
+     */
+    isPublic?: boolean;
+  };
+}
+
+export interface VIRTUAL_HOST {
   /** Ex.: `site.com` */
   domain: string;
   /** Local Port for this domain that will be exposed by Docker */
   port: number;
   /** Set `true` to create a "www" CNAME */
   www?: boolean;
-}
-
-export interface BasicVirtualHost extends VirtualHostDefaults {
-  type: 'basic';
   /**
-   * #### NODE (LTS)
-   * Default: `node:lts-alpine`
-   *
-   * See: https://hub.docker.com/_/node/tags
+   * ### Basic Usage (easier)
+   * Allows you to create a starter **PHP** (**8.2**) or **Node.js** (**LTS**) server with an optional **MySQL** empty database.
    *
    * ---
    *
-   * #### PHP 8.2
-   * `wellwelwel/php:8-shared-based`
-   *
-   * See: https://hub.docker.com/r/wellwelwel/php/tags
-   *
-   * ---
-   *
-   * #### PHP 7.4
-   * `wellwelwel/7-shared-based`
-   *
-   * See: https://hub.docker.com/r/wellwelwel/php/tags
-   *
-   * ---
-   *
-   * - You can use your own Docker images by using this Virtual Host in `advanced` mode 🧙🏻
+   * ### Advanced Usage (manual)
+   * By not using the basic `server`, you can create a completely customized server as you want and only creates the **Virtual Host** for your **port** and **domain**.
    */
-  language: 'PHP 7' | 'PHP 8' | 'NODE';
-  /** Set a default `index.html` page at `/var/www/${domain}/public_html/index.html` */
-  defaultPage?: string;
-  /**
-   * #### Accessing your database
-   * - **host:** `db_${domain}` (ex.: `db_site.com`)
-   * - **user:** `root` (always)
-   * - **port:** `3306` (always)
-   *
-   * Then, your `database name` and `password` 🧙🏻
-   */
-  mysql?: {
-    database: string;
-    password: string;
-    /** For external access, you can expose your database by proxying the default port `3306`, then access it using your **VPS** host and the exposed port */
-    expose?: number;
-  };
+  server?: BasicVirtualHost;
 }
 
-export interface AdvancedVirtualHost extends VirtualHostDefaults {
-  type: 'advanced';
-  /**
-   * Set the **Docker Compose** file path for this domain.
-   *
-   * It will upload all local contents from **Docker Compose** file root via `SFTP` to this domain path: `/var/www/${domain}/`.
-   */
-  compose: string;
+export interface BASIC_VIRTUAL_HOST extends VIRTUAL_HOST {
+  server: BasicVirtualHost;
 }
-
-export type VIRTUAL_HOST = BasicVirtualHost | AdvancedVirtualHost;

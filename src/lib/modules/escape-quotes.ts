@@ -1,5 +1,5 @@
 /**
- * Convert a text file in an single line string and quote it to use in bash commands. Ex.:
+ * Convert a text file in a single line string and quote it to use in bash commands. Ex.:
  *
  * ```js
  * import fs from 'fs';

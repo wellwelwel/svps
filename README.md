@@ -1,9 +1,9 @@
 <h4 align="center">Next version in progress</h4>
 <h2 align="center">SVPS - Auto Mount VPS</h2>
-<p align="center">🚀 An easier tool to automate the setup and pre-settings of your <b>Ubuntu VPS</b></p>
+<p align="center">🚀 An easier tool to automate the setup and pre-settings of your <b>Ubuntu VPS</b> and serve your domains</p>
 <div align="center">
   <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
-  <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci" alt="GitHub Workflow Status (with event)">
+  <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci&branch=next" alt="GitHub Workflow Status (with event)">
   <img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm">
 </div>
 
@@ -139,7 +139,22 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 ### Virtual Hosts
 
-> _In progress..._
+**SVPS** uses **Docker** containers to create flexible Virtual Hosts and **Apache2** to proxy their ports to `80`. You can prepare the environment by enabling `docker` and `apache` steps, then perform `npx svps mount`.
+
+---
+
+#### Basic Usage
+
+> See some examples [here](./examples/virtual-hosts/basic/).
+
+You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) servers and work on them in `/var/www/domains/_your_domain_/`.
+Also, it allows to create an default page `index.html` and use an exclusive **MySQL** database for each domain.
+
+---
+
+#### Advanced Usage
+
+> See some examples [here](./examples/virtual-hosts/advanced/).
 
 ---
 

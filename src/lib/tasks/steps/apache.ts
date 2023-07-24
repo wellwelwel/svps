@@ -16,8 +16,8 @@ export default () => {
     'apt-get update',
     'apt-get install apache2 -y',
     'mkdir -p /var/www',
-    'rm -rf /var/www/html/index.html',
-    'mkdir -p /var/www/html',
+    'rm -rf /var/www/html',
+    'mkdir -p /var/www/host',
     `echo "${sh.startTitle}Setting up Rewrite Virtual Hosts${sh.endTitle}"`,
     `echo ${escapeQuotes(
       fs.readFileSync(normalize(default_000), 'utf-8')
@@ -34,27 +34,21 @@ export default () => {
       ...[
         `echo ${escapeQuotes(
           fs.readFileSync(normalize(htaccess), 'utf-8')
-        )} | cat > /var/www/html/.htaccess`,
+        )} | cat > /var/www/host/.htaccess`,
         `echo ${escapeQuotes(
           fs.readFileSync(normalize(_403), 'utf-8')
-        )} | cat > /var/www/html/403.html`,
-        'chmod 0755 /var/www/html',
+        )} | cat > /var/www/host/403.html`,
+        'chmod 0755 /var/www/host',
       ],
     ]);
   }
 
   Object.assign(commands, [
     ...commands,
-    'find /var/www/ -type d -exec chmod 775 {} \\;',
-    'find /var/www/ -type f -exec chmod 664 {} \\;',
-    'setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',
-    'chown root:www-data /var/www',
-    'chmod 0755 /var/www',
     'systemctl restart apache2',
     'systemctl reload apache2',
+    sh.done,
   ]);
-
-  commands.push(sh.done);
 
   return commands;
 };

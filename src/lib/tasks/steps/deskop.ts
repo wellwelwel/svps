@@ -11,10 +11,6 @@ const desktop: string[] = [
   '--catch tasksel install xubuntu-desktop || apt-get install xubuntu-desktop -y',
   'update-alternatives --install /usr/bin/x-session-manager x-session-manager /usr/bin/startxfce4 60',
   'update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xfce4-terminal 60',
-  '--reboot',
-  'snap install snap-store firefox',
-  'apt-get update',
-  'apt-get install -y firefox',
 ];
 
 const rdp: string[] = [
@@ -31,10 +27,17 @@ const rdp: string[] = [
   '--catch systemctl enable xrdp',
   'usermod -a -G ssl-cert xrdp',
   'systemctl restart xrdp',
+  '--reboot',
+];
+
+const browser: string[] = [
+  'apt-get update',
+  'apt-get update --fix-missing',
+  'apt-get install firefox -y || true',
 ];
 
 export default () => {
   if (!steps.desktop) return [] as string[];
 
-  return [...desktop, ...rdp];
+  return [...desktop, ...rdp, ...browser];
 };

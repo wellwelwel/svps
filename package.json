@@ -78,6 +78,7 @@
     "vps",
     "vps-setup",
     "vps-desktop",
+    "kvm",
     "rdp",
     "remote-desktop",
     "remote-desktop-protocol",

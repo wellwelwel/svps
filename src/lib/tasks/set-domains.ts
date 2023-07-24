@@ -1,102 +1,67 @@
-import fs from 'fs';
-import { normalize, basename } from 'path';
-import { connect, exec, end } from '../ssh.js';
-import { __dirname } from '../modules/root.js';
-import { escapeQuotes } from '../modules/escape-quotes.js';
+import { input } from '../modules/configs/index.js';
+import { connect, catchExec, end } from '../ssh.js';
 import sh from '../modules/sh.js';
+import { BASIC_VIRTUAL_HOST, VIRTUAL_HOST } from '../types/virtual-hosts.js';
+import { createBasicVirtualHost, isBasic } from './virtual-host/basic.js';
 import { access } from '../modules/configs/access.js';
-import { apache as APACHE } from '../modules/configs/apache.js';
-import { domains as domainsFile } from '../modules/configs/domains.js';
 import { verbose } from '../modules/configs/verbose.js';
-import { APACHE as I_APACHE } from '../types/apache.js';
-
-console.log(
-  `${sh.startTitle}Setting up domains in "${domainsFile}"${sh.endTitle}\n`
-);
-
-const apache = APACHE as Required<I_APACHE>;
-const fileNormalize = (path: string) =>
-  fs.readFileSync(normalize(path), 'utf-8');
+import { createProxy } from './virtual-host/apache.js';
 
 try {
-  const vh_path = '/resources/apache/virtual-host/';
-  const list_domains: string[] = JSON.parse(
-    fs.readFileSync(domainsFile, 'utf-8')
-  );
+  const virtualHosts = input.virtualHosts;
+  const basicVirtualHosts: BASIC_VIRTUAL_HOST[] = [];
+  const advancedVirtualHosts: VIRTUAL_HOST[] = [];
+  const invalidVirtualHosts: VIRTUAL_HOST[] = [];
+  const commands = [
+    'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
+    'mkdir -p /var/containers/images /var/containers/compositions /var/containers/domains /var/containers/databases',
+    'chmod -R 0750 /var/containers',
+  ];
 
-  if (!list_domains || list_domains.length <= 0)
-    throw `Failed to find ${domainsFile}`;
+  if (!virtualHosts) {
+    console.log(
+      `\n\x1b[0m\x1b[1m\x1b[32m✔︎ No domain has been set up\x1b[0m\n`
+    );
+    process.exit(0);
+  }
 
-  const domains = [...new Set(list_domains)];
-  const commands: string[] = [];
+  /** Preparing Virtual Hosts */
+  virtualHosts.forEach((virtualHost) => {
+    if (typeof virtualHost === 'object' && !('server' in virtualHost))
+      advancedVirtualHosts.push(virtualHost);
+    else if (isBasic(virtualHost)) basicVirtualHosts.push(virtualHost);
+    else invalidVirtualHosts.push(virtualHost);
+  });
 
-  for (const full_domain of domains) {
-    const split_domain = full_domain.split(':');
-    const domain = split_domain[0] || full_domain;
-    const isProxy = /:/gm.test(full_domain);
-    const port = isProxy ? split_domain[1] : '';
-    const default_file = fileNormalize(apache.defaultPage);
+  /** Wrong Virtual Hosts */
+  if (invalidVirtualHosts.length > 0)
+    throw `Invalid Virtual Hosts: ${invalidVirtualHosts
+      .map((vh) => `\n  - ${vh.domain}`)
+      .join('')}`;
 
-    const virtual_host = () =>
-      fileNormalize(
-        `${__dirname}${vh_path}${isProxy ? 'proxy.conf' : 'vh.conf'}`
-      )
-        .replace(/{!DOMAIN}/gm, domain)
-        .replace(/{!PORT}/gm, port);
-
-    Object.assign(commands, [
-      ...commands,
-      `if ! ls /var/www/${domain}/public_html &> /dev/null; then mkdir -p /var/www/${domain}/public_html; fi`,
-      `if ! ls /var/www/${domain}/public_html/${basename(
-        apache.defaultPage
-      )} &> /dev/null; then echo ${escapeQuotes(
-        default_file
-      )} | cat > /var/www/${domain}/public_html/${basename(
-        apache.defaultPage
-      )}; fi`,
-      `if ! ls /etc/apache2/sites-available/${domain}.conf &> /dev/null; then echo ${escapeQuotes(
-        virtual_host()
-      )} | cat > /etc/apache2/sites-available/${domain}.conf; fi`,
-      `if a2ensite -q ${domain}; then echo "\x1b[33m> \x1b[0m${domain} already enabled"; fi`,
-    ]);
-
-    if (apache.www) {
-      const virtual_host_www = () =>
-        fileNormalize(
-          `${__dirname}${vh_path}${isProxy ? 'proxy-www.conf' : 'vh-www.conf'}`
-        )
-          .replace(/{!DOMAIN}/gm, domain)
-          .replace(/{!PORT}/gm, port);
-
+  /** Advanced (Manual) Virtual Hosts */
+  if (advancedVirtualHosts.length > 0) {
+    advancedVirtualHosts.forEach((virtualHost) => {
       Object.assign(commands, [
         ...commands,
-        `if ! ls /etc/apache2/sites-available/www.${domain}.conf &> /dev/null; then echo ${escapeQuotes(
-          virtual_host_www()
-        )} | cat > /etc/apache2/sites-available/www.${domain}.conf; fi`,
-        `if a2ensite -q www.${domain}; then echo "\x1b[33m> \x1b[0mwww.${domain} already enabled"; fi`,
+        `echo "${sh.startTitle}Proxy Port: ${virtualHost.domain} on port ${virtualHost.port}${sh.endTitle}"`,
+        ...createProxy(virtualHost),
+        'systemctl reload apache2',
+        sh.done,
       ]);
-    }
+    });
+    commands.push('systemctl restart apache2');
+  }
 
-    commands.push('systemctl reload apache2');
-
-    if (!isProxy) continue;
-
-    /* Creates app.js */
-    const app_js = fileNormalize(`${__dirname}/resources/node/app.js`).replace(
-      /'{!PORT}'/gm,
-      port
-    );
-    const pm2Start = `pm2 start -f /var/www/${domain}/app.js --name ${domain} --watch --ignore-watch="node_modules"`;
-
-    Object.assign(commands, [
-      ...commands,
-      `if ! ls /var/www/${domain}/app.js &> /dev/null; then echo ${escapeQuotes(
-        app_js
-      )} | cat > /var/www/${domain}/app.js && (pm2 delete ${domain} &> /dev/null || true) && ${pm2Start}; fi`,
-      `pm2 list | grep -q "${domain}" &> /dev/null || ${pm2Start}`,
-      'pm2 update',
-      'pm2 save',
-    ]);
+  /** Basic Virtual Hosts Servers */
+  if (basicVirtualHosts.length > 0) {
+    basicVirtualHosts.forEach((virtualHost) => {
+      Object.assign(commands, [
+        ...commands,
+        ...createBasicVirtualHost(virtualHost),
+      ]);
+    });
+    commands.push('systemctl restart apache2');
   }
 
   if (verbose) console.log(commands, '\n');
@@ -104,13 +69,17 @@ try {
   const hosts = access;
 
   for (const host of hosts) {
+    console.log(
+      `\x1b[22m\x1b[36m\x1b[1m⦿ Setting up Virtual Hosts: ${host.username}@${host.host}\x1b[0m`
+    );
+
     await connect(host);
-    for (const command of commands) await exec(command, host);
-    await exec('history -c', host);
+    for (const command of commands) await catchExec(command);
+    await catchExec('history -c');
     await end();
   }
 
-  console.log(`\x1b[0m\x1b[1m\x1b[32m✔︎ Success\x1b[0m\n`);
+  console.log(`\n\x1b[0m\x1b[1m\x1b[32m✔︎ Success\x1b[0m\n`);
   process.exit(0);
 } catch (error) {
   console.log(`\x1b[0m\x1b[1m\n\x1b[31m✖︎ Fail\x1b[0m\n  ${error}`);
