@@ -6,12 +6,14 @@ import { createBasicVirtualHost, isBasic } from './virtual-host/basic.js';
 import { access } from '../modules/configs/access.js';
 import { verbose } from '../modules/configs/verbose.js';
 import { createProxy } from './virtual-host/apache.js';
+import { pastDomains, writeLogs } from './virtual-host/logs.js';
 
 try {
   const virtualHosts = input.virtualHosts;
   const basicVirtualHosts: BASIC_VIRTUAL_HOST[] = [];
   const advancedVirtualHosts: VIRTUAL_HOST[] = [];
   const invalidVirtualHosts: VIRTUAL_HOST[] = [];
+  const deployedVirtualHosts: VIRTUAL_HOST[] = [];
   const commands = [
     'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
     'mkdir -p /var/containers/images /var/containers/compositions /var/containers/domains /var/containers/databases',
@@ -39,9 +41,22 @@ try {
       .map((vh) => `\n  - ${vh.domain}`)
       .join('')}`;
 
+  if (pastDomains.length > 0) {
+    console.log(
+      `\n\x1b[22m\x1b[36m\x1b[1m▸ Skipping already created domains \x1b[2m\x1b[3m(./.svps/domains.json)\x1b[0m`
+    );
+    console.log(
+      pastDomains.map((domain) => ` \x1b[36m⌙\x1b[0m ${domain}`).join('\n')
+    );
+  }
+
   /** Advanced (Manual) Virtual Hosts */
   if (advancedVirtualHosts.length > 0) {
     advancedVirtualHosts.forEach((virtualHost) => {
+      if (pastDomains.includes(virtualHost.domain)) return;
+
+      deployedVirtualHosts.push(virtualHost);
+
       Object.assign(commands, [
         ...commands,
         `echo "${sh.startTitle}Proxy Port: ${virtualHost.domain} on port ${virtualHost.port}${sh.endTitle}"`,
@@ -56,6 +71,10 @@ try {
   /** Basic Virtual Hosts Servers */
   if (basicVirtualHosts.length > 0) {
     basicVirtualHosts.forEach((virtualHost) => {
+      if (pastDomains.includes(virtualHost.domain)) return;
+
+      deployedVirtualHosts.push(virtualHost);
+
       Object.assign(commands, [
         ...commands,
         ...createBasicVirtualHost(virtualHost),
@@ -68,15 +87,23 @@ try {
 
   const hosts = access;
 
-  for (const host of hosts) {
+  if (deployedVirtualHosts.length === 0)
     console.log(
-      `\x1b[22m\x1b[36m\x1b[1m⦿ Setting up Virtual Hosts: ${host.username}@${host.host}\x1b[0m`
+      `\n\x1b[0m\x1b[1m\x1b[32m✔︎ No new domain has been set up\x1b[0m`
     );
+  else {
+    for (const host of hosts) {
+      console.log(
+        `\n\x1b[22m\x1b[36m\x1b[1m⦿ Setting up Virtual Hosts: ${host.username}@${host.host}\x1b[0m`
+      );
 
-    await connect(host);
-    for (const command of commands) await catchExec(command);
-    await catchExec('history -c');
-    await end();
+      await connect(host);
+      for (const command of commands) await catchExec(command);
+      await catchExec('history -c');
+      await end();
+    }
+
+    writeLogs(deployedVirtualHosts);
   }
 
   console.log(`\n\x1b[0m\x1b[1m\x1b[32m✔︎ Success\x1b[0m\n`);
