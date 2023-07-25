@@ -56,6 +56,7 @@ export const createBasicContainer = (
     `echo ${escapeQuotes(
       composeSource
     )} | cat > /var/containers/compositions/${composeFile}`,
+    `chmod 0600 /var/containers/compositions/${composeFile}`,
     `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} down 2>&1 || true`,
     `rm -rf /var/containers/domains/${domain}`,
     `rm -rf /var/containers/images/${domain}`,
@@ -73,6 +74,9 @@ export const createBasicContainer = (
       `echo ${escapeQuotes(
         dbCNF
       )} | cat > /var/containers/databases/${domain}/conf.d/my.cnf`,
+      `echo "${virtualHost.server.mysql?.password}" | cat > /var/containers/databases/${domain}/conf.d/secret`,
+      `chmod 0400 /var/containers/databases/${domain}/conf.d/my.cnf`,
+      `chmod 0400 /var/containers/databases/${domain}/conf.d/secret`,
     ]);
   }
 
@@ -98,6 +102,7 @@ export const createBasicContainer = (
   Object.assign(commands, [
     ...commands,
     `mkdir -p /var/containers/domains/${domain}/public_html`,
+    `chmod -R 0755 /var/containers/domains/${domain}`,
     `echo ${defaultPage} | cat > /var/containers/domains/${domain}/public_html/index.html`,
     `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`,
   ]);
@@ -115,11 +120,12 @@ export const createBasicContainer = (
     Object.assign(commands, [
       ...commands,
       `echo ${escapeQuotes(
-        createNodeServer(virtualHost.port)
-      )} | cat > /var/containers/domains/${domain}/app.js`,
-      `echo ${escapeQuotes(
         dockerfile
       )} | cat > /var/containers/images/Dockerfile-node-lts-alpine`,
+      `chmod 0600 /var/containers/images/Dockerfile-node-lts-alpine`,
+      `echo ${escapeQuotes(
+        createNodeServer(virtualHost.port)
+      )} | cat > /var/containers/domains/${domain}/app.js`,
       `echo ${escapeQuotes(
         pm2
       )} | cat > /var/containers/domains/${domain}/pm2.json`,

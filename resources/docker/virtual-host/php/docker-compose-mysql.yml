@@ -1,16 +1,13 @@
 version: '3.9'
 services:
   server:
-    build:
-      context: ../images
-      dockerfile: ./Dockerfile-node-lts-alpine
+    image: wellwelwel/php:8-shared-based
     container_name: ${!DOMAIN}-app
     restart: always
     ports:
-      - '${!PUBLIC}${!PORT}:${!PORT}'
+      - '${!PUBLIC}${!PORT}:80'
     volumes:
-      - /var/containers/domains/${!DOMAIN}:/usr/app
-    command: pm2-runtime /usr/app/pm2.json
+      - /var/containers/domains/${!DOMAIN}:/var/www
     depends_on:
       db:
         condition: service_healthy

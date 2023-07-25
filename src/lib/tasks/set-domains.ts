@@ -17,7 +17,11 @@ try {
   const commands = [
     'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
     'mkdir -p /var/containers/images /var/containers/compositions /var/containers/domains /var/containers/databases',
-    'chmod -R 0750 /var/containers',
+    'chmod 0755 /var/containers',
+    'chmod 0700 /var/containers/images',
+    'chmod 0700 /var/containers/compositions',
+    'chmod 0750 /var/containers/databases',
+    'chmod 0755 /var/containers/domains',
   ];
 
   if (!virtualHosts) {
