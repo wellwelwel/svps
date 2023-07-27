@@ -31,7 +31,7 @@
 
 - [ ] Comandos especiais (`--catch`, `--reboot` e `restart-ssh`)
 - [ ] Métodos `escapeQuotes` e `upload`
-- **Virtual Hosts**
+- [x] **Virtual Hosts**
   - [x] Uso básico (automático)
   - [x] Uso avançado (manual)
 
