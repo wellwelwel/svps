@@ -16,7 +16,6 @@
     "sourceMap": false,
     "declaration": true,
     "outDir": "",
-    "declarationDir": "",
-    "listEmittedFiles": true
+    "declarationDir": ""
   }
 }

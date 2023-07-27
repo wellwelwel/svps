@@ -44,27 +44,63 @@ try {
       'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
     ];
 
-    steps.repare && Object.assign(commands, [...commands, ...repare()]);
-    steps.apt && Object.assign(commands, [...commands, ...apt()]);
-    steps.firewall && Object.assign(commands, [...commands, ...firewall(host)]);
-    steps.users && Object.assign(commands, [...commands, ...users()]);
-    steps.certificate &&
+    if (steps.repare) {
+      Object.assign(commands, [...commands, ...repare()]);
+    }
+
+    if (steps.apt) {
+      Object.assign(commands, [...commands, ...apt()]);
+    }
+
+    if (steps.firewall) {
+      Object.assign(commands, [...commands, ...firewall(host)]);
+    }
+
+    if (steps.users) {
+      Object.assign(commands, [...commands, ...users()]);
+    }
+
+    if (steps.certificate) {
       Object.assign(commands, [...commands, ...certificate()]);
-    steps.apache && Object.assign(commands, [...commands, ...apache()]);
-    steps.docker && Object.assign(commands, [...commands, ...docker()]);
-    steps.php && Object.assign(commands, [...commands, ...php()]);
-    steps.node && Object.assign(commands, [...commands, ...node()]);
-    steps.mysql && Object.assign(commands, [...commands, ...mysql()]);
-    steps.crontab && Object.assign(commands, [...commands, ...crontab(host)]);
-    steps.desktop && Object.assign(commands, [...commands, ...desktop()]);
-    steps.appendCommands &&
+    }
+
+    if (steps.apache) {
+      Object.assign(commands, [...commands, ...apache()]);
+    }
+
+    if (steps.docker) {
+      Object.assign(commands, [...commands, ...docker()]);
+    }
+
+    if (steps.php) {
+      Object.assign(commands, [...commands, ...php()]);
+    }
+
+    if (steps.node) {
+      Object.assign(commands, [...commands, ...node()]);
+    }
+
+    if (steps.mysql) {
+      Object.assign(commands, [...commands, ...mysql()]);
+    }
+
+    if (steps.crontab) {
+      Object.assign(commands, [...commands, ...crontab(host)]);
+    }
+
+    if (steps.desktop) {
+      Object.assign(commands, [...commands, ...desktop()]);
+    }
+
+    if (steps.appendCommands) {
       appendCommands &&
-      Object.assign(commands, [
-        ...commands,
-        `echo "${sh.startTitle}Appending your personal commands${sh.endTitle}"`,
-        ...(await appendCommands()),
-        sh.done,
-      ]);
+        Object.assign(commands, [
+          ...commands,
+          `echo "${sh.startTitle}Appending your personal commands${sh.endTitle}"`,
+          ...(await appendCommands()),
+          sh.done,
+        ]);
+    }
 
     if (verbose) console.log(commands, '\n');
 

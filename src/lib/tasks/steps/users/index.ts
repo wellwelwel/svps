@@ -13,6 +13,8 @@ export default () => {
 
   const commands: string[] = [
     `echo "${sh.startTitle}Setting up Users${sh.endTitle}"`,
+    'apt-get update',
+    'apt-get install acl -y',
   ];
   const hasFTP = users?.some((user) => typeof user.ftp === 'object') || false;
   const hasSFTP = users?.some((user) => typeof user.sftp === 'object') || false;
@@ -73,15 +75,15 @@ export default () => {
       Object.assign(commands, [
         ...commands,
         `usermod -g ${primary} ${user.name}`,
-        `chown -R ${user.name}:${primary} ${user.directory}`,
+        `--catch chown -R ${user.name}:${primary} ${user.directory}`,
       ]);
-    } else commands.push(`chown -R ${user.name} ${user.directory}`);
+    } else commands.push(`--catch chown -R ${user.name} ${user.directory}`);
 
     Object.assign(commands, [
       ...commands,
-      `setfacl -Rb ${user.directory}`,
-      `chown -R ${user.name} ${user.directory}`,
-      `chmod -R 0755 ${user.directory}`,
+      `--catch setfacl -Rb ${user.directory}`,
+      `--catch chown -R ${user.name} ${user.directory}`,
+      `--catch chmod -R 0755 ${user.directory}`,
       `chmod 0700 ${user.directory}`,
     ]);
   }

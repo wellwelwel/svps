@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-import { Client, ConnectConfig } from 'ssh2';
+import { Client, ConnectConfig, SFTPWrapper } from 'ssh2';
 import { ACCESS } from './types/acess.js';
+import { resolve as pathResolve } from 'path';
 
 const ssh2 = new Client();
+let SFTP: SFTPWrapper;
 
 export const connect = (access: ConnectConfig): Promise<true> =>
   new Promise((resolve, reject) => {
@@ -13,13 +13,25 @@ export const connect = (access: ConnectConfig): Promise<true> =>
           reject(err);
         })
         .connect(access)
-        .on('ready', () => resolve(true))
+        .on('ready', () => {
+          ssh2.sftp((err, sftp) => {
+            if (err) reject(err);
+            else {
+              SFTP = sftp;
+
+              resolve(true);
+            }
+          });
+
+          resolve(true);
+        })
         .on('end', () => resolve(true));
     } catch (error) {
       reject(error);
     }
   });
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export const catchExec = (command: string): Promise<true> =>
   new Promise((resolve, reject) => {
     try {
@@ -40,7 +52,9 @@ export const catchExec = (command: string): Promise<true> =>
             resolve(true);
           })
           .stderr.on('data', (chunk: any) => {
-            chunk && process.stdout.write(chunk);
+            chunk &&
+              process.stdout.write('\x1b[0m\x1b[2m\x1b[3m') &&
+              process.stdout.write(chunk);
           });
       });
     } catch (error) {
@@ -102,6 +116,7 @@ export const exec = (command: string, VPS?: ACCESS): Promise<true> =>
       reject(error);
     }
   });
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 export const end = (): Promise<true> =>
   new Promise((resolve, reject) => {
@@ -113,50 +128,36 @@ export const end = (): Promise<true> =>
       .end();
   });
 
-/* eslint-enable @typescript-eslint/no-explicit-any */
+export const ensureDir = (remotePath: string): Promise<true> =>
+  new Promise((resolve, reject) => {
+    try {
+      const path = remotePath?.trim() || '';
 
-/** Upload Files Feature (Maybe later) */
-// import { resolve as pathResolve } from 'path';
+      if (path.length > 0 && path !== '/')
+        exec(`mkdir -p ${path}`).then(() => resolve(true));
+    } catch (error) {
+      reject(error);
+    }
+  });
 
-// export const ensureDir = (remotePath: string): Promise<true> =>
-//   new Promise((resolve, reject) => {
-//     try {
-//       const path = remotePath?.trim() || '';
+/** Uses `SFTP` to upload a local file to remote server */
+export const uploadFile = (
+  localPath: string,
+  remotePath: string
+): Promise<true> =>
+  new Promise((resolve, reject) => {
+    try {
+      const resolvedPath = pathResolve(localPath);
 
-//       if (path.length > 0 && path !== '/')
-//         exec(`mkdir -p ${path}`).then(() => resolve(true));
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
+      SFTP.fastPut(resolvedPath, remotePath, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
 
-// /** Uses `SFTP` to upload a local file to remote server */
-// export const uploadFile = (
-//   localPath: string,
-//   remotePath: string
-// ): Promise<true> =>
-//   new Promise((resolve, reject) => {
-//     try {
-//       ssh2.sftp((err, sftp) => {
-//         if (err) {
-//           reject(
-//             '\x1b[31m\x1b[1mFailed to upload the file:\x1b[0m\x1b[31m check your remote SFTP connection.\x1b[0m\nYou can add "\x1b[33mSubsystem       sftp    internal-sftp\x1b[0m" in "\x1b[1m\x1b[4m/etc/ssh/sshd_config\x1b[0m" and then run `\x1b[33msystemctl restart ssh\x1b[0m` to restart the ssh service.'
-//           );
-//           return;
-//         }
-
-//         const resolvedPath = pathResolve(localPath);
-
-//         sftp.fastPut(resolvedPath, remotePath, (err) => {
-//           if (err) {
-//             reject(err);
-//             return;
-//           }
-
-//           resolve(true);
-//         });
-//       });
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
+        resolve(true);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
