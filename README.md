@@ -1,6 +1,6 @@
 <h4 align="center">Next version in progress</h4>
 <h2 align="center">SVPS - Auto Mount VPS</h2>
-<p align="center">🚀 An easier tool to automate the setup and pre-settings of your <b>Ubuntu VPS</b> and serve your domains</p>
+<p align="center">🚀 An easier tool to automate your <b>Ubuntu VPS</b> setup and domain forwarding</p>
 <div align="center">
   <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
   <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci&branch=next" alt="GitHub Workflow Status (with event)">
@@ -18,7 +18,9 @@
     - [Notes](#notes)
   - [Turning **VPS Server** into **Desktop Server** (**RDP**)](#turning-vps-server-into-desktop-server-rdp)
   - [Testing with a **Docker** Container](#testing-with-a-docker-container)
-  - [**Virtual Hosts**](#virtual-hosts)
+  - [**Virtual Hosts** (domains)](#virtual-hosts-domains)
+    - [Basic Usage](#basic-usage-easier)
+    - [Advanced Usage](#advanced-usage-manual)
 - [Important](#important)
   - [Known Issues](#known-issues)
   - [Compatibility](#compatibility)
@@ -61,7 +63,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
   npx svps mount
 ```
 
-#### Default Setps:
+#### Default Setps
 
 - [Fix common possible conflicts on **Ubuntu**](./src/lib/tasks/steps/repare.ts)
 - [Run common **apt** commands](./src/lib/tasks/steps/apt.ts)
@@ -71,24 +73,23 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 - [Restarts the **VPS**](./src/lib/tasks/steps/reboot.ts)
 - Reruns common [**repare**](./src/lib/tasks/steps/repare.ts) and [**apt**](./src/lib/tasks/steps/apt.ts) commands
 
-#### Available auto-installation:
+#### Available auto-installation
 
-- [Firewall (`ufw`)](./src/lib/tasks/steps/firewall.ts)
+- [**Firewall** (`ufw`)](./src/lib/tasks/steps/firewall.ts)
   - This will activate the **SSH** port according to the entered in _.svpsrc.js_ or `22` by default
 - [**SFTP** by enabling it for an user in _.svpsrc.js_](./examples/sftp/)
 - [**FTP** (`vsftpd`) by enabling it for an user in _.svpsrc.js_](./examples/ftp/)
-- [**RSA** Certificate](./examples/rsa/)
-- [**Docker**](./src/lib/tasks/steps/docker.ts)
-  - Required to use [**Virtual Hosts**](#adding-virtal-hosts)
+- [**RSA Certificate**](./examples/rsa/)
+- [**Docker** and **Docker Compose**](./src/lib/tasks/steps/docker.ts)
 - [**PHP**](./examples/php/)
 - [**Node.js**](./examples/node/)
 - [**MySQL**](./examples/mysql/)
 - [**Crontab**](./examples/crontab/)
-- [Remote Desktop Protocol (**RDP**)](./examples/desktop/)
+- [**Remote Desktop Protocol** (**RDP**)](./examples/desktop/)
 
 > See some practical [examples](./examples/).
 
-#### Notes:
+#### Notes
 
 - **All steps are optional:** You can enable or disable any step in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L29)
 - You are free to **disable all the steps** and **create your own modules of bash commands** 🤹🏻‍♀️
@@ -137,24 +138,94 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 ---
 
-### Virtual Hosts
+### Virtual Hosts (domains)
 
-**SVPS** uses **Docker** containers to create flexible Virtual Hosts and **Apache2** to proxy their ports to `80`. You can prepare the environment by enabling `docker` and `apache` steps, then perform `npx svps mount`.
+```sh
+  npx svps set domains
+```
+
+#### Basic Usage (easier)
+
+![Node.js](https://img.shields.io/badge/Node.js-LTS-green)
+![PHP](https://img.shields.io/badge/PHP-8.2-4F5B93)
+![MySQL](https://img.shields.io/badge/MySQL-8.x-blue)
+
+You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) services and work on them in `/var/containers/domains`**`/your_domain`**.  
+Also, this allows to create an default page `index.html` and use an exclusive **MySQL** database for each domain.
+
+```js
+export default defineConfig({
+  access: [
+    {
+      host: '',
+      username: 'root',
+      password: '',
+    },
+  ],
+  virtualHosts: [
+    {
+      domain: 'site.com',
+      port: 5000,
+      www: true /** crates an alias for "www.site.com" */,
+      server: {
+        language: 'node',
+        isPublic: false /** doesn't expose port 5000 outside the VPS */,
+        mysql: {
+          database: '',
+          password: '',
+          expose: 5001,
+          isPublic: true /** expose port 5001 outside the VPS */,
+        },
+      },
+    },
+  ],
+});
+
+// Then: `npx svps set domains`
+```
+
+To create flexible **Basic Virtual Hosts**, **SVPS** uses **Docker** containers and **Apache2** to proxy their ports to your domains.
+
+> **Apache2**, **Docker** and **Docker Compose** required.  
+> You can prepare the environment by enabling `docker` and `apache` steps, then perform `npx svps mount`.
+>
+> See some practical examples [here](./examples/virtual-hosts/basic/).
 
 ---
 
-#### Basic Usage
+#### Advanced Usage (manual)
 
-> See some examples [here](./examples/virtual-hosts/basic/).
+![Everything](https://img.shields.io/badge/Everything-violet)
 
-You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) servers and work on them in `/var/www/domains/_your_domain_/`.
-Also, it allows to create an default page `index.html` and use an exclusive **MySQL** database for each domain.
+By using the **Virtual Hosts** to only proxy your services, you can create whatever you want using any language, just by defining the port your service is on.
 
----
+```js
+export default defineConfig({
+  access: [
+    {
+      host: '',
+      username: 'root',
+      password: '',
+    },
+  ],
+  virtualHosts: [
+    {
+      domain: 'site.com',
+      port: 5000,
+      www: true /** crates an alias for "www.site.com" */,
+    },
+  ],
+});
 
-#### Advanced Usage
+/**
+ * Then: `npx svps set domains`
+ *
+ * It will proxy your service at port 5000 to "site.com" and "www.site.com"
+ */
+```
 
-> See some examples [here](./examples/virtual-hosts/advanced/).
+> **Apache2** required.  
+> You can prepare the environment by enabling `apache` step, then perform `npx svps mount`.
 
 ---
 
