@@ -6,7 +6,7 @@ If you're thinking of contributing, thank you 🎉
 
 ## Environment
 
-I assume you already have these tools installed on your system:
+You will need these tools installed on your system:
 
 - [**Docker**](https://www.docker.com/products/docker-desktop/)
 - [**Node.js**](https://nodejs.org/pt-br/download/current)

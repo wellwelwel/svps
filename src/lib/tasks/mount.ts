@@ -9,7 +9,7 @@ import sh from '../modules/sh.js';
 import { catchExec, connect, end, exec } from '../ssh.js';
 
 // Get steps
-import repare from './steps/repare.js';
+import repair from './steps/repair.js';
 import apt from './steps/apt.js';
 import firewall from './steps/firewall.js';
 import users from './steps/users/index.js';
@@ -44,8 +44,8 @@ try {
       'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
     ];
 
-    if (steps.repare) {
-      Object.assign(commands, [...commands, ...repare()]);
+    if (steps.repair) {
+      Object.assign(commands, [...commands, ...repair()]);
     }
 
     if (steps.apt) {

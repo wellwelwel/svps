@@ -66,7 +66,7 @@ export default defineConfig({
     append: false,
   },
   steps: {
-    repare: true,
+    repair: true,
     apt: true,
     firewall: true,
     users: true,

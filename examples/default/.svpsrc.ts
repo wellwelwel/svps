@@ -41,7 +41,7 @@ export default defineConfig({
     path: './svps/cronjobs.sh',
   },
   steps: {
-    repare: true,
+    repair: true,
     apt: true,
     firewall: true,
     users: true,

@@ -27,7 +27,7 @@ export default defineConfig({
     users: [],
   },
   steps: {
-    repare: true,
+    repair: true,
     apt: true,
     firewall: true,
     users: true,

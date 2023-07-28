@@ -10,7 +10,7 @@ export default defineConfig({
     },
   ],
   steps: {
-    repare: true,
+    repair: true,
     apt: true,
     firewall: true,
     desktop: true,

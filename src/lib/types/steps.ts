@@ -1,6 +1,6 @@
 export interface STEPS {
   /** default: `false` */
-  repare?: boolean;
+  repair?: boolean;
   /** default: `false` */
   apt?: boolean;
   /**

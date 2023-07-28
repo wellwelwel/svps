@@ -48,7 +48,7 @@
   },
   "author": "https://github.com/wellwelwel",
   "license": "MIT",
-  "description": "🚀 An easier tool to automate your Ubuntu VPS setup and domain forwarding",
+  "description": "🚀 An easier tool to automate your Ubuntu Server setup and domain forwarding",
   "engines": {
     "node": ">=14.5.0",
     "npm": ">=7.0.2"

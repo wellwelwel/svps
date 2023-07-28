@@ -2,9 +2,9 @@ import { STEPS } from '../../types/steps.js';
 import { input } from './index.js';
 
 export const steps: Required<STEPS> = {
-  repare:
-    input?.steps && typeof input.steps?.repare === 'boolean'
-      ? input.steps.repare
+  repair:
+    input?.steps && typeof input.steps?.repair === 'boolean'
+      ? input.steps.repair
       : false,
   apt:
     input?.steps && typeof input.steps?.apt === 'boolean'
