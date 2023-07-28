@@ -177,7 +177,6 @@ export default defineConfig({
       www: true /** creates an alias for "www.site.com" */,
       server: {
         language: 'node' | 'php',
-        isPublic: false /** doesn't expose port 5000 outside the VPS */,
         mysql: {
           database: '',
           password: '',
