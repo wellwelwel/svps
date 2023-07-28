@@ -13,7 +13,7 @@
 - [Installation](#installation)
 - [Usage](#usage)
   - [First Step: **Create**](#first-step-create)
-  - [Second Step: **Mount the VPS**](#second-step-mount-the-vps)
+  - [Running your Scripts](#running-your-scripts)
     - [Default Steps](#default-steps)
     - [Available **auto-installation**](#available-auto-installation)
     - [Notes](#notes)
@@ -36,7 +36,7 @@
 
 **SVPS**, initially designed to simplify tasks for non-Unix users, works as an **ORM** for **Ubuntu VPS**.
 
-It supports command automation, files and directories upload via **SFTP**, automatic installations and configurations, domain forwarding, text files conversion into template strings for dynamic file creation, among other features.
+It supports command automation, files and directories upload via **SFTP**, automatic installations and configurations, domain forwarding, local text files and template strings into _escaped quoted strings_ for dynamic remote file creation, among other features.
 
 ---
 
@@ -52,12 +52,8 @@ It supports command automation, files and directories upload via **SFTP**, autom
 
 ```sh
   npx svps create
-```
 
-This will create the default configuration file:
-
-```
-  ./.svpsrc.js
+  # This will create the default configuration file: .svpsrc.js
 ```
 
 Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your **SSH** access and your settings
@@ -66,7 +62,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 ---
 
-### Second Step: Mount the VPS
+### Running your Scripts
 
 ```sh
   npx svps mount
@@ -105,7 +101,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
   - See `appendCommands` in [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L45) and an example [here](./examples/append-commands/)
 - The entire remote process is displayed on console in real time
 - Find all the commands behind **SVPS** in [_src/lib/tasks/steps_](./src/lib/tasks/steps/)
-- This may take a long time depending on your **VPS** plan
+- This may take a long time depending on your **VPS** specifications
 
 ---
 
@@ -163,7 +159,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 ![MySQL](https://img.shields.io/badge/MySQL-8.x-blue)
 
 You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) services and work on them in `/var/containers/domains`**`/your_domain`**.  
-Also, this allows to create an default page `index.html` and use an exclusive **MySQL** database for each domain.
+Also, it allows to create a default page `index.html` and use an exclusive **MySQL** database for each domain.
 
 ```js
 export default defineConfig({
@@ -243,8 +239,8 @@ export default defineConfig({
 
 ## Important
 
-- This package is designed for pre-built VPS _(**Ubuntu** `>=18.04`)_
-- The **VPS** user needs to be the **root** or a **super user**
+- This package is designed for pre-built **VPS**, **KVM** and **Ubuntu Server** `>=18.04`)
+- The **SSH** user needs to be the **root** or a **super user**
 - Avoid running this tool on a server that is already in production, unless you know what you're doing 🧙🏻
 
 ---
