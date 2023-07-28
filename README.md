@@ -176,12 +176,12 @@ export default defineConfig({
       port: 5000,
       www: true /** creates an alias for "www.site.com" */,
       server: {
-        language: 'node',
+        language: 'node' | 'php',
         isPublic: false /** doesn't expose port 5000 outside the VPS */,
         mysql: {
           database: '',
           password: '',
-          expose: 5001,
+          expose: 5001 /** expose port 5001 locally */,
           isPublic: true /** expose port 5001 outside the VPS */,
         },
       },
@@ -239,7 +239,7 @@ export default defineConfig({
 
 ## Important
 
-- This package is designed for pre-built **VPS**, **KVM** and **Ubuntu Server** `>=18.04`)
+- This package is designed for pre-built **VPS**, **KVM** and **Ubuntu Server** `>=18.04`
 - The **SSH** user needs to be the **root** or a **super user**
 - Avoid running this tool on a server that is already in production, unless you know what you're doing 🧙🏻
 
