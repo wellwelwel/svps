@@ -31,7 +31,7 @@
     "eslint:checker": "npx eslint . --ext .js,.ts",
     "eslint:fix": "npx eslint . --fix",
     "prettier:checker": "npx prettier --check .",
-    "prettier:fix": "npx prettier --write .github/workflows/*.yml resources/local-module .",
+    "prettier:fix": "npx prettier --write .github/workflows/*.yml .",
     "docker:reset": "docker rm --force test-svps >/dev/null 2>&1 || true",
     "docker:run": "docker run -d --name test-svps --privileged -p ${PORT:-22}:${PORT:-22} -e PORT=${PORT:-22} --restart always wellwelwel/vps:latest",
     "tests:docker": "npm run docker:reset; npm run docker:run",
