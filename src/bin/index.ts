@@ -1,6 +1,8 @@
 #! /usr/bin/env node
+
 import fs from 'fs';
 import { resolve } from 'path';
+import { rootSVPS } from '../lib/modules/root.js';
 
 (() => {
   try {
@@ -14,7 +16,7 @@ import { resolve } from 'path';
     for (const resource of resources) {
       const { from, to } = resource;
 
-      const source = resolve(`${__dirname}/../resources/local-module/${from}`);
+      const source = resolve(`${rootSVPS}/../resources/local-module/${from}`);
       const dest = resolve(to);
 
       if (!fs.existsSync(dest)) fs.copyFileSync(source, dest);

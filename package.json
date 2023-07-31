@@ -1,9 +1,11 @@
 {
   "name": "svps",
   "version": "2.0.0",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
-  "types": "./lib/cjs/index.d.ts",
+  "type": "module",
+  "main": "./lib/index.js",
+  "bin": {
+    "svps": "bin/index.js"
+  },
   "dependencies": {
     "@types/ssh2": "^1.11.13",
     "ssh2": "^1.14.0"
@@ -19,11 +21,8 @@
     "prettier": "^3.0.0",
     "typescript": "^5.1.6"
   },
-  "bin": {
-    "svps": "bin/index.cjs"
-  },
   "scripts": {
-    "build": "rm -rf ./bin ./lib; npm run eslint:fix; npm run prettier:fix; npx tsc && npx tsc -p ./src/bin/tsconfig.json && npx tsc -p ./src/lib/tsconfig.cjs.json && npx tsc -p ./src/lib/tsconfig.esm.json && npx tsc -p examples/tsconfig.json",
+    "build": "rm -rf ./bin ./lib; npm run eslint:fix; npm run prettier:fix; npx tsc && npx tsc -p examples/tsconfig.json",
     "patch": "npm run update; npm audit fix; npm version patch --no-git-tag-version",
     "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version",
     "major": "npm run update; npm audit fix; npm version major --no-git-tag-version",

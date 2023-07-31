@@ -1,9 +1,9 @@
 {
   "include": ["src"],
+  "exclude": ["node_modules", "resources", "examples"],
   "compilerOptions": {
-    "rootDir": "./",
     "target": "ES2016",
-    "module": "CommonJS",
+    "module": "ESNext",
     "moduleResolution": "Node",
     "isolatedModules": true,
     "allowJs": false,
@@ -14,9 +14,10 @@
     "noImplicitAny": true,
     "removeComments": false,
     "sourceMap": false,
-    "declaration": true,
     "esModuleInterop": true,
-    "noEmit": true,
-    "noEmitOnError": true
+    "noEmitOnError": true,
+    "declaration": true,
+    "outDir": "",
+    "declarationDir": ""
   }
 }

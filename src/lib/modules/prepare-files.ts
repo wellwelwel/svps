@@ -5,6 +5,7 @@ import { UPLOAD } from '../types/upload.js';
 import { ensureDir, uploadFile } from '../ssh.js';
 import { fileURLToPath } from 'url';
 import { basicPermissions } from './basic-permissions.js';
+import { cwd } from './root.js';
 
 interface Entries {
   dirs: string[];
@@ -44,7 +45,7 @@ const formatSize = (bytes: number) => {
 };
 
 const relative = (path: string) =>
-  relativePath(fileURLToPath(process.cwd()), path).replace(/\.\.\//g, '');
+  relativePath(fileURLToPath(cwd), path).replace(/\.\.\//g, '');
 
 const getContents = async (
   dirPath: string,
