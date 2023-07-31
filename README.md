@@ -1,7 +1,6 @@
 <div align="center">
   <h1>SVPS - Simplifying VPS</h1>
   <p>🚀 An easier tool to automate your <b>Ubuntu Server</b> setup and domain forwarding</p>
-  <h4>Next version in progress</h4>
   <img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm">
   <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci&branch=next" alt="GitHub Workflow Status (with event)">
   <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
