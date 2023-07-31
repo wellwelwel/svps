@@ -41,14 +41,23 @@ jobs:
       - name: ⚙️ Building
         run: npm run build
 
-      - name: 🧪 Testing Services - Create
+      - name: 🧪 Testing Service - Create
         run: npm run tests:create
 
-      - name: 🧪 Testing Services - Connection
+      - name: 🧪 Testing Service - Connection
         run: npm run tests:connection
 
-      - name: 🧪 Testing Services - Mount
+      - name: 🧪 Testing Service - Mount
         run: npm run tests:mount
+
+      - name: 🧪 Testing Service - Commands
+        run: npm run tests:commands
+
+      - name: 🧪 Testing Service - Upload
+        run: npm run tests:upload
+
+      - name: 🧪 Testing Service - Virtual Hosts
+        run: npm run tests:virtual-hosts
 
       - name: ✅ Finishing
         run: npm run tests:reset >/dev/null 2>&1 || true
