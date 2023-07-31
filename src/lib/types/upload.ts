@@ -68,7 +68,7 @@ export interface UPLOAD {
     /**
      * This options won't create the user, in case it doesn't exists.
      *
-     * You can easily create users using the `users` option from `npx svps mount`.
+     * You can easily create users using the `users` option from `mount` method.
      */
     user?: string;
     /**

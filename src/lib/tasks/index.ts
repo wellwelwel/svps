@@ -79,16 +79,10 @@ const createSVPS = () => {
      */
     createVirtualHosts = async (
       /**
-       * The **`virtualHosts`** is used with `npx svps set domains`.
-       *
-       * It requires these steps from `npx svps mount`:
-       *
-       * ---
-       *
        * Required:
        *   - `apache` (to proxy the virtual ports to `80`)
        *
-       * Optionals:
+       * Optional:
        *   - `docker` (required to automatically create the **Basic Servers**)
        */
       virtualHosts: VIRTUAL_HOST[]

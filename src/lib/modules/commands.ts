@@ -69,7 +69,7 @@ export const setCommands = async (options: {
     'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
   ];
 
-  if (verbose) console.log('# Initial Commands', initialCommands);
+  if (verbose) console.log('# Initial Commands', '\n', initialCommands);
 
   await buildCommands({ commands: initialCommands, access });
 
@@ -84,7 +84,7 @@ export const setCommands = async (options: {
   if (configs.apt) {
     const commands = apt();
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Repair', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -92,7 +92,7 @@ export const setCommands = async (options: {
   if (configs.firewall) {
     const commands = firewall(configs, access);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Firewall', '\n', commands);
 
     await buildCommands({
       commands,
@@ -103,7 +103,7 @@ export const setCommands = async (options: {
   if (configs.users) {
     const commands = users(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Users', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -111,7 +111,7 @@ export const setCommands = async (options: {
   if (configs.certificate) {
     const commands = certificate(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# RSA Certificate', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -119,7 +119,7 @@ export const setCommands = async (options: {
   if (configs.apache) {
     const commands = apache(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Apache2', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -127,7 +127,7 @@ export const setCommands = async (options: {
   if (configs.docker) {
     const commands = docker(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Docker', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -135,7 +135,7 @@ export const setCommands = async (options: {
   if (configs.php) {
     const commands = php(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# PHP', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -143,7 +143,7 @@ export const setCommands = async (options: {
   if (configs.node) {
     const commands = node(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Node.js', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -151,7 +151,7 @@ export const setCommands = async (options: {
   if (configs.mysql) {
     const commands = mysql(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# MySQL', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -159,7 +159,7 @@ export const setCommands = async (options: {
   if (configs.crontab) {
     const commands = crontab(configs, access);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Crontab', '\n', commands);
 
     await buildCommands({ commands, access });
   }
@@ -180,7 +180,7 @@ export const setCommands = async (options: {
 
     const commands = desktop(configs);
 
-    if (verbose) console.log('# Repair', commands);
+    if (verbose) console.log('# Remote Desktop Protocol (RDP)', '\n', commands);
 
     await buildCommands({ commands, access });
   }

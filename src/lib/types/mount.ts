@@ -47,7 +47,9 @@ export interface MOUNT {
    * default: `false`
    */
   verbose?: VERBOSE;
+  /** Repair common possible conflicts and vulnerabilities on Ubuntu Server */
   repair?: boolean;
+  /** Perform the most common apt commands (update, upgrade, autoremove, etc.) */
   apt?: boolean;
   /**
    * 🤹🏻‍♀️ In case `mysql` has users, a firewall rule will be created for each one.
@@ -59,6 +61,13 @@ export interface MOUNT {
    *  default: `false`
    */
   firewall?: boolean;
+  /**
+   * Install **Docker** and **Docker Compose**
+   *
+   * ---
+   *
+   * Required for **Basic Virtual Hosts**
+   */
   docker?: boolean;
   /**
    * 🖥️ Intalls the `Xubuntu Desktop` and `RDP Remote` in port `3389`
@@ -68,5 +77,6 @@ export interface MOUNT {
    * default: `false`
    */
   desktop?: boolean;
+  /** Reboot the server */
   reboot?: boolean;
 }

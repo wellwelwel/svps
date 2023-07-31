@@ -53,7 +53,7 @@ interface BasicVirtualHost {
     /**
      * This options won't create the user, in case it doesn't exists.
      *
-     * You can easily create users using the `users` option from `npx svps mount`.
+     * You can easily create users using the `users` option from `mount` method.
      */
     user?: string;
     /**
@@ -84,16 +84,10 @@ interface BasicVirtualHost {
 }
 
 /**
- * The **`virtualHosts`** is used with `npx svps set domains`.
- *
- * It requires these steps from `npx svps mount`:
- *
- * ---
- *
  * Required:
  *   - `apache` (to proxy the virtual ports to `80`)
  *
- * Optionals:
+ * Optional:
  *   - `docker` (required to automatically create the **Basic Servers**)
  */
 export interface VIRTUAL_HOST {
