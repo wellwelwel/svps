@@ -20,9 +20,9 @@ export default defineConfig({
       sftp: true,
     },
   ],
-  apache: {},
-  php: {},
-  node: {},
+  apache: true,
+  php: true,
+  node: true,
   mysql: {
     root: {
       pass: '',

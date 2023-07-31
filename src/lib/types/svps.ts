@@ -22,19 +22,19 @@ export interface svpsOptions {
    *
    * default: `true`
    */
-  apache?: APACHE;
+  apache?: APACHE | boolean;
   /**
    * Set `PHP` configurations
    *
    * default version: `8.2`
    */
-  php?: PHP;
+  php?: PHP | boolean;
   /**
    * Set `node.js` configurations
    *
    * default version: `18`
    */
-  node?: NODE;
+  node?: NODE | boolean;
   /** Set the accesses you want to be created */
   mysql?: MYSQL;
   /** Set `crontabs` from a local file */
@@ -47,9 +47,7 @@ export interface svpsOptions {
    * default: `false`
    */
   verbose?: VERBOSE;
-  /** default: `false` */
   repair?: boolean;
-  /** default: `false` */
   apt?: boolean;
   /**
    * 🤹🏻‍♀️ In case `mysql` has users, a firewall rule will be created for each one.
@@ -61,7 +59,6 @@ export interface svpsOptions {
    *  default: `false`
    */
   firewall?: boolean;
-  /** default: `false` */
   docker?: boolean;
   /**
    * 🖥️ Intalls the `Xubuntu Desktop` and `RDP Remote` in port `3389`
@@ -71,6 +68,5 @@ export interface svpsOptions {
    * default: `false`
    */
   desktop?: boolean;
-  /** default: `false` */
   reboot?: boolean;
 }
