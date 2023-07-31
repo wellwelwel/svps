@@ -1,6 +1,4 @@
-import { ACCESS } from './acess.js';
 import { APACHE } from './apache.js';
-import { APPEND_COMMANDS } from './append-commands.js';
 import { CERTIFICATE } from './certificate.js';
 import { CRONTAB } from './crontab.js';
 import { DOMAINS } from './domains.js';
@@ -8,13 +6,10 @@ import { MYSQL } from './mysql.js';
 import { NODE } from './node.js';
 import { PHP } from './php.js';
 import { STEPS } from './steps.js';
-import { UPLOAD } from './upload.js';
 import { USER } from './users.js';
 import { VERBOSE } from './verbose.js';
 
 export interface svpsOptions {
-  /** Set the SSH access for one or more VPS */
-  access: ACCESS | ACCESS[];
   /** Set the accesses you want to be created */
   users?: USER | USER[];
   /** Open SSL RSA Certificate
@@ -54,9 +49,6 @@ export interface svpsOptions {
   domains?: DOMAINS;
   /** Set `crontabs` from a local file */
   crontab?: CRONTAB;
-  uploads?: UPLOAD[];
-  /** Your personal commands will be executed after all enabled steps and before rebooting */
-  appendCommands?: APPEND_COMMANDS;
   /** Enable or disable the steps */
   steps?: STEPS;
   /**

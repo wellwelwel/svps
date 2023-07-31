@@ -22,25 +22,22 @@ import desktop from '../tasks/steps/deskop.js';
 import { resourcesUpload } from './prepare-files.js';
 import { rootSVPS } from './root.js';
 import { setUsers } from './configs/users.js';
-import { setAppendCommands } from './configs/append-commands.js';
 import { setVerbose } from './configs/verbose.js';
-import sh from './sh.js';
 
 export const buildCommands = async (options: {
   commands: string[];
-  steps: Required<STEPS>;
-  host: ACCESS;
+  access: ACCESS;
 }) => {
-  const { commands, steps, host } = options;
+  const { commands, access } = options;
 
   for (const command of commands) {
     if (/^--restart-ssh$/.test(command)) {
-      await restartSSH(host);
+      await restartSSH(access);
       continue;
     }
 
     if (/^--reboot$/.test(command)) {
-      await reboot(steps, host);
+      await reboot(access);
       continue;
     }
 
@@ -50,18 +47,17 @@ export const buildCommands = async (options: {
       continue;
     }
 
-    await exec(command, host);
+    await exec(command, access);
   }
 };
 
 export const setCommands = async (options: {
-  host: ACCESS;
+  access: ACCESS;
   configs: svpsOptions;
   steps: Required<STEPS>;
 }) => {
-  const { configs, host, steps } = options;
+  const { configs, access, steps } = options;
 
-  const appendCommands = setAppendCommands(configs, steps);
   const configUsers = setUsers(configs, steps);
   const verbose = setVerbose(configs);
 
@@ -77,14 +73,14 @@ export const setCommands = async (options: {
 
   if (verbose) console.log('# Initial Commands', initialCommands);
 
-  await buildCommands({ commands: initialCommands, host, steps });
+  await buildCommands({ commands: initialCommands, access });
 
   if (steps.repair) {
     const commands = repair();
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.apt) {
@@ -92,18 +88,17 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.firewall) {
-    const commands = firewall(configs, steps, host);
+    const commands = firewall(configs, steps, access);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({
       commands,
-      host,
-      steps,
+      access,
     });
   }
 
@@ -112,7 +107,7 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.certificate) {
@@ -120,7 +115,7 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.apache) {
@@ -128,7 +123,7 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.docker) {
@@ -136,7 +131,7 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.php) {
@@ -144,7 +139,7 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.node) {
@@ -152,7 +147,7 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.mysql) {
@@ -160,15 +155,15 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.crontab) {
-    const commands = crontab(configs, steps, host);
+    const commands = crontab(configs, steps, access);
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 
   if (steps.desktop) {
@@ -189,18 +184,6 @@ export const setCommands = async (options: {
 
     if (verbose) console.log('# Repair', commands);
 
-    await buildCommands({ commands, host, steps });
-  }
-
-  if (steps.appendCommands && appendCommands) {
-    const commands = [
-      `echo "${sh.startTitle}Appending your personal commands${sh.endTitle}"`,
-      ...(await appendCommands()),
-      sh.done,
-    ];
-
-    if (verbose) console.log('# Repair', commands);
-
-    await buildCommands({ commands, host, steps });
+    await buildCommands({ commands, access });
   }
 };

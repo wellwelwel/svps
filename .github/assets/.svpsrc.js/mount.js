@@ -1,20 +1,14 @@
 import { defineConfig } from 'svps';
 
 export default defineConfig({
-  access: [
-    {
-      host: process.env?.HOST || '127.0.0.1',
-      username: process.env.USER,
-      password: process.env.PASS,
-      port: Number(process.env.PORT) || 22,
-    },
-  ],
   users: [
     {
       name: 'support',
       password: '123',
       sudo: true,
       sftp: {
+        chRoot: '/var/containers/',
+        chUser: '/var/containers/domains',
         mask: '077',
       },
       ftp: {
@@ -66,19 +60,17 @@ export default defineConfig({
     append: false,
   },
   steps: {
-    repair: true,
-    apt: true,
-    firewall: true,
+    repair: false,
+    apt: false,
+    firewall: false,
     users: true,
-    certificate: true,
+    certificate: false,
     apache: true,
     docker: true,
-    php: true,
-    node: true,
-    mysql: true,
+    php: false,
+    node: false,
+    mysql: false,
     crontab: true,
-    appendCommands: true,
-    reboot: true,
+    reboot: false,
   },
-  appendCommands: async () => ['crontab -l'],
 });

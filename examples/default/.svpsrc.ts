@@ -53,8 +53,6 @@ export default defineConfig({
     mysql: false,
     crontab: false,
     desktop: false,
-    appendCommands: true,
     reboot: true,
   },
-  appendCommands: () => [],
 });

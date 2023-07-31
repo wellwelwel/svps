@@ -42,9 +42,5 @@ export interface STEPS {
    */
   desktop?: boolean;
   /** default: `false` */
-  uploads?: boolean;
-  /** default: `false` */
-  appendCommands?: boolean;
-  /** default: `false` */
   reboot?: boolean;
 }

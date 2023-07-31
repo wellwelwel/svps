@@ -51,14 +51,6 @@ export const setSteps = (configs: svpsOptions): Required<STEPS> => {
       configs?.steps && typeof configs.steps?.desktop === 'boolean'
         ? configs.steps.desktop
         : false,
-    uploads:
-      configs?.steps && typeof configs.steps?.uploads === 'boolean'
-        ? configs.steps.uploads
-        : false,
-    appendCommands:
-      configs?.steps && typeof configs.steps?.appendCommands === 'boolean'
-        ? configs.steps.appendCommands
-        : false,
     reboot:
       configs?.steps && typeof configs.steps?.reboot === 'boolean'
         ? configs.steps.reboot

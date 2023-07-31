@@ -9,25 +9,25 @@
 
 // @ts-check
 // import { defineConfig } from 'svps';
-import { defineConfig, escapeQuotes } from '../../../lib/index.js';
-import fs from 'fs';
+// import { defineConfig, escapeQuotes } from '../../../lib/index.js';
+// import fs from 'fs';
 
-const bashrc = fs.readFileSync('./my-bashrc.sh', 'utf-8');
-const quotedBashrc = escapeQuotes(bashrc);
+// const bashrc = fs.readFileSync('./my-bashrc.sh', 'utf-8');
+// const quotedBashrc = escapeQuotes(bashrc);
 
-export default defineConfig({
-  access: [
-    {
-      host: '127.0.0.1',
-      username: String(process.env.USER),
-      password: process.env.PASS,
-    },
-  ],
-  steps: {
-    appendCommands: true,
-  },
-  /**
-   * Your personal `sh` commands will be executed after all enabled steps and before rebooting, case enabled
-   */
-  appendCommands: () => [`echo ${quotedBashrc} | cat > ~/.bashrc`],
-});
+// export default defineConfig({
+//   access: [
+//     {
+//       host: '127.0.0.1',
+//       username: String(process.env.USER),
+//       password: process.env.PASS,
+//     },
+//   ],
+//   steps: {
+//     appendCommands: true,
+//   },
+//   /**
+//    * Your personal `sh` commands will be executed after all enabled steps and before rebooting, case enabled
+//    */
+//   appendCommands: () => [`echo ${quotedBashrc} | cat > ~/.bashrc`],
+// });

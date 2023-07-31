@@ -1,7 +1,6 @@
 export { defineConfig } from './define-config.js';
-export { mount } from './tasks/mount.js';
-export { createVirtualHosts } from './tasks/set-domains.js';
 export { escapeQuotes } from './modules/escape-quotes.js';
+export { SVPS } from './tasks/index.js';
 
 export type { svpsOptions } from './types/svps.js';
 // export type { ACCESS as Access } from './types/acess.js';

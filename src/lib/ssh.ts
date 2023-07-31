@@ -2,8 +2,8 @@ import { Client, ConnectConfig, SFTPWrapper } from 'ssh2';
 import { ACCESS } from './types/acess.js';
 import { resolve as pathResolve } from 'path';
 
-const ssh2 = new Client();
-let SFTP: SFTPWrapper;
+export const ssh2 = new Client();
+export let SFTP: SFTPWrapper;
 
 export const connect = (access: ConnectConfig): Promise<true> =>
   new Promise((resolve, reject) => {

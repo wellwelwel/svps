@@ -1,9 +1,7 @@
 import { catchExec, connect, end, exec } from '../../ssh.js';
-import apt from './apt.js';
 import { ACCESS } from '../../types/acess.js';
-import { STEPS } from '../../types/steps.js';
 
-export default async (steps: Required<STEPS>, VPS: ACCESS): Promise<true> => {
+export default async (VPS: ACCESS): Promise<true> => {
   try {
     await catchExec(
       "shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown"
@@ -28,12 +26,6 @@ export default async (steps: Required<STEPS>, VPS: ACCESS): Promise<true> => {
       try {
         await connect(VPS);
         clearInterval(reconnect);
-
-        if (steps.apt) {
-          const commands = apt();
-
-          for (const command of commands) await exec(command, VPS);
-        }
 
         await exec('history -c');
 

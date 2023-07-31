@@ -2,13 +2,6 @@
 import { defineConfig } from 'svps';
 
 export default defineConfig({
-  access: [
-    {
-      host: '',
-      username: 'root',
-      password: '',
-    },
-  ],
   users: [
     {
       name: '',
@@ -39,7 +32,6 @@ export default defineConfig({
     mysql: false,
     crontab: false,
     desktop: false,
-    appendCommands: true,
     reboot: true,
   },
   appendCommands: () => [],

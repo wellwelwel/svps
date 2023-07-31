@@ -10,6 +10,14 @@ import { SVPS } from 'svps';
     },
   });
 
-  await svps.mount();
+  await svps.upload([
+    {
+      local: '../resources',
+      remote: '/root/svps/resources',
+      permissions: {
+        user: 'support',
+      },
+    },
+  ]);
   await svps.end();
 })();

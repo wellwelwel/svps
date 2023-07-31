@@ -10,6 +10,6 @@ import { SVPS } from 'svps';
     },
   });
 
-  await svps.mount();
+  await svps.commands([]);
   await svps.end();
 })();
