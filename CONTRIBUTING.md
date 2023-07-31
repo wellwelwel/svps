@@ -35,6 +35,6 @@ npm run tests:reset
 
 By opening an **Issue** or submit a **Pull Request**, describe your problem or solution. If you can share a basic repro, it will be great.
 
-If you added a feature, make sure you set this feature step as `true` in [_.github/assets/.svpsrc.js/mount.js_](./.github/assets/.svpsrc.js/mount.js).
+If you added a feature, make sure you enabled it in [_./src/tests/mount.ts_](./src/tests/mount.ts#15).
 
 > Naturally, please **be respectful** 🙋🏻‍♂️

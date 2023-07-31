@@ -36,12 +36,7 @@ const createSVPS = () => {
     }
 
     /**
-     *
      * Prepare and execute the command queue.
-     *
-     * ---
-     *
-     * Is *.svpsrc.js* missing? Simply run `npx svps create` 🧙🏻
      */
     mount = async (options?: MOUNT) => {
       try {
@@ -80,12 +75,7 @@ const createSVPS = () => {
     };
 
     /**
-     *
      * Create the Virtual Hosts
-     *
-     * ---
-     *
-     * Is *.svpsrc.js* missing? Simply run `npx svps create` 🧙🏻
      */
     createVirtualHosts = async (
       /**
@@ -251,12 +241,7 @@ const createSVPS = () => {
     };
 
     /**
-     *
      * Upload files and directories.
-     *
-     * ---
-     *
-     * Is *.svpsrc.js* missing? Simply run `npx svps create` 🧙🏻
      */
     upload = async (paths: UPLOAD[]) => {
       try {

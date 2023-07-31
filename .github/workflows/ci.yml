@@ -73,11 +73,6 @@ jobs:
         run: |
           cat tests/package-lock.json
 
-      - name: 🧬 Checking ".svpsrc.js"
-        if: ${{ failure() }}
-        run: |
-          cat tests/.svpsrc.js
-
       - name: 🧬 Checking "node_modules"
         if: ${{ failure() }}
         run: |

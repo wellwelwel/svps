@@ -1,6 +1,4 @@
 /**
- * Use this file as `.svpsrc.js` 🧙🏻
- *
  * Basic Usage Limitations:
  *
  * - The Basic Virtual Hosts can't access each other (for example, to use them like an API)

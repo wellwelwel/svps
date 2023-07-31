@@ -4,39 +4,20 @@ The extension of examples are `.ts` for automated testing purposes. You can use 
 
 ---
 
-### Setting your _.svpsrc.js_ for:
+### Setting the SVPS for:
 
-> For default settings, you can perform `npx svps create`
-
-- Append your commands
-  - [Creating a personal welcome message from a `.sh` file when logging into the **VPS**](./append-commands/ssh-welcome-message/)
-- [Turn your **Ubuntu Server** into a **Desktop Server** with **RDP**](./desktop/)
-- [**FTP** access](./ftp/)
+- Create your own commands
+  - [Creating a personal welcome message from a `.sh` file when logging into the **Server**](./commands/ssh-welcome-message/)
+- [Upload a directory](./upload/)
 - [**SFTP** access](./sftp/)
+- [**FTP** access](./ftp/) (less secure than **SFTP**)
 - [Install **MySQL**](./mysql/)
 - [Install **Node.js**](./node/)
 - [Install **PHP**](./php/)
-- [Create a **RSA Certificate**](./rsa/)
-- [**Crontab**](./crontab/)
+- [Creating a **RSA Certificate**](./rsa/)
+- [Setting a **Crontab**](./crontab/)
 - Virtual Hosts
   - Basic Usage
     - [Creating domains with **Node.js** and **MySQL**](./virtual-hosts/basic/node-and-mysql)
     - [Creating domains with **PHP** and **MySQL**](./virtual-hosts/basic/php-and-mysql)
-  - Advanced Usage
-    - [Creating a domain with a custom **server**, **cache storage**, **database** and **queue**](./virtual-hosts//advanced/server-db-cache-queue/)
-
----
-
-### Running SVPS and your bash commands
-
-```sh
-npx svps mount
-```
-
----
-
-### Creating Virtual Hosts
-
-```sh
-npx svps set domains
-```
+- [Turn your **Ubuntu Server** into a **Desktop Server** with **RDP**](./desktop/)
