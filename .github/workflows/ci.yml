@@ -1,6 +1,7 @@
 name: 🔬
 on:
   push:
+    branches: [main]
   pull_request:
   workflow_dispatch:
 env:
@@ -40,6 +41,15 @@ jobs:
 
       - name: ⚙️ Building
         run: npm run build
+
+      - name: ⚙️ Building Examples
+        run: npm run build:examples
+
+      - name: 🤹🏻‍♀️ ESLint Check
+        run: npm run eslint:checker
+
+      - name: 🤹🏻‍♀️ Prettier Check
+        run: npm run prettier:checker
 
       - name: 🧪 Testing Service - Create
         run: npm run tests:create
