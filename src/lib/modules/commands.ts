@@ -1,5 +1,5 @@
 import { ACCESS } from '../types/acess.js';
-import { svpsOptions } from '../types/svps.js';
+import { MOUNT } from '../types/mount.js';
 
 import { catchExec, exec } from '../ssh.js';
 
@@ -52,7 +52,7 @@ export const buildCommands = async (options: {
 
 export const setCommands = async (options: {
   access: ACCESS;
-  configs: svpsOptions;
+  configs: MOUNT;
 }) => {
   const { configs, access } = options;
 

@@ -1,7 +1,7 @@
 import { NODE } from '../../types/node.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export const setNode = (configs: svpsOptions): Required<NODE> | null => {
+export const setNode = (configs: MOUNT): Required<NODE> | null => {
   if (!configs?.node || typeof configs?.node !== 'object') return null;
 
   return {

@@ -1,8 +1,26 @@
 /**
- * Using a Docker Container to create a local VPS:
- * docker run -d --privileged -p 22:22 -p 5001:5001 --restart always wellwelwel/vps:latest
+ * Basic Usage Limitations:
  *
- * Or just put your own VPS access to test
+ * - The Basic Virtual Hosts can't access each other (for example, to use them like an API)
+ * - You can have a single database for domain
+ * - You can use only PHP (8.2), NODE (LTS) and MySQL (8.x)
+ * - You can't use custom languages or tools neither personalize their options
+ *
+ * ---
+ *
+ * Accessing your database from Node.js:
+ *
+ *  HOST: db_{domain} (ex.: db_site.com)
+ *  USER: root (default)
+ *  PORT: 3306 (always)
+ *  Then, your database name and password 🔓
+ *
+ * Accessing your database externally:
+ *
+ *  HOST: {vps_host} (or "localhost" for use it on VPS itself)
+ *  USER: root (default)
+ *  PORT: {exposed_port} (ex. 5001)
+ *  Then, your database name and password 🔓
  */
 
 // @ts-check
@@ -20,7 +38,21 @@ const svps = new SVPS({
 /**
  * Install Apache2, Docker and create an user to manage the Virtual Hosts via SFTP
  */
-await svps.mount();
+await svps.mount({
+  users: [
+    {
+      name: 'my-user',
+      password: String(process.env.USER_PASS),
+      sftp: {
+        chRoot: '/var/containers/',
+        chUser: '/var/containers/domains',
+        mask: '077',
+      },
+    },
+  ],
+  apache: true,
+  docker: true,
+});
 
 await svps.createVirtualHosts([
   {

@@ -3,10 +3,10 @@ import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setPHP } from '../../modules/configs/php.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 import { rootSVPS } from '../../modules/root.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   const php = setPHP(configs);
 
   if (!php) return [] as string[];

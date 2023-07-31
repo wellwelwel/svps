@@ -1,5 +1,3 @@
-// User options from ".svpsrc.js"
-import { setConfigs } from '../modules/configs/index.js';
 import { uploads } from '../modules/configs/uploads.js';
 import { createBasicVirtualHost, isBasic } from './virtual-host/basic.js';
 import { createProxy } from './virtual-host/apache.js';
@@ -14,14 +12,14 @@ import reboot from './steps/reboot.js';
 import { ACCESS } from '../types/acess.js';
 import { VIRTUAL_HOST, BASIC_VIRTUAL_HOST } from '../types/virtual-hosts.js';
 import { UPLOAD } from '../types/upload.js';
+import { MOUNT } from '../types/mount.js';
 
 const createSVPS = () => {
   let connected: boolean = false;
-  let configPath: string;
   let access: ACCESS;
 
-  const createConnection = async (host: ACCESS) => {
-    await connect(host);
+  const createConnection = async (access: ACCESS) => {
+    await connect(access);
 
     /** Just checking the connection */
     await catchExec('sleep 1');
@@ -33,11 +31,8 @@ const createSVPS = () => {
     constructor(options: {
       /** Set the SSH access for one or more VPS */
       access: ACCESS;
-      /** Set a custom path for _svpsrc.js_ */
-      configPath?: string;
     }) {
       access = options.access;
-      configPath = options.configPath || '.svpsrc.js';
     }
 
     /**
@@ -48,15 +43,18 @@ const createSVPS = () => {
      *
      * Is *.svpsrc.js* missing? Simply run `npx svps create` 🧙🏻
      */
-    mount = async () => {
+    mount = async (options?: MOUNT) => {
       try {
-        const configs = await setConfigs(configPath);
-
         console.log(
           `\x1b[22m\x1b[36m\x1b[1m⦿ ${access.username}@${access.host}\x1b[0m`
         );
 
         if (!connected) await createConnection(access);
+
+        /** Only connection */
+        if (!options) return true;
+
+        const configs = options;
 
         await setCommands({
           configs,

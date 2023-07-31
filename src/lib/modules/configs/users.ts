@@ -1,8 +1,8 @@
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 import { REQUIRED_USER } from '../../types/users.js';
 import { forceArray } from '../force-array.js';
 
-export const setUsers = (configs: svpsOptions) => {
+export const setUsers = (configs: MOUNT) => {
   if (!configs?.users) return null;
 
   const mapUsers = forceArray(configs.users) as REQUIRED_USER[];

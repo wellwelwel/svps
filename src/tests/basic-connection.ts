@@ -9,10 +9,10 @@ import { SVPS } from '../lib/index.js';
         password: process.env.PASS,
         port: Number(process.env.PORT) || 22,
       },
-      configPath: './svpsrc-basic-connection.js',
     });
 
     await svps.mount();
+
     await svps.end();
   } catch (error) {
     console.log(error);

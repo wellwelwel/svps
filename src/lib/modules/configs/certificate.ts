@@ -1,9 +1,7 @@
 import { REQUIRED_CERTIFICATE } from '../../types/certificate.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export const setCertificate = (
-  configs: svpsOptions
-): REQUIRED_CERTIFICATE | null => {
+export const setCertificate = (configs: MOUNT): REQUIRED_CERTIFICATE | null => {
   if (typeof configs?.certificate !== 'object') return null;
 
   const { certificate } = configs;

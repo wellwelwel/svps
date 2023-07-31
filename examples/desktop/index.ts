@@ -17,5 +17,8 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  desktop: true,
+});
+
 await svps.end();

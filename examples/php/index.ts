@@ -17,5 +17,26 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  users: [
+    {
+      name: 'manager',
+      password: String(process.env.MANAGER_PASS),
+      sftp: {
+        chRoot: '/var/www',
+        chUser: '/var/www/domains',
+        mask: '022',
+      },
+      groups: ['www-data'],
+    },
+  ],
+  apache: {
+    accessFromIP: false,
+  },
+  php: {
+    composer: true,
+    version: 8.2,
+  },
+});
+
 await svps.end();

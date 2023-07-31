@@ -1,7 +1,7 @@
 import { PHP } from '../../types/php.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export const setPHP = (configs: svpsOptions): Required<PHP> | null => {
+export const setPHP = (configs: MOUNT): Required<PHP> | null => {
   if (!configs?.php || typeof configs?.php !== 'object') return null;
 
   return {

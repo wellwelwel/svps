@@ -1,7 +1,7 @@
 import { REQUIRED_MYSQL } from '../../types/mysql.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export const setMysql = (configs: svpsOptions): REQUIRED_MYSQL | null => {
+export const setMysql = (configs: MOUNT): REQUIRED_MYSQL | null => {
   if (typeof configs?.mysql !== 'object') return null;
   if (typeof configs.mysql?.root !== 'object')
     throw 'The field `root` in `mysql` options is required';

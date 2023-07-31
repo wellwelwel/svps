@@ -17,5 +17,22 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  users: [
+    {
+      name: 'manager',
+      password: String(process.env.MANAGER_PASS),
+      sftp: {
+        chRoot: '/home/manager',
+        chUser: '/home/manager/apps',
+        mask: '027',
+      },
+    },
+  ],
+  node: {
+    version: 20,
+    packages: ['yarn'],
+  },
+});
+
 await svps.end();

@@ -1,7 +1,7 @@
 import sh from '../../modules/sh.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   if (!configs.docker) return [] as string[];
 
   return [

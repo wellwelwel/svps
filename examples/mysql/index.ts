@@ -17,5 +17,25 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  mysql: {
+    root: {
+      pass: 'root',
+    },
+    databases: ['mydb'],
+    users: [
+      {
+        host: '127.0.0.1',
+        name: 'local_user',
+        pass: String(process.env.DB_PASS),
+      },
+      {
+        host: '192.168.0.1',
+        name: 'external_user',
+        pass: String(process.env.DB_PASS),
+      },
+    ],
+  },
+});
+
 await svps.end();

@@ -7,7 +7,7 @@ import { PHP } from './php.js';
 import { USER } from './users.js';
 import { VERBOSE } from './verbose.js';
 
-export interface svpsOptions {
+export interface MOUNT {
   /** Set the accesses you want to be created */
   users?: USER | USER[];
   /** Open SSL RSA Certificate

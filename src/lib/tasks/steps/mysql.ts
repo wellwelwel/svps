@@ -3,10 +3,10 @@ import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setMysql } from '../../modules/configs/mysql.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 import { rootSVPS } from '../../modules/root.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   const mysql = setMysql(configs);
 
   if (!mysql) return [] as string[];

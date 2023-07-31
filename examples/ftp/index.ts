@@ -17,5 +17,28 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  users: [
+    {
+      name: 'support',
+      password: String(process.env.SUPPORT_PASS),
+      ftp: {
+        /** default options */
+        directory: '/home/support',
+        mask: '022',
+      },
+    },
+  ],
+  certificate: {
+    fields: {
+      commonName: 'SPVS',
+      country: 'BR',
+      location: 'São Paulo',
+      state: 'São Paulo',
+      organization: 'weslley.io',
+      organizationUnit: 'Open Source Development',
+    },
+  },
+});
+
 await svps.end();

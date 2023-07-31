@@ -17,5 +17,20 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  certificate: {
+    days: 365 * 3,
+    fields: {
+      commonName: 'SPVS',
+      country: 'BR',
+      location: 'São Paulo',
+      state: 'São Paulo',
+      organization: 'weslley.io',
+      organizationUnit: 'Open Source Development',
+    },
+    output: '/etc/ssl/private/cert.pem',
+    rsa: 4096,
+  },
+});
+
 await svps.end();

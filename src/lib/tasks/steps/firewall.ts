@@ -1,9 +1,9 @@
 import sh from '../../modules/sh.js';
 import { setMysql } from '../../modules/configs/mysql.js';
 import { ACCESS } from '../../types/acess.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export default (configs: svpsOptions, VPS: ACCESS) => {
+export default (configs: MOUNT, VPS: ACCESS) => {
   const mysql = setMysql(configs);
 
   const commands = [

@@ -4,9 +4,9 @@ import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setCrontab } from '../../modules/configs/crontab.js';
 import { ACCESS } from '../../types/acess.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export default (configs: svpsOptions, VPS: ACCESS) => {
+export default (configs: MOUNT, VPS: ACCESS) => {
   const crontab = setCrontab(configs);
 
   if (!crontab) return [] as string[];

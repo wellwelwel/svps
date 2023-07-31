@@ -17,5 +17,19 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  users: [
+    {
+      name: 'support',
+      password: String(process.env.SUPPORT_PASS),
+      sftp: {
+        /** default options */
+        mask: '077',
+        chRoot: '/home',
+        chUser: '/home/support',
+      },
+    },
+  ],
+});
+
 await svps.end();

@@ -17,5 +17,9 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  crontab: {
+    path: './crontab.sh',
+  },
+});
 await svps.end();

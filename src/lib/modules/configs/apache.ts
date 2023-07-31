@@ -1,7 +1,7 @@
 import { APACHE } from '../../types/apache.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export const setApache = (configs: svpsOptions): Required<APACHE> | null => {
+export const setApache = (configs: MOUNT): Required<APACHE> | null => {
   if (!configs?.apache) return null;
 
   if (configs.apache === true)

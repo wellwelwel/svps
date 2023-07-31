@@ -17,5 +17,30 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+await svps.mount({
+  users: [
+    {
+      name: '',
+      password: '',
+      sudo: false,
+      sftp: true,
+    },
+  ],
+  apache: true,
+  php: true,
+  node: true,
+  mysql: {
+    root: {
+      pass: '',
+    },
+    users: [],
+  },
+  repair: true,
+  apt: true,
+  firewall: true,
+  docker: false,
+  desktop: false,
+  reboot: true,
+});
+
 await svps.end();

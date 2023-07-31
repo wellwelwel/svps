@@ -1,7 +1,7 @@
 import { CRONTAB } from '../../types/crontab.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export const setCrontab = (configs: svpsOptions): Required<CRONTAB> | null => {
+export const setCrontab = (configs: MOUNT): Required<CRONTAB> | null => {
   return typeof configs?.crontab !== 'object'
     ? null
     : {

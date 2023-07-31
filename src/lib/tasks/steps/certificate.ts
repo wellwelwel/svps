@@ -1,8 +1,8 @@
 import sh from '../../modules/sh.js';
 import { setCertificate } from '../../modules/configs/certificate.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   const certificate = setCertificate(configs);
 
   if (!certificate) return [] as string[];

@@ -6,10 +6,10 @@ import { setUsers } from '../../../modules/configs/users.js';
 import sh from '../../../modules/sh.js';
 import { setFTP } from './ftp.js';
 import { setSFTP } from './sftp.js';
-import { svpsOptions } from '../../../types/svps.js';
+import { MOUNT } from '../../../types/mount.js';
 import { rootSVPS } from '../../../modules/root.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   const certificate = setCertificate(configs);
   const users = setUsers(configs);
 

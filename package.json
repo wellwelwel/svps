@@ -35,7 +35,7 @@
     "docker:reset": "docker rm --force test-svps >/dev/null 2>&1 || true",
     "docker:run": "docker run -d --name test-svps --privileged -p ${PORT:-22}:${PORT:-22} -e PORT=${PORT:-22} --restart always wellwelwel/vps:latest",
     "tests:docker": "npm run docker:reset; npm run docker:run",
-    "tests:create": "cd ./tests && node ../bin/index.js create && rm ./.svpsrc.js",
+    "tests:create": "cd ./tests && echo '{ \"type\": \"module\" }' | cat > ./package.json",
     "tests:connection": "cd ./tests && node ./basic-connection.js",
     "tests:mount": "cd ./tests && node ./mount.js",
     "tests:commands": "cd ./tests && node ./commands.js",

@@ -1,5 +1,5 @@
 import sh from '../../modules/sh.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
 const desktop: string[] = [
   `echo "${sh.startTitle}Setting up Xubuntu Desktop (It may take a while)${sh.endTitle}"`,
@@ -66,7 +66,7 @@ const browser: string[] = [
   '--catch apt-get install firefox -y || true',
 ];
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   if (!configs.desktop) return [] as string[];
 
   return [...desktop, ...rdp, ...xfce, ...browser];

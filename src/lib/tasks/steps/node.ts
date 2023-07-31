@@ -1,8 +1,8 @@
 import sh from '../../modules/sh.js';
 import { setNode } from '../../modules/configs/node.js';
-import { svpsOptions } from '../../types/svps.js';
+import { MOUNT } from '../../types/mount.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: MOUNT) => {
   const node = setNode(configs);
 
   if (!node) return [] as string[];
