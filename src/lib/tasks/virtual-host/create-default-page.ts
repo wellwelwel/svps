@@ -212,7 +212,7 @@ export const createDefaultPage = (
       </p>
       <a
         target="_blank"
-        href="https://github.com/wellwelwel/svps/tree/next#virtual-hosts"
+        href="https://github.com/wellwelwel/svps#virtual-hosts-domains-forwarding"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

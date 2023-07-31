@@ -19,7 +19,7 @@ import { SVPS, VirtualHost } from '../lib/index.js';
         server: {
           language: 'node',
           permissions: {
-            user: 'wellwelwel',
+            user: 'support',
           },
           mysql: {
             database: 'main',
@@ -34,6 +34,9 @@ import { SVPS, VirtualHost } from '../lib/index.js';
         port: 5002,
         server: {
           language: 'php',
+          permissions: {
+            user: 'support',
+          },
           mysql: {
             database: 'main',
             password: String(process.env.PASS),
