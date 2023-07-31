@@ -4,7 +4,6 @@ import { CRONTAB } from './crontab.js';
 import { MYSQL } from './mysql.js';
 import { NODE } from './node.js';
 import { PHP } from './php.js';
-import { STEPS } from './steps.js';
 import { USER } from './users.js';
 import { VERBOSE } from './verbose.js';
 
@@ -40,8 +39,6 @@ export interface svpsOptions {
   mysql?: MYSQL;
   /** Set `crontabs` from a local file */
   crontab?: CRONTAB;
-  /** Enable or disable the steps */
-  steps?: STEPS;
   /**
    * Set `true` to see all commands in console
    *
@@ -50,4 +47,30 @@ export interface svpsOptions {
    * default: `false`
    */
   verbose?: VERBOSE;
+  /** default: `false` */
+  repair?: boolean;
+  /** default: `false` */
+  apt?: boolean;
+  /**
+   * 🤹🏻‍♀️ In case `mysql` has users, a firewall rule will be created for each one.
+   *
+   * 🖥️ In case `desktop` is enabled, it will add the port `3389`
+   *
+   * ⚠️ The firewall will add the `SSH` port according to the port set on the current VPS (host) or `22` if no port was entered
+   *
+   *  default: `false`
+   */
+  firewall?: boolean;
+  /** default: `false` */
+  docker?: boolean;
+  /**
+   * 🖥️ Intalls the `Xubuntu Desktop` and `RDP Remote` in port `3389`
+   *
+   * ⚠️ The desktop installation can take longer (about 5 to 30 minutes) and take up more disk space (about 1GB to 3GB).
+   *
+   * default: `false`
+   */
+  desktop?: boolean;
+  /** default: `false` */
+  reboot?: boolean;
 }

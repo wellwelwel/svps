@@ -25,7 +25,4 @@ export default defineConfig({
     output: '/etc/ssl/private/cert.pem',
     rsa: 4096,
   },
-  steps: {
-    certificate: true,
-  },
 });

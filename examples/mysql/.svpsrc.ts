@@ -30,7 +30,4 @@ export default defineConfig({
       },
     ],
   },
-  steps: {
-    mysql: true,
-  },
 });

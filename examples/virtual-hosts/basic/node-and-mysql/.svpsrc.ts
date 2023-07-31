@@ -42,10 +42,7 @@ export default defineConfig({
     },
   ],
   apache: {},
-  steps: {
-    apache: true,
-    docker: true,
-  },
+  docker: true,
 });
 
 /**

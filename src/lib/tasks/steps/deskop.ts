@@ -1,5 +1,5 @@
 import sh from '../../modules/sh.js';
-import { STEPS } from '../../types/steps.js';
+import { svpsOptions } from '../../types/svps.js';
 
 const desktop: string[] = [
   `echo "${sh.startTitle}Setting up Xubuntu Desktop (It may take a while)${sh.endTitle}"`,
@@ -66,8 +66,8 @@ const browser: string[] = [
   '--catch apt-get install firefox -y || true',
 ];
 
-export default (steps: Required<STEPS>) => {
-  if (!steps.desktop) return [] as string[];
+export default (configs: svpsOptions) => {
+  if (!configs.desktop) return [] as string[];
 
   return [...desktop, ...rdp, ...xfce, ...browser];
 };

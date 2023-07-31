@@ -33,8 +33,4 @@ export default defineConfig({
       organizationUnit: 'Open Source Development',
     },
   },
-  steps: {
-    users: true,
-    certificate: true,
-  },
 });

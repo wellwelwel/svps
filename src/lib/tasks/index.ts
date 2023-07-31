@@ -1,6 +1,5 @@
 // User options from ".svpsrc.js"
 import { setConfigs } from '../modules/configs/index.js';
-import { setSteps } from '../modules/configs/steps.js';
 import { uploads } from '../modules/configs/uploads.js';
 import { createBasicVirtualHost, isBasic } from './virtual-host/basic.js';
 import { createProxy } from './virtual-host/apache.js';
@@ -52,7 +51,6 @@ const createSVPS = () => {
     mount = async () => {
       try {
         const configs = await setConfigs(configPath);
-        const steps = setSteps(configs);
 
         console.log(
           `\x1b[22m\x1b[36m\x1b[1m⦿ ${access.username}@${access.host}\x1b[0m`
@@ -63,13 +61,12 @@ const createSVPS = () => {
         await setCommands({
           configs,
           access,
-          steps,
         });
 
         /** Clean up */
         await exec('history -c', access);
 
-        if (steps.reboot) await reboot(access);
+        if (configs.reboot) await reboot(access);
 
         console.log('\x1b[0m');
 

@@ -29,10 +29,12 @@ export default defineConfig({
     },
   ],
   apache: {},
+
   node: {
     version: 18,
     packages: ['yarn'],
   },
+
   mysql: {
     root: {
       pass: 'root',
@@ -40,6 +42,7 @@ export default defineConfig({
     databases: ['mydb'],
     users: [{ host: '127.0.0.1', name: 'manager', pass: '789' }],
   },
+
   certificate: {
     days: 365 * 3,
     fields: {
@@ -51,29 +54,27 @@ export default defineConfig({
       organizationUnit: 'Development',
     },
   },
+
   php: {
     composer: true,
     version: 8.2,
   },
+
   crontab: {
     path: '../examples/crontab/crontab.sh',
     append: false,
   },
-  steps: {
-    repair: true,
-    apt: true,
-    firewall: true,
-    users: true,
-    certificate: true,
-    apache: true,
-    docker: true,
-    php: true,
-    node: true,
-    mysql: true,
-    crontab: true,
-    reboot: true,
 
-    // Incompatible with GitHub Actions
-    desktop: false,
-  },
+  repair: true,
+
+  apt: true,
+
+  firewall: true,
+
+  docker: true,
+
+  reboot: true,
+
+  // Incompatible with GitHub Actions
+  desktop: false,
 });

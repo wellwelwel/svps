@@ -31,9 +31,4 @@ export default defineConfig({
     composer: true,
     version: 8.2,
   },
-  steps: {
-    users: true,
-    apache: true,
-    php: true,
-  },
 });

@@ -1,12 +1,11 @@
 import sh from '../../modules/sh.js';
 import { setCertificate } from '../../modules/configs/certificate.js';
 import { svpsOptions } from '../../types/svps.js';
-import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, steps: Required<STEPS>) => {
-  const certificate = setCertificate(configs, steps);
+export default (configs: svpsOptions) => {
+  const certificate = setCertificate(configs);
 
-  if (!certificate || !steps.certificate) return [] as string[];
+  if (!certificate) return [] as string[];
 
   const {
     commonName,

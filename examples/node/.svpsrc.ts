@@ -27,8 +27,4 @@ export default defineConfig({
     version: 20,
     packages: ['yarn'],
   },
-  steps: {
-    users: true,
-    node: true,
-  },
 });

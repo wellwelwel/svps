@@ -1,13 +1,8 @@
 import { NODE } from '../../types/node.js';
-import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
 
-export const setNode = (
-  configs: svpsOptions,
-  steps: Required<STEPS>
-): Required<NODE> | null => {
-  if (!steps.node || !configs?.node || typeof configs?.node !== 'object')
-    return null;
+export const setNode = (configs: svpsOptions): Required<NODE> | null => {
+  if (!configs?.node || typeof configs?.node !== 'object') return null;
 
   return {
     version:

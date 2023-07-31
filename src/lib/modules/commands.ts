@@ -1,5 +1,4 @@
 import { ACCESS } from '../types/acess.js';
-import { STEPS } from '../types/steps.js';
 import { svpsOptions } from '../types/svps.js';
 
 import { catchExec, exec } from '../ssh.js';
@@ -54,11 +53,10 @@ export const buildCommands = async (options: {
 export const setCommands = async (options: {
   access: ACCESS;
   configs: svpsOptions;
-  steps: Required<STEPS>;
 }) => {
-  const { configs, access, steps } = options;
+  const { configs, access } = options;
 
-  const configUsers = setUsers(configs, steps);
+  const configUsers = setUsers(configs);
   const verbose = setVerbose(configs);
 
   const initialCommands = [
@@ -75,7 +73,7 @@ export const setCommands = async (options: {
 
   await buildCommands({ commands: initialCommands, access });
 
-  if (steps.repair) {
+  if (configs.repair) {
     const commands = repair();
 
     if (verbose) console.log('# Repair', commands);
@@ -83,7 +81,7 @@ export const setCommands = async (options: {
     await buildCommands({ commands, access });
   }
 
-  if (steps.apt) {
+  if (configs.apt) {
     const commands = apt();
 
     if (verbose) console.log('# Repair', commands);
@@ -91,8 +89,8 @@ export const setCommands = async (options: {
     await buildCommands({ commands, access });
   }
 
-  if (steps.firewall) {
-    const commands = firewall(configs, steps, access);
+  if (configs.firewall) {
+    const commands = firewall(configs, access);
 
     if (verbose) console.log('# Repair', commands);
 
@@ -102,71 +100,71 @@ export const setCommands = async (options: {
     });
   }
 
-  if (steps.users) {
-    const commands = users(configs, steps);
+  if (configs.users) {
+    const commands = users(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.certificate) {
-    const commands = certificate(configs, steps);
+  if (configs.certificate) {
+    const commands = certificate(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.apache) {
-    const commands = apache(configs, steps);
+  if (configs.apache) {
+    const commands = apache(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.docker) {
-    const commands = docker(steps);
+  if (configs.docker) {
+    const commands = docker(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.php) {
-    const commands = php(configs, steps);
+  if (configs.php) {
+    const commands = php(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.node) {
-    const commands = node(configs, steps);
+  if (configs.node) {
+    const commands = node(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.mysql) {
-    const commands = mysql(configs, steps);
+  if (configs.mysql) {
+    const commands = mysql(configs);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.crontab) {
-    const commands = crontab(configs, steps, access);
+  if (configs.crontab) {
+    const commands = crontab(configs, access);
 
     if (verbose) console.log('# Repair', commands);
 
     await buildCommands({ commands, access });
   }
 
-  if (steps.desktop) {
+  if (configs.desktop) {
     /** Upload first-time XRDP scriptfor each user */
     if (configUsers && configUsers?.length > 0) {
       for (const user of configUsers) {
@@ -180,7 +178,7 @@ export const setCommands = async (options: {
       }
     }
 
-    const commands = desktop(steps);
+    const commands = desktop(configs);
 
     if (verbose) console.log('# Repair', commands);
 

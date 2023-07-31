@@ -2,10 +2,9 @@ import sh from '../../modules/sh.js';
 import { setMysql } from '../../modules/configs/mysql.js';
 import { ACCESS } from '../../types/acess.js';
 import { svpsOptions } from '../../types/svps.js';
-import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, steps: Required<STEPS>, VPS: ACCESS) => {
-  const mysql = setMysql(configs, steps);
+export default (configs: svpsOptions, VPS: ACCESS) => {
+  const mysql = setMysql(configs);
 
   const commands = [
     `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
@@ -39,7 +38,7 @@ export default (configs: svpsOptions, steps: Required<STEPS>, VPS: ACCESS) => {
     }
   }
 
-  if (steps.desktop) {
+  if (configs.desktop) {
     /* Open port to RDP */
     Object.assign(commands, [
       ...commands,

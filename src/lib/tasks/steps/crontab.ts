@@ -5,12 +5,11 @@ import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setCrontab } from '../../modules/configs/crontab.js';
 import { ACCESS } from '../../types/acess.js';
 import { svpsOptions } from '../../types/svps.js';
-import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, steps: Required<STEPS>, VPS: ACCESS) => {
-  const crontab = setCrontab(configs, steps);
+export default (configs: svpsOptions, VPS: ACCESS) => {
+  const crontab = setCrontab(configs);
 
-  if (!crontab || !steps.crontab) return [] as string[];
+  if (!crontab) return [] as string[];
 
   const append = crontab.append || false;
   const crons = escapeQuotes(fs.readFileSync(normalize(crontab.path), 'utf-8'));

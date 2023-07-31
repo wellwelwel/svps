@@ -15,7 +15,4 @@ export default defineConfig({
   crontab: {
     path: './crontab.sh',
   },
-  steps: {
-    crontab: true,
-  },
 });

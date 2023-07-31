@@ -5,12 +5,11 @@ import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setApache } from '../../modules/configs/apache.js';
 import { svpsOptions } from '../../types/svps.js';
 import { rootSVPS } from '../../modules/root.js';
-import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, steps: Required<STEPS>) => {
+export default (configs: svpsOptions) => {
   const apache = setApache(configs);
 
-  if (!steps.apache) return [] as string[];
+  if (!apache) return [] as string[];
 
   const default_000 = `${rootSVPS}/resources/apache/virtual-host/000-default.conf`;
 

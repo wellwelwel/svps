@@ -1,13 +1,8 @@
 import { PHP } from '../../types/php.js';
-import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
 
-export const setPHP = (
-  configs: svpsOptions,
-  steps: Required<STEPS>
-): Required<PHP> | null => {
-  if (!steps.php || !configs?.php || typeof configs?.php !== 'object')
-    return null;
+export const setPHP = (configs: svpsOptions): Required<PHP> | null => {
+  if (!configs?.php || typeof configs?.php !== 'object') return null;
 
   return {
     version:

@@ -12,7 +12,5 @@
 import { defineConfig } from '../../lib/index.js';
 
 export default defineConfig({
-  steps: {
-    desktop: true,
-  },
+  desktop: true,
 });

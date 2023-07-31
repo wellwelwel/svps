@@ -1,8 +1,8 @@
 import sh from '../../modules/sh.js';
-import { STEPS } from '../../types/steps.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export default (steps: Required<STEPS>) => {
-  if (!steps.docker) return [] as string[];
+export default (configs: svpsOptions) => {
+  if (!configs.docker) return [] as string[];
 
   return [
     `echo "${sh.startTitle}Installing Docker${sh.endTitle}"`,

@@ -24,7 +24,4 @@ export default defineConfig({
       },
     },
   ],
-  steps: {
-    users: true,
-  },
 });

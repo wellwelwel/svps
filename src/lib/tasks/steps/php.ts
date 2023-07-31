@@ -5,10 +5,9 @@ import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setPHP } from '../../modules/configs/php.js';
 import { svpsOptions } from '../../types/svps.js';
 import { rootSVPS } from '../../modules/root.js';
-import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, steps: Required<STEPS>) => {
-  const php = setPHP(configs, steps);
+export default (configs: svpsOptions) => {
+  const php = setPHP(configs);
 
   if (!php) return [] as string[];
 
