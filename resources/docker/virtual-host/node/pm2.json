@@ -1,0 +1,16 @@
+{
+  "apps": [
+    {
+      "name": "app",
+      "script": "/usr/app/app.js",
+      "instances": "max",
+      "exec_mode": "cluster",
+      "autorestart": true,
+      "watch": true,
+      "max_memory_restart": "1G",
+      "env": {
+        "NODE_ENV": "production"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+version: '3.9'
+services:
+  server:
+    image: wellwelwel/php:8-shared-based
+    container_name: ${!DOMAIN}-app
+    restart: always
+    ports:
+      - '${!PUBLIC}${!PORT}:80'
+    volumes:
+      - /var/containers/domains/${!DOMAIN}:/var/www

@@ -1,0 +1,45 @@
+version: '3.9'
+services:
+  server:
+    build:
+      context: ../images
+      dockerfile: ./Dockerfile-node-lts-alpine
+    container_name: ${!DOMAIN}-app
+    restart: always
+    ports:
+      - '${!PUBLIC}${!PORT}:${!PORT}'
+    volumes:
+      - /var/containers/domains/${!DOMAIN}:/usr/app
+    command: pm2-runtime /usr/app/pm2.json
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql:8-debian
+    platform: linux/amd64
+    container_name: ${!DOMAIN}-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /etc/mysql/conf.d/secret
+      MYSQL_DATABASE: '${!DB_NAME}'
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - '${!DB_PUBLIC}${!DB_EXPOSE}3306'
+    volumes:
+      - /var/containers/databases/${!DOMAIN}/data:/var/lib/mysql
+      - /var/containers/databases/${!DOMAIN}/conf.d:/etc/mysql/conf.d:ro
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'mysqladmin',
+          'ping',
+          '-h',
+          'localhost',
+          '-u',
+          'root',
+          '--password="$\(cat /etc/mysql/conf.d/secret\)"',
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

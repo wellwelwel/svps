@@ -1,124 +1,280 @@
-<h2 align="center">SVPS - Auto Mount VPS</h2>
-<p align="center">🚀 A simple CLI tool to automate the setup and pre-settings of your Ubuntu VPS</p>
+<div align="center">
+  <h1>SVPS - Simplifying VPS</h1>
+  <p>🚀 An easier tool to automate your <b>Ubuntu Server</b> setup and domain forwarding</p>
+  <img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm">
+  <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci&branch=main" alt="GitHub Workflow Status (with event)">
+  <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
+</div>
 
-### Install
+## Table of Contents
+
+- [About](#about)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Automatic Installations](#automatic-installations)
+    - [Available **auto-installation**](#available-auto-installation)
+    - [Notes](#notes)
+  - [Personal Commands (Queuing)](#personal-commands-queuing)
+  - [Upload Files and Directories](#upload-files-and-directories)
+  - [**Virtual Hosts** (Domains Forwarding)](#virtual-hosts-domains-forwarding)
+    - [Basic Usage](#basic-usage-easier)
+    - [Advanced Usage](#advanced-usage-manual)
+  - [Turning **VPS Server** into **Desktop Server** (**RDP**)](#turning-vps-server-into-desktop-server-rdp)
+  - [Testing using a **Docker** Container](#testing-using-a-docker-container)
+- [Important](#important)
+  - [Known Issues](#known-issues)
+  - [Compatibility](#compatibility)
+  - [License](#license)
+- [Community](#community)
+  - [Contributing](#contributing)
+  - [Credits](#credits)
+
+---
+
+## About
+
+**SVPS**, initially designed to simplify tasks for non-Unix users, works as an **ORM** for **Ubuntu Servers**.
+
+It supports command automation, files and directories upload via **SFTP**, automatic installations and configurations, domain forwarding, local text files and template strings into _escaped quoted strings_ for dynamic remote file creation, among other features.
+
+All this, using just a single one connection 🧙🏻✨
+
+---
+
+## Installation
 
 ```shell
-   npm i svps
+  npm i svps
 ```
 
-<hr />
+## Usage
 
-### Initializing the Environment
+```js
+import { SVPS } from 'svps';
 
-```sh
-   npx svps || npx svps init
+const svps = new SVPS({
+  access: {
+    host: '127.0.0.1',
+    username: 'root',
+    password: 'root',
+  },
+});
 ```
 
--  This will create the default configuration files:
+---
 
-   ```javascript
-   ['.svpsrc.js', '.domains.json', '.cronjobs.sh', 'index.html'];
-   ```
+### Automatic Installations
 
--  Edit **`.svpsrc.js`** with the **SSH** access and your settings
-<hr />
+```js
+await svps.mount({
+  php: true || { version: 8.2, composer: true },
+  node: true || { version: 18, packages: ['yarn'] },
+  apache: true,
+  docker: true,
+  // ...
 
-### Mounting VPS
-
-```sh
-   npx svps mount
+  /**
+   * ... Users, Desktop (RDP), Firewall,  etc.
+   *
+   * See all available automatic installations below 👇🏻
+   */
+});
 ```
 
-#### Setps:
+#### Available auto-installation
 
-1. Fixes common conflicts on **Ubuntu**
-2. Runs common **apt** commands
-3. Sets the most common **Firewall** settings
-4. Installs **Apache2** and forbids access to the default `html` directory
-5. Installs **vsftpd** with users setted in `.svpsrc.js`
-6. Prepares the **Virtual Host** and abilite **Rewrite**
-7. Installs **PHP** with the version setted in `.svpsrc.js`
-8. Installs **Node.js** with the version and global modules setted in `.svpsrc.js`
-9. Installs **MySQL** and creates the databases and users setted in `.svpsrc.js`
-10.   Adds cronjobs setted on the file specified in `.svpsrc.js`
-11.   Reruns common **apt** commands
-12.   Executes your personal **sh commands** specified in `.svpsrc.js`
-13.   Restart VPS
+- [Repair common possible conflicts and vulnerabilities on **Ubuntu**](./src/lib/tasks/steps/repair.ts)
+- [Run common `apt` commands](./src/lib/tasks/steps/apt.ts)
+- [Set the most common **Firewall** (`ufw`) settings](./src/lib/tasks/steps/firewall.ts)
+  - This will activate the **SSH** port according to the entered port or `22` by default
+  - The **Firewall** has different behaviors when combined with **Desktop** and **MySQL**
+- [Create users and groups](./src/lib/tasks/steps/users/)
+- [**SFTP** by enabling it for any user](./examples/sftp/)
+- [**FTP** (`vsftpd`) by enabling it for any user](./examples/ftp/)
+- [**RSA Certificate**](./examples/rsa/)
+- [**Docker** and **Docker Compose**](./src/lib/tasks/steps/docker.ts)
+- [**PHP**](./examples/php/)
+- [**Node.js**](./examples/node/)
+- [**MySQL**](./examples/mysql/)
+- [**Crontab**](./examples/crontab/)
+- [**Remote Desktop Protocol** (**RDP**)](./examples/desktop/)
+- [Restart the **Server**](./src/lib/tasks/steps/reboot.ts)
 
-#### Notes:
+> See some practical [examples](./examples/).
 
--  **All steps are optional:** You can enable or disable any step in `.svpsrc.js`
--  You are free to disable all the steps and create your own module of **sh commands** ˣ‿ˣ
-   -  See `APPEND_COMMANDS` in `.svpsrc.js`
--  The entire remote process is displayed on console in real time
--  This may take a long time depending on your VPS plan
-<hr />
+#### Notes
 
-### Adding Virutal Hosts
+- The entire remote process is displayed on console in real time
+- Find all the commands behind **SVPS** in [_src/lib/tasks/steps_](./src/lib/tasks/steps/)
+- This may take a long time depending on your **VPS** specifications
 
-```sh
-   npx svps set domains
+---
+
+### Personal Commands (Queuing)
+
+Create your own commands and combine with other **SVPS** features.
+
+```js
+const commands = ['echo "🚀"'];
+
+await svps.commands(commands);
 ```
 
--  Gets listed domains in `.domains.json`
--  Sets the **Virtual Host** for each domain and **`www` CNAME**
--  Creates each domain directories with a default `index.(html|php)` setted in `.svpsrc.js`
-   -  The domains previously set up or repeated in the list will be ignored
+- You can use the `escapeQuotes` method to create multi-line escaped quoted strings. See an example [here](./examples/commands/ssh-welcome-message/).
 
-#### For Node.js:
+---
 
--  The proxy is already auto-configured to route all local ports to 80, then just add the domains with local port in `.domains.json`:
+### Upload Files and Directories
 
-   ```javascript
-      [
-         ...,
-         "mysite.com:3000",
-         // 📁 mysite.com/app.js
-         // 📁 mysite.com/public_html/index.html
+Transfer your local files and directories and set permissions for each upload.
 
-         "mycname.mysite.com:3001",
-         // 📁 mycname.mysite.com/app.js
-         // 📁 mycname.mysite.com/public_html/index.html
+```js
+await svps.upload([
+  {
+    local: './my-app-dist',
+    remote: '/workspace',
+    permissions: {
+      user: 'my-user',
+    },
+  },
+]);
+```
 
-         "myothersite.com:3002",
-         // 📁 myothersite.com/app.js
-         // 📁 myothersite.com/public_html/index.html
-      ]
-   ```
+- It uses **SFTP** to send the content to remote server
 
-   -  Don't repeat local ports!
+---
 
-#### For PHP:
+### Virtual Hosts (Domains Forwarding)
 
--  Just add the domains in `.domains.json`:
+```js
+await svps.createVirtualHosts([
+  // Basic or Advanced Virtual Hosts
+]);
 
-   ```javascript
-      [
-         ...,
-         "mysite.com",
-         // 📁 mysite.com/public_html/index.html
+/**
+ * This will create a log with the processed domains to ensure that only new domains are processed.
+ * If you delete this log, the domains will be understood as new and will be overwritten.
+ */
+```
 
-         "mycname.mysite.com",
-         // 📁 mycname.mysite.com/public_html/index.html
+#### Basic Usage (easier)
 
-         "myothersite.com",
-         // 📁 myothersite.com/public_html/index.html
-      ]
-   ```
+![Node.js](https://img.shields.io/badge/Node.js-LTS-green)
+![PHP](https://img.shields.io/badge/PHP-8.2-4F5B93)
+![MySQL](https://img.shields.io/badge/MySQL-8.x-blue)
 
-#### Notes:
+You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) services and work on them in `/var/containers/domains`**`/your_domain`**.  
+Also, it allows to use an exclusive **MySQL** database for each domain.
 
--  Both **PHP** and **NodeJS** can work together 👨‍👨‍👧‍👦
--  All automatically generated files are disposable
-<hr />
+```js
+await svps.createVirtualHosts([
+  {
+    domain: 'site.com',
+    port: 5000,
+    www: true /** creates an alias for "www.site.com" */,
+    server: {
+      language: 'node' | 'php',
+      mysql: {
+        database: 'db-name',
+        password: 'db-pass',
+        expose: 5001 /** expose port 5001 locally */,
+        isPublic: true /** expose port 5001 outside the VPS */,
+      },
+    },
+  },
+]);
+```
 
-### Important
+To create flexible **Basic Virtual Hosts**, **SVPS** uses **Docker** containers and **Apache2** to proxy their ports to your domains.
 
--  This package is designed for pre-built VPS _(**Ubuntu** `>=18.04`)_
--  The VPS user needs to be the **root** or a **super user**
--  Don't run this package on a VPS that is already in production❗
-<hr />
+> **Apache2**, **Docker** and **Docker Compose** required.
+>
+> See some practical examples [here](./examples/virtual-hosts/basic/).
+
+---
+
+#### Advanced Usage (manual)
+
+![Everything](https://img.shields.io/badge/Everything-violet)
+
+By using the **Virtual Hosts** solely to proxy your services, you can create services in any language you choose, by simply defining the port your service is on.
+
+```js
+await svps.createVirtualHosts([
+  {
+    domain: 'site.com',
+    port: 5000,
+    www: true /** creates an alias for "www.site.com" */,
+  },
+]);
+
+// It will proxy your service at port 5000 to "site.com" and "www.site.com"
+```
+
+> **Apache2** required.
+
+---
+
+### Turning VPS Server into Desktop Server (RDP)
+
+```js
+await svps.mount({
+  desktop: true,
+});
+
+/** That's it 🤹🏻‍♀️ */
+```
+
+- It will install **Xubuntu Desktop** and **RDP Remote** in port `3389`
+- The desktop installation can take longer and take up more disk space (about 1GB to 3GB)
+- If you are using a **container**, remember to expose the port `3389`
+- To access, use your credentials in a Remote Desktop Software
+
+> See a practical [example](./examples/desktop/) using a **Docker** container.
+
+---
+
+### Testing using a Docker Container
+
+- Create the container:
+
+  ```sh
+  docker run -d --privileged -p 22:22 --restart always wellwelwel/vps:latest
+  ```
+
+  - Add `-p 3389:3389` if you want to test it using **Remote Desktop Protocol**
+  - See more in [hub.docker.com/r/wellwelwel/vps](https://hub.docker.com/r/wellwelwel/vps)
+
+- Then, set the default access:
+
+  ```js
+  const svps = new SVPS({
+    access: {
+      host: '127.0.0.1',
+      username: 'root',
+      password: 'root',
+      port: 22,
+    },
+  });
+  ```
+
+---
+
+## Important
+
+- This package is designed for pre-built **VPS**, **KVM** and **Ubuntu Server** `>=18.04`
+- The **SSH** user needs to be the **root** or a **super user**
+- Avoid running this tool on a server that is already in production, unless you know what you're doing 🧙🏻
+
+---
+
+### Known Issues
+
+- [**Node.js** `>=18` is not compatible with **Ubuntu** `18.04`](https://github.com/nodesource/distributions/issues/1392)
+- I think it's not possible to use a **Docker** container with **RDP** inside a **VPS** without **RDP**
+  - Any help on this is welcome 🚀
+
+---
 
 ### Compatibility
 
@@ -128,13 +284,25 @@
 ![node](/.github/assets/readme/node.svg)
 ![npm](/.github/assets/readme/npm.svg)
 
-<hr />
+---
 
 ### License
 
 [![License](/.github/assets/readme/license.svg)](/LICENSE)
 
-<hr />
+---
+
+## Community
+
+I'm continuously working to improve **SVPS**. If you've got something interesting to share, feel free to submit a [**Pull Request**](https://github.com/wellwelwel/svps/compare). If you notice something wrong, I'd appreciate if you'd open an [**Issue**](https://github.com/wellwelwel/svps/issues/new).
+
+---
+
+### Contributing
+
+Please check the [_CONTRIBUTING.md_](./CONTRIBUTING.md) for instructions 🚀
+
+---
 
 ### Credits
 

@@ -1,0 +1,94 @@
+name: 🔬
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+env:
+  USER: ${{ secrets.USER }}
+  PASS: ${{ secrets.PASS }}
+  PORT: ${{ secrets.PORT }}
+jobs:
+  latest:
+    name: Ubuntu Latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+        node-version: ['18.x']
+    if: ${{ !startsWith(github.event.head_commit.message, 'no-ci') }}
+    steps:
+      - name: ➕ Actions - Checkout
+        uses: actions/checkout@v3
+
+      - name: ➕ Actions - Setup NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: ➕ Cache Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: npm-${{ hashFiles('package-lock.json') }}
+          restore-keys: npm-
+
+      - name: 📦 Installing Dependencies
+        run: npm ci
+
+      - name: 🏠 Create a local VPS using Docker Container
+        run: npm run docker:run
+
+      - name: 🧙🏻 Building SVPS
+        run: npm run build
+
+      - name: 🧙🏻 Building Examples
+        run: npm run build:examples
+
+      - name: 🤹🏻‍♀️ ESLint Check
+        run: npm run eslint:checker
+
+      - name: 🤹🏻‍♀️ Prettier Check
+        run: npm run prettier:checker
+
+      - name: 🧪 Testing Service - Create
+        run: npm run tests:create
+
+      - name: 🧪 Testing Service - Connection
+        run: npm run tests:connection
+
+      - name: 🧪 Testing Service - Mount
+        run: npm run tests:mount
+
+      - name: 🧪 Testing Service - Commands
+        run: npm run tests:commands
+
+      - name: 🧪 Testing Service - Upload
+        run: npm run tests:upload
+
+      - name: 🧪 Testing Service - Virtual Hosts
+        run: npm run tests:virtual-hosts
+
+      - name: ✅ Finishing
+        run: npm run tests:reset >/dev/null 2>&1 || true
+
+      # DEBUG
+      - name: 🧬 Checking "package.json"
+        if: ${{ failure() }}
+        run: |
+          cat tests/package.json
+
+      - name: 🧬 Checking "package-lock.json"
+        if: ${{ failure() }}
+        run: |
+          cat tests/package-lock.json
+
+      - name: 🧬 Checking "node_modules"
+        if: ${{ failure() }}
+        run: |
+          ls -la tests/node_modules/
+
+      - name: 🧬 Listing installed packages
+        if: ${{ failure() }}
+        run: |
+          cd tests && npm ls

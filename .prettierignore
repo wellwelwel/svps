@@ -1,4 +1,5 @@
-*.*
-!package.json
-!resources/local-module/.svpsrc.js
-!README.md
+node_modules
+/lib
+/tests
+/resources/**/*.html
+package-lock.json

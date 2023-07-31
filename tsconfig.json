@@ -1,0 +1,23 @@
+{
+  "include": ["src"],
+  "exclude": ["node_modules", "resources", "examples"],
+  "compilerOptions": {
+    "target": "ES2016",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "isolatedModules": true,
+    "allowJs": false,
+    "strict": true,
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "declaration": true,
+    "outDir": "",
+    "declarationDir": ""
+  }
+}

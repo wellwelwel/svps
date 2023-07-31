@@ -1,0 +1,4 @@
+deb http://archive.ubuntu.com/ubuntu/ lunar main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ lunar-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ lunar-backports main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu lunar-security main restricted universe multiverse

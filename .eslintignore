@@ -1,2 +1,4 @@
-src/modules/secure-remote.js
-resources/node/app.js
+node_modules
+/lib
+/resources
+/tests
