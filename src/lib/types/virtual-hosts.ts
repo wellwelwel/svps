@@ -83,6 +83,19 @@ interface BasicVirtualHost {
   };
 }
 
+/**
+ * The **`virtualHosts`** is used with `npx svps set domains`.
+ *
+ * It requires these steps from `npx svps mount`:
+ *
+ * ---
+ *
+ * Required:
+ *   - `apache` (to proxy the virtual ports to `80`)
+ *
+ * Optionals:
+ *   - `docker` (required to automatically create the **Basic Servers**)
+ */
 export interface VIRTUAL_HOST {
   /** Ex.: `site.com` */
   domain: string;

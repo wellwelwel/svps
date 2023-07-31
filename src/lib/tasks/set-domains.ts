@@ -8,13 +8,38 @@ import { createProxy } from './virtual-host/apache.js';
 import { pastDomains, writeLogs } from './virtual-host/logs.js';
 import { setConfigs } from '../modules/configs/index.js';
 
-export const setDomains = async () => {
+/**
+ *
+ * Create the Virtual Hosts
+ *
+ * ---
+ *
+ * Is *.svpsrc.js* missing? Simply run `npx svps create` 🧙🏻
+ */
+export const createVirtualHosts = async (options: {
+  /**
+   * The **`virtualHosts`** is used with `npx svps set domains`.
+   *
+   * It requires these steps from `npx svps mount`:
+   *
+   * ---
+   *
+   * Required:
+   *   - `apache` (to proxy the virtual ports to `80`)
+   *
+   * Optionals:
+   *   - `docker` (required to automatically create the **Basic Servers**)
+   */
+  virtualHosts: VIRTUAL_HOST[];
+  /** Set a custom path to `.svpsrc.js` */
+  configPath?: string;
+}): Promise<true | never> => {
   try {
-    const configs = await setConfigs();
+    const { virtualHosts } = options;
+    const configs = await setConfigs(options?.configPath || '.svpsrc.js');
     const verbose = setVerbose(configs);
     const hosts = setAccess(configs);
 
-    const virtualHosts = configs.virtualHosts;
     const basicVirtualHosts: BASIC_VIRTUAL_HOST[] = [];
     const advancedVirtualHosts: VIRTUAL_HOST[] = [];
     const invalidVirtualHosts: VIRTUAL_HOST[] = [];
@@ -33,7 +58,8 @@ export const setDomains = async () => {
       console.log(
         `\n\x1b[0m\x1b[1m\x1b[32m✔︎ No domain has been set up\x1b[0m\n`
       );
-      process.exit(0);
+
+      return true;
     }
 
     /** Preparing Virtual Hosts */
@@ -114,7 +140,7 @@ export const setDomains = async () => {
     }
 
     console.log(`\n\x1b[0m\x1b[1m\x1b[32m✔︎ Success\x1b[0m\n`);
-    process.exit(0);
+    return true;
   } catch (error) {
     console.log(`\x1b[0m\x1b[1m\n\x1b[31m✖︎ Fail\x1b[0m\n  ${error}`);
     process.exit(1);

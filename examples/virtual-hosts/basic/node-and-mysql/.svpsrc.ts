@@ -37,25 +37,22 @@ export default defineConfig({
       password: process.env.PASS,
     },
   ],
-  virtualHosts: [
+  users: [
     {
-      domain: 'site.com',
-      port: 5000,
-      www: true,
-      server: {
-        language: 'node',
-        mysql: {
-          database: 'myLocalDB',
-          password: '1234',
-          expose: 5001,
-          isPublic: true,
-        },
-        permissions: {
-          user: 'my-user',
-        },
+      name: 'my-user',
+      password: String(process.env.USER_PASS),
+      sftp: {
+        chRoot: '/var/containers/',
+        chUser: '/var/containers/domains',
+        mask: '077',
       },
     },
   ],
+  apache: {},
+  steps: {
+    apache: true,
+    docker: true,
+  },
 });
 
 /**

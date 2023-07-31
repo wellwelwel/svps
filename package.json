@@ -22,7 +22,7 @@
     "typescript": "^5.1.6"
   },
   "scripts": {
-    "build": "rm -rf ./bin ./lib; npm run eslint:fix; npm run prettier:fix; npx tsc && npx tsc -p examples/tsconfig.json",
+    "build": "rm -rf ./bin ./lib && npx tsc && npx tsc -p examples/tsconfig.json",
     "patch": "npm run update; npm audit fix; npm version patch --no-git-tag-version",
     "minor": "npm run update; npm audit fix; npm version minor --no-git-tag-version",
     "major": "npm run update; npm audit fix; npm version major --no-git-tag-version",
@@ -36,16 +36,17 @@
     "tests:docker": "npm run docker:reset; npm run docker:run",
     "pretests:create": "mkdir -p ./tests && cd ./tests && echo '{}' | cat > ./package.json && npm i file:../",
     "tests:create": "cd ./tests && npx svps create",
-    "pretests:connection": "rm -rf ./tests/.svpsrc.js; cp -f ./.github/assets/.svpsrc.js/basic-connection.js ./tests/.svpsrc.js",
-    "tests:connection": "cd ./tests &&  npx svps mount",
+    "pretests:connection": "rm -rf ./tests/.svpsrc.js; cp -f ./.github/assets/.svpsrc.js/basic-connection.js ./tests/.svpsrc.js && cp -f ./.github/assets/tests/mount.js ./tests/index.js",
+    "tests:connection": "cd ./tests && node ./",
     "pretests:desktop": "rm -rf ./tests/.svpsrc.js; cp -f ./.github/assets/.svpsrc.js/desktop.js ./tests/.svpsrc.js",
-    "tests:desktop": "cd ./tests &&  npx svps mount",
+    "tests:desktop": "cd ./tests && node ./",
     "pretests:mount": "rm -rf ./tests/.svpsrc.js; cp -f ./.github/assets/.svpsrc.js/mount.js ./tests/.svpsrc.js",
-    "tests:mount": "cd ./tests && npx svps mount",
+    "tests:mount": "cd ./tests && node ./",
+    "pretests:virtual-hosts": "rm -rf ./tests/index.js; cp -f ./.github/assets/tests/virtual-hosts.js ./tests/index.js",
+    "tests:virtual-hosts": "cd ./tests && node ./",
     "tests:reset": "npm run docker:reset; rm -rf ./tests",
     "pretests": "rm -rf ./tests",
-    "tests": "npm run tests:docker && npm run tests:create && npm run tests:connection && npm run tests:mount && npm run tests:reset",
-    "posttests": "rm -rf ./tests"
+    "tests": "npm run tests:docker && npm run tests:create && npm run tests:connection && npm run tests:mount && npm run tests:virtual-hosts && npm run tests:reset && rm -rf ./tests"
   },
   "author": "https://github.com/wellwelwel",
   "license": "MIT",

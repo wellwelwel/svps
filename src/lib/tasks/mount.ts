@@ -29,9 +29,20 @@ import reboot from './steps/reboot.js';
 import { resourcesUpload } from '../modules/prepare-files.js';
 import { rootSVPS } from '../modules/root.js';
 
-export const mount = async () => {
+/**
+ *
+ * Prepare the command queue, upload the files and directories and execute the commands.
+ *
+ * ---
+ *
+ * Is *.svpsrc.js* missing? Simply run `npx svps create` 🧙🏻
+ */
+export const mount = async (options?: {
+  /** Set a custom path to `.svpsrc.js` */
+  configPath?: string;
+}): Promise<true | never> => {
   try {
-    const configs = await setConfigs();
+    const configs = await setConfigs(options?.configPath || '.svpsrc.js');
 
     const steps = setSteps(configs);
     const appendCommands = setAppendCommands(configs);
@@ -167,7 +178,10 @@ export const mount = async () => {
         !errors ? '\x1b[32m✔︎ Success' : '\n\x1b[31m✖︎ Fail'
       }\x1b[0m\n`
     );
-    process.exit(!errors ? 0 : 1);
+
+    if (errors) process.exit(1);
+
+    return true;
   } catch (error) {
     console.log(`\x1b[0m\x1b[1m\x1b[31m✖︎`, error, '\x1b[0m\n');
     process.exit(1);

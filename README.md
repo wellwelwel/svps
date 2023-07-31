@@ -64,8 +64,10 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 ### Running your Scripts
 
-```sh
-  npx svps mount
+```js
+import { mount } from 'svps';
+
+await mount();
 ```
 
 #### Default Steps
@@ -145,11 +147,19 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 
 ### Virtual Hosts (domains)
 
-```sh
-  npx svps set domains
+```js
+import { createVirtualHosts } from 'svps';
 
-  # This will create a log with the processed domains to ensure that only new domains are processed.
-  # If you delete this log, the domains will be understood as new and will be overwritten.
+await createVirtualHosts({
+  virtualHosts: [
+    // Basic or Advanced Virtual Hosts
+  ],
+});
+
+/**
+ * This will create a log with the processed domains to ensure that only new domains are processed.
+ * If you delete this log, the domains will be understood as new and will be overwritten.
+ */
 ```
 
 #### Basic Usage (easier)
@@ -162,14 +172,9 @@ You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) service
 Also, it allows to use an exclusive **MySQL** database for each domain.
 
 ```js
-export default defineConfig({
-  access: [
-    {
-      host: '',
-      username: 'root',
-      password: '',
-    },
-  ],
+import { createVirtualHosts } from 'svps';
+
+await createVirtualHosts({
   virtualHosts: [
     {
       domain: 'site.com',
@@ -187,14 +192,12 @@ export default defineConfig({
     },
   ],
 });
-
-// Then: `npx svps set domains`
 ```
 
 To create flexible **Basic Virtual Hosts**, **SVPS** uses **Docker** containers and **Apache2** to proxy their ports to your domains.
 
 > **Apache2**, **Docker** and **Docker Compose** required.  
-> You can prepare the environment by enabling `docker` and `apache` steps, then running `npx svps mount`.
+> You can prepare the environment by enabling `docker` and `apache` steps from [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L29).
 >
 > See some practical examples [here](./examples/virtual-hosts/basic/).
 
@@ -207,14 +210,9 @@ To create flexible **Basic Virtual Hosts**, **SVPS** uses **Docker** containers 
 By using the **Virtual Hosts** solely to proxy your services, you can create services in any language you choose, by simply defining the port your service is on.
 
 ```js
-export default defineConfig({
-  access: [
-    {
-      host: '',
-      username: 'root',
-      password: '',
-    },
-  ],
+import { createVirtualHosts } from 'svps';
+
+await createVirtualHosts({
   virtualHosts: [
     {
       domain: 'site.com',
@@ -225,14 +223,12 @@ export default defineConfig({
 });
 
 /**
- * Then: `npx svps set domains`
- *
  * It will proxy your service at port 5000 to "site.com" and "www.site.com"
  */
 ```
 
 > **Apache2** required.  
-> You can prepare the environment by enabling `apache` step, then running `npx svps mount`.
+> You can prepare the environment by enabling `apache` step from [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L29).
 
 ---
 

@@ -11,7 +11,6 @@ import { STEPS } from './steps.js';
 import { UPLOAD } from './upload.js';
 import { USER } from './users.js';
 import { VERBOSE } from './verbose.js';
-import { VIRTUAL_HOST } from './virtual-hosts.js';
 
 export interface svpsOptions {
   /** Set the SSH access for one or more VPS */
@@ -68,18 +67,4 @@ export interface svpsOptions {
    * default: `false`
    */
   verbose?: VERBOSE;
-  /**
-   * The **`virtualHosts`** is used with `npx svps set domains`.
-   *
-   * It requires these steps from `npx svps mount`:
-   *
-   * ---
-   *
-   * Required:
-   *   - `apache` (to proxy the virtual ports to `80`)
-   *
-   * Optionals:
-   *   - `docker` (required to automatically create the **Basic Servers**)
-   */
-  virtualHosts?: VIRTUAL_HOST[];
 }
