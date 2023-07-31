@@ -6,7 +6,16 @@
  */
 
 // @ts-check
-// import { mount } from 'svps';
-import { mount } from '../../lib/index.js';
+// import { SVPS } from 'svps';
+import { SVPS } from '../../lib/index.js';
 
-await mount();
+const svps = new SVPS({
+  access: {
+    host: '127.0.0.1',
+    username: String(process.env.USER),
+    password: process.env.PASS,
+  },
+});
+
+await svps.mount();
+await svps.end();

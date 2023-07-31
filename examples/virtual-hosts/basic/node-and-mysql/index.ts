@@ -6,28 +6,41 @@
  */
 
 // @ts-check
-// import { createVirtualHosts } from 'svps';
-import { createVirtualHosts } from '../../../../lib/index.js';
+// import { SVPS } from 'svps';
+import { SVPS } from '../../../../lib/index.js';
 
-await createVirtualHosts({
-  /** Node LTS */
-  virtualHosts: [
-    {
-      domain: 'site.com',
-      port: 5000,
-      www: true,
-      server: {
-        language: 'node',
-        mysql: {
-          database: 'myLocalDB',
-          password: '1234',
-          expose: 5001,
-          isPublic: true,
-        },
-        permissions: {
-          user: 'my-user',
-        },
+const svps = new SVPS({
+  access: {
+    host: '127.0.0.1',
+    username: String(process.env.USER),
+    password: process.env.PASS,
+  },
+});
+
+/**
+ * Install Apache2, Docker and create an user to manage the Virtual Hosts via SFTP
+ */
+await svps.mount();
+
+await svps.createVirtualHosts([
+  {
+    /** Node LTS */
+    domain: 'site.com',
+    port: 5000,
+    www: true,
+    server: {
+      language: 'node',
+      mysql: {
+        database: 'myLocalDB',
+        password: '1234',
+        expose: 5001,
+        isPublic: true,
+      },
+      permissions: {
+        user: 'my-user',
       },
     },
-  ],
-});
+  },
+]);
+
+await svps.end();

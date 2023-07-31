@@ -12,13 +12,6 @@
 import { defineConfig } from '../../lib/index.js';
 
 export default defineConfig({
-  access: [
-    {
-      host: '127.0.0.1',
-      username: String(process.env.USER),
-      password: process.env.PASS,
-    },
-  ],
   mysql: {
     root: {
       pass: 'root',

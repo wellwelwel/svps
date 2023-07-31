@@ -34,5 +34,4 @@ export default defineConfig({
     desktop: false,
     reboot: true,
   },
-  appendCommands: () => [],
 });

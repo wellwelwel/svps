@@ -12,13 +12,6 @@
 import { defineConfig } from '../../lib/index.js';
 
 export default defineConfig({
-  access: [
-    {
-      host: '',
-      username: 'root',
-      password: '',
-    },
-  ],
   users: [
     {
       name: '',
@@ -35,10 +28,6 @@ export default defineConfig({
       pass: '',
     },
     users: [],
-  },
-  domains: './svps/domains.json',
-  crontab: {
-    path: './svps/cronjobs.sh',
   },
   steps: {
     repair: true,

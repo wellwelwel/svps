@@ -1,7 +1,6 @@
 import { APACHE } from './apache.js';
 import { CERTIFICATE } from './certificate.js';
 import { CRONTAB } from './crontab.js';
-import { DOMAINS } from './domains.js';
 import { MYSQL } from './mysql.js';
 import { NODE } from './node.js';
 import { PHP } from './php.js';
@@ -39,14 +38,6 @@ export interface svpsOptions {
   node?: NODE;
   /** Set the accesses you want to be created */
   mysql?: MYSQL;
-  /**
-   * Local path with the domains list
-   *
-   * * Use with `npx svps set domains`
-   *
-   * default: `./.domains.json`
-   */
-  domains?: DOMAINS;
   /** Set `crontabs` from a local file */
   crontab?: CRONTAB;
   /** Enable or disable the steps */

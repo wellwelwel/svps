@@ -1,4 +1,4 @@
-import { defineConfig } from 'svps';
+import { defineConfig } from '../lib/index.js';
 
 export default defineConfig({
   users: [
@@ -60,17 +60,20 @@ export default defineConfig({
     append: false,
   },
   steps: {
-    repair: false,
-    apt: false,
-    firewall: false,
+    repair: true,
+    apt: true,
+    firewall: true,
     users: true,
-    certificate: false,
+    certificate: true,
     apache: true,
     docker: true,
-    php: false,
-    node: false,
-    mysql: false,
+    php: true,
+    node: true,
+    mysql: true,
     crontab: true,
-    reboot: false,
+    reboot: true,
+
+    // Incompatible with GitHub Actions
+    desktop: false,
   },
 });

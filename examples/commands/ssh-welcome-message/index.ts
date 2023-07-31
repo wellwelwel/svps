@@ -6,8 +6,12 @@
  */
 
 // @ts-check
-// import { SVPS } from 'svps';
-import { SVPS } from '../../lib/index.js';
+// import { SVPS, escapeQuotes } from 'svps';
+import { SVPS, escapeQuotes } from '../../../lib/index.js';
+import fs from 'fs';
+
+const bashrc = fs.readFileSync('./my-bashrc.sh', 'utf-8');
+const quotedBashrc = escapeQuotes(bashrc);
 
 const svps = new SVPS({
   access: {
@@ -17,5 +21,8 @@ const svps = new SVPS({
   },
 });
 
-await svps.mount();
+const commands = [`echo ${quotedBashrc} | cat > ~/.bashrc`];
+
+await svps.commands(commands);
+
 await svps.end();
