@@ -1,10 +1,11 @@
 import { PHP } from '../../types/php.js';
+import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
-import { setSteps } from './steps.js';
 
-export const setPHP = (configs: svpsOptions): Required<PHP> | null => {
-  const steps = setSteps(configs);
-
+export const setPHP = (
+  configs: svpsOptions,
+  steps: Required<STEPS>
+): Required<PHP> | null => {
   if (!steps.php || !configs?.php || typeof configs?.php !== 'object')
     return null;
 

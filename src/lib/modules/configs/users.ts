@@ -1,11 +1,9 @@
+import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
 import { REQUIRED_USER } from '../../types/users.js';
 import { forceArray } from '../force-array.js';
-import { setSteps } from './steps.js';
 
-export const setUsers = (configs: svpsOptions) => {
-  const steps = setSteps(configs);
-
+export const setUsers = (configs: svpsOptions, steps: Required<STEPS>) => {
   if (!steps.users || !configs?.users) return null;
 
   const mapUsers = forceArray(configs.users) as REQUIRED_USER[];

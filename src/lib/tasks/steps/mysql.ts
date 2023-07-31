@@ -5,9 +5,10 @@ import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setMysql } from '../../modules/configs/mysql.js';
 import { svpsOptions } from '../../types/svps.js';
 import { rootSVPS } from '../../modules/root.js';
+import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions) => {
-  const mysql = setMysql(configs);
+export default (configs: svpsOptions, steps: Required<STEPS>) => {
+  const mysql = setMysql(configs, steps);
 
   if (!mysql) return [] as string[];
 

@@ -1,12 +1,11 @@
 import sh from '../../modules/sh.js';
 import { setMysql } from '../../modules/configs/mysql.js';
-import { setSteps } from '../../modules/configs/steps.js';
 import { ACCESS } from '../../types/acess.js';
 import { svpsOptions } from '../../types/svps.js';
+import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, VPS: ACCESS) => {
-  const steps = setSteps(configs);
-  const mysql = setMysql(configs);
+export default (configs: svpsOptions, steps: Required<STEPS>, VPS: ACCESS) => {
+  const mysql = setMysql(configs, steps);
 
   const commands = [
     `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,

@@ -1,12 +1,9 @@
 import { catchExec, connect, end, exec } from '../../ssh.js';
-import { setSteps } from '../../modules/configs/steps.js';
 import apt from './apt.js';
 import { ACCESS } from '../../types/acess.js';
-import { svpsOptions } from '../../types/svps.js';
+import { STEPS } from '../../types/steps.js';
 
-export default async (configs: svpsOptions, VPS: ACCESS): Promise<true> => {
-  const steps = setSteps(configs);
-
+export default async (steps: Required<STEPS>, VPS: ACCESS): Promise<true> => {
   try {
     await catchExec(
       "shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown"

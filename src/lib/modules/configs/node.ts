@@ -1,10 +1,11 @@
 import { NODE } from '../../types/node.js';
+import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
-import { setSteps } from './steps.js';
 
-export const setNode = (configs: svpsOptions): Required<NODE> | null => {
-  const steps = setSteps(configs);
-
+export const setNode = (
+  configs: svpsOptions,
+  steps: Required<STEPS>
+): Required<NODE> | null => {
   if (!steps.node || !configs?.node || typeof configs?.node !== 'object')
     return null;
 

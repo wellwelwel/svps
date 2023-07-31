@@ -1,12 +1,11 @@
 import { REQUIRED_CERTIFICATE } from '../../types/certificate.js';
+import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
-import { setSteps } from './steps.js';
 
 export const setCertificate = (
-  configs: svpsOptions
+  configs: svpsOptions,
+  steps: Required<STEPS>
 ): REQUIRED_CERTIFICATE | null => {
-  const steps = setSteps(configs);
-
   if (!steps.certificate || typeof configs?.certificate !== 'object')
     return null;
 

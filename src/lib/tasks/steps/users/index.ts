@@ -8,10 +8,11 @@ import { setFTP } from './ftp.js';
 import { setSFTP } from './sftp.js';
 import { svpsOptions } from '../../../types/svps.js';
 import { rootSVPS } from '../../../modules/root.js';
+import { STEPS } from '../../../types/steps.js';
 
-export default (configs: svpsOptions) => {
-  const certificate = setCertificate(configs);
-  const users = setUsers(configs);
+export default (configs: svpsOptions, steps: Required<STEPS>) => {
+  const certificate = setCertificate(configs, steps);
+  const users = setUsers(configs, steps);
 
   if (!users) return [] as string[];
 

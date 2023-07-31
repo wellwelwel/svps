@@ -3,13 +3,12 @@ import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setCrontab } from '../../modules/configs/crontab.js';
-import { setSteps } from '../../modules/configs/steps.js';
 import { ACCESS } from '../../types/acess.js';
 import { svpsOptions } from '../../types/svps.js';
+import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions, VPS: ACCESS) => {
-  const steps = setSteps(configs);
-  const crontab = setCrontab(configs);
+export default (configs: svpsOptions, steps: Required<STEPS>, VPS: ACCESS) => {
+  const crontab = setCrontab(configs, steps);
 
   if (!crontab || !steps.crontab) return [] as string[];
 

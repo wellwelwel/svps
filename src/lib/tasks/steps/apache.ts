@@ -3,13 +3,12 @@ import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { setApache } from '../../modules/configs/apache.js';
-import { setSteps } from '../../modules/configs/steps.js';
 import { svpsOptions } from '../../types/svps.js';
 import { rootSVPS } from '../../modules/root.js';
+import { STEPS } from '../../types/steps.js';
 
-export default (configs: svpsOptions) => {
+export default (configs: svpsOptions, steps: Required<STEPS>) => {
   const apache = setApache(configs);
-  const steps = setSteps(configs);
 
   if (!steps.apache) return [] as string[];
 

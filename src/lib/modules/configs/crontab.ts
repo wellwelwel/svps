@@ -1,10 +1,11 @@
 import { CRONTAB } from '../../types/crontab.js';
+import { STEPS } from '../../types/steps.js';
 import { svpsOptions } from '../../types/svps.js';
-import { setSteps } from './steps.js';
 
-export const setCrontab = (configs: svpsOptions): Required<CRONTAB> | null => {
-  const steps = setSteps(configs);
-
+export const setCrontab = (
+  configs: svpsOptions,
+  steps: Required<STEPS>
+): Required<CRONTAB> | null => {
   return !steps.crontab || typeof configs?.crontab !== 'object'
     ? null
     : {
