@@ -10,9 +10,7 @@ export interface UPLOAD {
    *
    * ---
    *
-   * Ex.:
-   * - `~/Documents/...`
-   * - `/root/Documents/...`
+   * Ex.: `/root/Documents/...`
    */
   remote: string;
   /**
@@ -36,7 +34,7 @@ export interface UPLOAD {
    * ``` */
   blacklist?: string[];
   /**
-   * Set a custom permission for this Virutal Host
+   * Set a custom permission for this Virutal Host.
    *
    * ---
    *
@@ -61,6 +59,10 @@ export interface UPLOAD {
    * chmod -R 0775 /var/containers/domains/${domain}
    * chown -R ${user}:${group} /var/containers/domains/${domain}
    * ```
+   *
+   * ---
+   *
+   * For custom permissions, please use `appendCommands`.
    */
   permissions?: {
     /**

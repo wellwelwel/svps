@@ -1,14 +1,14 @@
 import fs from 'fs';
 import { normalize } from 'path';
-import { __dirname } from '../../../modules/root.js';
 import { escapeQuotes } from '../../../modules/escape-quotes.js';
 import { REQUIRED_USER } from '../../../types/users.js';
+import { rootSVPS } from '../../../modules/root.js';
 
 export const setFTP = (user: REQUIRED_USER) => {
   if (!user?.ftp) return [] as string[];
 
   const user_conf = fs
-    .readFileSync(normalize(`${__dirname}/resources/ftp/user.conf`), 'utf-8')
+    .readFileSync(normalize(`${rootSVPS}/resources/ftp/user.conf`), 'utf-8')
     .replace(/{!PATH}/gm, user.ftp.directory)
     .replace(/{!MASK}/gm, user.ftp.mask);
 

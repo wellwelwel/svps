@@ -134,7 +134,7 @@ export const ensureDir = (remotePath: string): Promise<true> =>
       const path = remotePath?.trim() || '';
 
       if (path.length > 0 && path !== '/')
-        exec(`mkdir -p ${path}`).then(() => resolve(true));
+        exec(`mkdir -p "${path}"`).then(() => resolve(true));
     } catch (error) {
       reject(error);
     }

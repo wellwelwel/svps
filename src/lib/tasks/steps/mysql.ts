@@ -2,14 +2,17 @@ import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
-import { mysql } from '../../modules/configs/mysql.js';
-import { __dirname } from '../../modules/root.js';
+import { setMysql } from '../../modules/configs/mysql.js';
+import { svpsOptions } from '../../types/svps.js';
+import { rootSVPS } from '../../modules/root.js';
 
-export default () => {
+export default (configs: svpsOptions) => {
+  const mysql = setMysql(configs);
+
   if (!mysql) return [] as string[];
 
-  const mysqld_cnf = `${__dirname}/resources/mysql/mysqld.cnf`;
-  const my_cnf = `${__dirname}/resources/mysql/.my.cnf`;
+  const mysqld_cnf = `${rootSVPS}/resources/mysql/mysqld.cnf`;
+  const my_cnf = `${rootSVPS}/resources/mysql/.my.cnf`;
   const temp_access = fs
     .readFileSync(normalize(my_cnf), 'utf-8')
     .replace(/{!USER}/gm, mysql.root.name)

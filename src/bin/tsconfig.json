@@ -1,0 +1,10 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["index.cts"],
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "../../bin",
+    "declarationDir": "../../bin",
+    "noEmit": false
+  }
+}

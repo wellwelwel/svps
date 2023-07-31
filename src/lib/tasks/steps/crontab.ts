@@ -2,11 +2,15 @@ import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
-import { crontab } from '../../modules/configs/crontab.js';
-import { steps } from '../../modules/configs/steps.js';
+import { setCrontab } from '../../modules/configs/crontab.js';
+import { setSteps } from '../../modules/configs/steps.js';
 import { ACCESS } from '../../types/acess.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export default (VPS: ACCESS) => {
+export default (configs: svpsOptions, VPS: ACCESS) => {
+  const steps = setSteps(configs);
+  const crontab = setCrontab(configs);
+
   if (!crontab || !steps.crontab) return [] as string[];
 
   const append = crontab.append || false;

@@ -2,13 +2,16 @@ import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
-import { php } from '../../modules/configs/php.js';
-import { __dirname } from '../../modules/root.js';
+import { setPHP } from '../../modules/configs/php.js';
+import { svpsOptions } from '../../types/svps.js';
+import { rootSVPS } from '../../modules/root.js';
 
-export default () => {
+export default (configs: svpsOptions) => {
+  const php = setPHP(configs);
+
   if (!php) return [] as string[];
 
-  const php_ini = `${__dirname}/resources/php/php.ini`;
+  const php_ini = `${rootSVPS}/resources/php/php.ini`;
   const modules = php.modules;
   const deprecated: { [key: number]: string[] } = {
     8: ['json'],

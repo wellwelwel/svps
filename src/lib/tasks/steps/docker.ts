@@ -1,7 +1,10 @@
-import { steps } from '../../modules/configs/steps.js';
+import { setSteps } from '../../modules/configs/steps.js';
 import sh from '../../modules/sh.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export default () => {
+export default (configs: svpsOptions) => {
+  const steps = setSteps(configs);
+
   if (!steps.docker) return [] as string[];
 
   return [

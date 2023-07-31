@@ -1,5 +1,6 @@
+import { svpsOptions } from '../../types/svps.js';
 import { VERBOSE } from '../../types/verbose.js';
-import { input } from './index.js';
 
-export const verbose: VERBOSE =
-  typeof input.verbose === 'boolean' ? input.verbose : false;
+export const setVerbose = (configs: svpsOptions): VERBOSE => {
+  return typeof configs.verbose === 'boolean' ? configs.verbose : false;
+};

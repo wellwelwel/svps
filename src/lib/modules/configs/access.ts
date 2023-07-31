@@ -1,15 +1,15 @@
 import { ACCESS } from '../../types/acess.js';
+import { svpsOptions } from '../../types/svps.js';
 import { forceArray } from '../force-array.js';
-import { input } from './index.js';
 
-export const access: ACCESS[] = (() => {
+export const setAccess = (configs: svpsOptions): ACCESS[] => {
   if (
-    !input?.access ||
-    (!Array.isArray(input.access) && typeof input.access !== 'object')
+    !configs?.access ||
+    (!Array.isArray(configs.access) && typeof configs.access !== 'object')
   )
     throw 'The field `access` is required';
 
-  const mapVPS = forceArray(input.access);
+  const mapVPS = forceArray(configs.access);
 
   for (const key in mapVPS) {
     const currentVPS = mapVPS[key];
@@ -22,4 +22,4 @@ export const access: ACCESS[] = (() => {
   }
 
   return mapVPS;
-})();
+};

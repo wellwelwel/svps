@@ -76,7 +76,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 - [Create users](./src/lib/tasks/steps/users/)
 - Execute your [personal **bash commands**](./examples/append-commands/)
 - [Restart the **VPS**](./src/lib/tasks/steps/reboot.ts)
-- Rerun [`repair`](./src/lib/tasks/steps/repair.ts) and [`apt`](./src/lib/tasks/steps/apt.ts) commands
+- Rerun [`apt`](./src/lib/tasks/steps/apt.ts) commands
 
 #### Available auto-installation
 
@@ -159,7 +159,7 @@ Then, edit the [_.svpsrc.js_](./resources/local-module/.svpsrc.js#L5) using your
 ![MySQL](https://img.shields.io/badge/MySQL-8.x-blue)
 
 You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) services and work on them in `/var/containers/domains`**`/your_domain`**.  
-Also, it allows to create a default page `index.html` and use an exclusive **MySQL** database for each domain.
+Also, it allows to use an exclusive **MySQL** database for each domain.
 
 ```js
 export default defineConfig({

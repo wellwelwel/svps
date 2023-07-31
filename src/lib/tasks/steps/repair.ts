@@ -1,12 +1,12 @@
 import { escapeQuotes } from '../../index.js';
 import { importFile } from '../../modules/prepare-files.js';
+import { rootSVPS } from '../../modules/root.js';
 import sh from '../../modules/sh.js';
-import { __dirname } from '../../modules/root.js';
 
 const getList = (version: string) => {
   const header = `if [ "$(grep -E '^VERSION_ID="${version}"' /etc/os-release)" ]; then echo`;
   const main = escapeQuotes(
-    importFile(`${__dirname}/resources/sources-list/${version}.list`)
+    importFile(`${rootSVPS}/resources/sources-list/${version}.list`)
   );
   const footer = `| cat > /etc/apt/sources.list; fi`;
 

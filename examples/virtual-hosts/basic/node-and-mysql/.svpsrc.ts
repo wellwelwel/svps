@@ -50,6 +50,9 @@ export default defineConfig({
           expose: 5001,
           isPublic: true,
         },
+        permissions: {
+          user: 'my-user',
+        },
       },
     },
   ],

@@ -1,10 +1,10 @@
 import { importFile } from '../../modules/prepare-files.js';
 import { VIRTUAL_HOST } from '../../types/virtual-hosts.js';
-import { __dirname } from '../../modules/root.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
+import { rootSVPS } from '../../modules/root.js';
 
 export const createProxy = (virtualHost: VIRTUAL_HOST): string[] => {
-  const proxyPath = `${__dirname}/resources/apache/virtual-host`;
+  const proxyPath = `${rootSVPS}/resources/apache/virtual-host`;
   const domain = String(virtualHost.domain).trim();
   const port = String(virtualHost.port);
   const www = virtualHost?.www || false;

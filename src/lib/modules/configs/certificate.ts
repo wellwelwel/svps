@@ -1,11 +1,16 @@
 import { REQUIRED_CERTIFICATE } from '../../types/certificate.js';
-import { input } from './index.js';
-import { steps } from './steps.js';
+import { svpsOptions } from '../../types/svps.js';
+import { setSteps } from './steps.js';
 
-export const certificate: REQUIRED_CERTIFICATE | null = (() => {
-  if (!steps.certificate || typeof input?.certificate !== 'object') return null;
+export const setCertificate = (
+  configs: svpsOptions
+): REQUIRED_CERTIFICATE | null => {
+  const steps = setSteps(configs);
 
-  const { certificate } = input;
+  if (!steps.certificate || typeof configs?.certificate !== 'object')
+    return null;
+
+  const { certificate } = configs;
   const emptyString = "''";
 
   return {
@@ -48,4 +53,4 @@ export const certificate: REQUIRED_CERTIFICATE | null = (() => {
         ? certificate.output
         : '/etc/ssl/private/cert.pem',
   };
-})();
+};

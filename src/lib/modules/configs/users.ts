@@ -1,12 +1,14 @@
+import { svpsOptions } from '../../types/svps.js';
 import { REQUIRED_USER } from '../../types/users.js';
 import { forceArray } from '../force-array.js';
-import { input } from './index.js';
-import { steps } from './steps.js';
+import { setSteps } from './steps.js';
 
-export const users = (() => {
-  if (!steps.users || !input?.users) return null;
+export const setUsers = (configs: svpsOptions) => {
+  const steps = setSteps(configs);
 
-  const mapUsers = forceArray(input.users) as REQUIRED_USER[];
+  if (!steps.users || !configs?.users) return null;
+
+  const mapUsers = forceArray(configs.users) as REQUIRED_USER[];
 
   for (const key in mapUsers) {
     const user = mapUsers[key];
@@ -52,4 +54,4 @@ export const users = (() => {
   }
 
   return mapUsers;
-})();
+};

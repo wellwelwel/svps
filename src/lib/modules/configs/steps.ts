@@ -1,61 +1,67 @@
 import { STEPS } from '../../types/steps.js';
-import { input } from './index.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export const steps: Required<STEPS> = {
-  repair:
-    input?.steps && typeof input.steps?.repair === 'boolean'
-      ? input.steps.repair
-      : false,
-  apt:
-    input?.steps && typeof input.steps?.apt === 'boolean'
-      ? input.steps.apt
-      : false,
-  firewall:
-    input?.steps && typeof input.steps?.firewall === 'boolean'
-      ? input.steps.firewall
-      : false,
-  users:
-    input?.steps && typeof input.steps?.users === 'boolean'
-      ? input.steps.users
-      : false,
-  certificate:
-    input?.steps && typeof input.steps?.certificate === 'boolean'
-      ? input.steps.certificate
-      : false,
-  apache:
-    input?.steps && typeof input.steps?.apache === 'boolean'
-      ? input.steps.apache
-      : false,
-  docker:
-    input?.steps && typeof input.steps?.docker === 'boolean'
-      ? input.steps.docker
-      : false,
-  php:
-    input?.steps && typeof input.steps?.php === 'boolean'
-      ? input.steps.php
-      : false,
-  node:
-    input?.steps && typeof input.steps?.node === 'boolean'
-      ? input.steps.node
-      : false,
-  mysql:
-    input?.steps && typeof input.steps?.mysql === 'boolean'
-      ? input.steps.mysql
-      : false,
-  crontab:
-    input?.steps && typeof input.steps?.crontab === 'boolean'
-      ? input.steps.crontab
-      : false,
-  desktop:
-    input?.steps && typeof input.steps?.desktop === 'boolean'
-      ? input.steps.desktop
-      : false,
-  appendCommands:
-    input?.steps && typeof input.steps?.appendCommands === 'boolean'
-      ? input.steps.appendCommands
-      : false,
-  reboot:
-    input?.steps && typeof input.steps?.reboot === 'boolean'
-      ? input.steps.reboot
-      : false,
+export const setSteps = (configs: svpsOptions): Required<STEPS> => {
+  return {
+    repair:
+      configs?.steps && typeof configs.steps?.repair === 'boolean'
+        ? configs.steps.repair
+        : false,
+    apt:
+      configs?.steps && typeof configs.steps?.apt === 'boolean'
+        ? configs.steps.apt
+        : false,
+    firewall:
+      configs?.steps && typeof configs.steps?.firewall === 'boolean'
+        ? configs.steps.firewall
+        : false,
+    users:
+      configs?.steps && typeof configs.steps?.users === 'boolean'
+        ? configs.steps.users
+        : false,
+    certificate:
+      configs?.steps && typeof configs.steps?.certificate === 'boolean'
+        ? configs.steps.certificate
+        : false,
+    apache:
+      configs?.steps && typeof configs.steps?.apache === 'boolean'
+        ? configs.steps.apache
+        : false,
+    docker:
+      configs?.steps && typeof configs.steps?.docker === 'boolean'
+        ? configs.steps.docker
+        : false,
+    php:
+      configs?.steps && typeof configs.steps?.php === 'boolean'
+        ? configs.steps.php
+        : false,
+    node:
+      configs?.steps && typeof configs.steps?.node === 'boolean'
+        ? configs.steps.node
+        : false,
+    mysql:
+      configs?.steps && typeof configs.steps?.mysql === 'boolean'
+        ? configs.steps.mysql
+        : false,
+    crontab:
+      configs?.steps && typeof configs.steps?.crontab === 'boolean'
+        ? configs.steps.crontab
+        : false,
+    desktop:
+      configs?.steps && typeof configs.steps?.desktop === 'boolean'
+        ? configs.steps.desktop
+        : false,
+    uploads:
+      configs?.steps && typeof configs.steps?.uploads === 'boolean'
+        ? configs.steps.uploads
+        : false,
+    appendCommands:
+      configs?.steps && typeof configs.steps?.appendCommands === 'boolean'
+        ? configs.steps.appendCommands
+        : false,
+    reboot:
+      configs?.steps && typeof configs.steps?.reboot === 'boolean'
+        ? configs.steps.reboot
+        : false,
+  };
 };

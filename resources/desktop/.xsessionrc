@@ -25,7 +25,6 @@ xfconf-query -c xfce4-desktop -np '/backdrop/screen0/monitorrdp0/workspace0/colo
 xfconf-query -c xfce4-desktop -np '/backdrop/screen0/monitorrdp0/workspace0/image-style' -t int -s 0
 xfconf-query -c xfce4-desktop -np '/backdrop/screen0/monitorrdp0/workspace0/rgba1' -t double -s 0.184314 -t double -s 0.207843 -t double -s 0.258824 -t double -s 1.000000
 xfconf-query -c xfce4-desktop -np '/desktop-icons/tooltip-size' -t 'double' -s 48.000000
-xfconf-query -c xfce4-desktop -np '/desktop-icons/gravity' -t int -s 0
 xfconf-query -c xfwm4 -np '/general/workspace_count' -t int -s 1
 xfconf-query -c xfce4-panel -np '/panels/dark-mode' -t 'bool' -s 'true'
 xfconf-query -c xfce4-panel -np '/plugins/plugin-1/show-tooltips' -t 'bool' -s 'true'

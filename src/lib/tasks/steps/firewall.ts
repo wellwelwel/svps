@@ -1,9 +1,13 @@
 import sh from '../../modules/sh.js';
-import { mysql } from '../../modules/configs/mysql.js';
-import { steps } from '../../modules/configs/steps.js';
+import { setMysql } from '../../modules/configs/mysql.js';
+import { setSteps } from '../../modules/configs/steps.js';
 import { ACCESS } from '../../types/acess.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export default (VPS: ACCESS) => {
+export default (configs: svpsOptions, VPS: ACCESS) => {
+  const steps = setSteps(configs);
+  const mysql = setMysql(configs);
+
   const commands = [
     `echo "${sh.startTitle}Setting up Firewall${sh.endTitle}"`,
     'apt-get update',

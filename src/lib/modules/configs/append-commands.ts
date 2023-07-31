@@ -1,7 +1,13 @@
-import { input } from './index.js';
-import { steps } from './steps.js';
+import { APPEND_COMMANDS } from '../../types/append-commands.js';
+import { svpsOptions } from '../../types/svps.js';
+import { setSteps } from './steps.js';
 
-export const appendCommands =
-  !steps.appendCommands || typeof input?.appendCommands !== 'function'
+export const setAppendCommands = (
+  configs: svpsOptions
+): APPEND_COMMANDS | null => {
+  const steps = setSteps(configs);
+
+  return !steps.appendCommands || typeof configs?.appendCommands !== 'function'
     ? null
-    : input.appendCommands;
+    : configs.appendCommands;
+};

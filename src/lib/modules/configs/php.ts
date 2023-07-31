@@ -1,18 +1,21 @@
 import { PHP } from '../../types/php.js';
-import { input } from './index.js';
-import { steps } from './steps.js';
+import { svpsOptions } from '../../types/svps.js';
+import { setSteps } from './steps.js';
 
-export const php: Required<PHP> | null = (() => {
-  if (!steps.php || !input?.php || typeof input?.php !== 'object') return null;
+export const setPHP = (configs: svpsOptions): Required<PHP> | null => {
+  const steps = setSteps(configs);
+
+  if (!steps.php || !configs?.php || typeof configs?.php !== 'object')
+    return null;
 
   return {
     version:
-      input?.php && typeof input.php?.version === 'number'
-        ? input.php.version
+      configs?.php && typeof configs.php?.version === 'number'
+        ? configs.php.version
         : 8.2,
     modules:
-      input?.php && Array.isArray(input.php?.modules)
-        ? input.php.modules
+      configs?.php && Array.isArray(configs.php?.modules)
+        ? configs.php.modules
         : [
             'cli',
             'common',
@@ -38,8 +41,8 @@ export const php: Required<PHP> | null = (() => {
             'zip',
           ],
     composer:
-      input?.php && typeof input.php?.composer === 'boolean'
-        ? input.php.composer
+      configs?.php && typeof configs.php?.composer === 'boolean'
+        ? configs.php.composer
         : true,
   };
-})();
+};

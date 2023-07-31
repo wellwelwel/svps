@@ -1,7 +1,7 @@
 import { escapeQuotes } from '../../modules/escape-quotes.js';
 import { importFile } from '../../modules/prepare-files.js';
+import { rootSVPS } from '../../modules/root.js';
 import { BASIC_VIRTUAL_HOST } from '../../types/virtual-hosts.js';
-import { __dirname } from '../../modules/root.js';
 import { createDefaultPage } from './create-default-page.js';
 
 const createNodeServer = (port: number) =>
@@ -17,7 +17,7 @@ export const createBasicContainer = (
   const commands = [`mkdir -p /var/containers/domains/${domain}/public_html`];
   const { language } = virtualHost.server;
 
-  const composePath = `${__dirname}/resources/docker/virtual-host/${
+  const composePath = `${rootSVPS}/resources/docker/virtual-host/${
     virtualHost.server.language
   }/docker-compose${useDB ? '-mysql' : ''}.yml`;
 
@@ -65,7 +65,7 @@ export const createBasicContainer = (
 
   if (useDB) {
     const dbCNF = importFile(
-      `${__dirname}/resources/docker/virtual-host/mysql/my.cnf`
+      `${rootSVPS}/resources/docker/virtual-host/mysql/my.cnf`
     );
 
     Object.assign(commands, [
@@ -110,11 +110,11 @@ export const createBasicContainer = (
   /** Creating default app for NODE server */
   if (virtualHost.server.language === 'node') {
     const dockerfile = importFile(
-      `${__dirname}/resources/docker/virtual-host/${virtualHost.server.language}/Dockerfile`
+      `${rootSVPS}/resources/docker/virtual-host/${virtualHost.server.language}/Dockerfile`
     );
 
     const pm2 = importFile(
-      `${__dirname}/resources/docker/virtual-host/${virtualHost.server.language}/pm2.json`
+      `${rootSVPS}/resources/docker/virtual-host/${virtualHost.server.language}/pm2.json`
     ).replace(/\${!DOMAIN}/gm, domain);
 
     Object.assign(commands, [
@@ -130,6 +130,32 @@ export const createBasicContainer = (
         pm2
       )} | cat > /var/containers/domains/${domain}/pm2.json`,
     ]);
+  }
+
+  /** Permissions */
+  if (virtualHost?.server?.permissions) {
+    const remote = `/var/containers/domains/${domain}`;
+    const { user, group } = virtualHost.server.permissions;
+
+    if (user && group) {
+      Object.assign(commands, [
+        ...commands,
+        `chown -R ${user}:${user} "${remote}"`,
+        `chmod -R 0775 "${remote}"`,
+      ]);
+    } else if (user) {
+      Object.assign(commands, [
+        ...commands,
+        `chown -R ${user}: "${remote}"`,
+        `chmod -R 0755 "${remote}"`,
+      ]);
+    } else if (group) {
+      Object.assign(commands, [
+        ...commands,
+        `chown -R :${group} "${remote}"`,
+        `chmod -R 0775 "${remote}"`,
+      ]);
+    }
   }
 
   /** Composing container */

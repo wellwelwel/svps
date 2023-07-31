@@ -1,7 +1,8 @@
 import { DOMAINS } from '../../types/domains.js';
-import { input } from './index.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export const domains: DOMAINS =
-  input?.domains && typeof input.domains === 'string'
-    ? input.domains
+export const setDomains = (configs: svpsOptions): DOMAINS => {
+  return configs?.domains && typeof configs.domains === 'string'
+    ? configs.domains
     : './.domains.json';
+};

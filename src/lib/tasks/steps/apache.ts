@@ -2,14 +2,18 @@ import fs from 'fs';
 import { normalize } from 'path';
 import sh from '../../modules/sh.js';
 import { escapeQuotes } from '../../modules/escape-quotes.js';
-import { apache } from '../../modules/configs/apache.js';
-import { __dirname } from '../../modules/root.js';
-import { steps } from '../../modules/configs/steps.js';
+import { setApache } from '../../modules/configs/apache.js';
+import { setSteps } from '../../modules/configs/steps.js';
+import { svpsOptions } from '../../types/svps.js';
+import { rootSVPS } from '../../modules/root.js';
 
-export default () => {
+export default (configs: svpsOptions) => {
+  const apache = setApache(configs);
+  const steps = setSteps(configs);
+
   if (!steps.apache) return [] as string[];
 
-  const default_000 = `${__dirname}/resources/apache/virtual-host/000-default.conf`;
+  const default_000 = `${rootSVPS}/resources/apache/virtual-host/000-default.conf`;
 
   const commands = [
     `echo "${sh.startTitle}Setting up Apache2${sh.endTitle}"`,
@@ -26,8 +30,8 @@ export default () => {
   ];
 
   if (!apache.accessFromIP) {
-    const htaccess = `${__dirname}/resources/apache/html/.htaccess`;
-    const _403 = `${__dirname}/resources/apache/html/403.html`;
+    const htaccess = `${rootSVPS}/resources/apache/html/.htaccess`;
+    const _403 = `${rootSVPS}/resources/apache/html/403.html`;
 
     Object.assign(commands, [
       ...commands,

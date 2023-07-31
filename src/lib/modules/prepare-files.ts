@@ -1,9 +1,10 @@
 import fs from 'fs';
 import fsp from 'fs/promises';
-import { join } from 'path';
+import { join, relative as relativePath, dirname } from 'path';
 import { UPLOAD } from '../types/upload.js';
 import { ensureDir, uploadFile } from '../ssh.js';
-import { __dirname, cwd } from './root.js';
+import { fileURLToPath } from 'url';
+import { basicPermissions } from './basic-permissions.js';
 
 interface Entries {
   dirs: string[];
@@ -42,17 +43,12 @@ const formatSize = (bytes: number) => {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))}${sizes[i]}`;
 };
 
+const relative = (path: string) =>
+  relativePath(fileURLToPath(process.cwd()), path).replace(/\.\.\//g, '');
+
 const getContents = async (
   dirPath: string,
-  ignore: string[] = [
-    '.git',
-    'node_modules',
-    '.Trashes',
-    '.Spotlight-V100',
-    '.DS_Store',
-    'Icon',
-    'Desktop.ini',
-  ]
+  ignore: string[]
 ): Promise<Entries> => {
   const results: Entries = {
     dirs: [],
@@ -63,7 +59,17 @@ const getContents = async (
     const entries = await fsp.readdir(dir, { withFileTypes: true });
 
     for (const entry of entries) {
-      if (ignore.includes(entry.name)) continue;
+      if (
+        [
+          '.Trashes',
+          '.Spotlight-V100',
+          '.DS_Store',
+          'Desktop.ini',
+          '.localized',
+          ...ignore,
+        ].includes(entry.name)
+      )
+        continue;
 
       const fullPath = join(dir, entry.name);
 
@@ -84,64 +90,60 @@ const getContents = async (
   return results;
 };
 
-const setPath = (path: string) => {
-  const currentPath = path
-    .replace(
-      new RegExp(
-        __dirname
-          .replace(/file:\//, '')
-          .replace(/\//g, '\\/')
-          .replace(/\./g, '\\.')
-      ),
-      ''
-    )
-    .replace(
-      new RegExp(
-        cwd
-          .replace(/file:\//, '')
-          .replace(/\//g, '\\/')
-          .replace(/\./g, '\\.')
-      ),
-      ''
-    )
-    .replace(/\.\.(\/)?/g, '')
-    .replace(/\.\//, '');
-  return currentPath;
-};
-
 export const importFile = (path: string) => fs.readFileSync(path, 'utf-8');
 
 export const upload = async (options: UPLOAD) => {
-  console.log(`\n\x1b[22m\x1b[36m\x1b[1m⦿ Uploading Files\x1b[0m`);
-
-  const { local, remote } = options;
+  const { local, remote, blacklist, permissions } = options;
 
   if (await isFile(local)) {
-    uploadFile(local, remote);
+    const remoteDir = dirname(remote);
+    console.log(
+      `  \x1b[36m⌙\x1b[0m \x1b[0m\x1b[2mEnsuring the directory: \x1b[1m${remoteDir}\x1b[0m`
+    );
+
+    await ensureDir(remoteDir);
+
+    console.log(`    \x1b[36m⌙ \x1b[0m\x1b[2m${remote}\x1b[0m`);
+    await uploadFile(local, remote);
   } else if (await isDir(local)) {
-    const contents = await getContents(local);
+    const contents = await getContents(
+      local,
+      blacklist || ['.git', 'node_modules']
+    );
+    const remoteDir = remote.replace(/\/$/, '');
+
+    console.log(
+      `  \x1b[36m⌙\x1b[0m \x1b[0m\x1b[2mEnsuring directories: \x1b[1m${remoteDir}\x1b[0m`
+    );
+
     const longestSize = contents.files.reduce(
       (max, entry) => Math.max(max, entry.size.length),
       0
     );
-    const remoteDir = setPath(remote).replace(/\/$/, '');
-
-    console.log(
-      `  \x1b[36m⌙\x1b[0m \x1b[0m\x1b[2m\x1b[3mEnsuring directories\x1b[0m`
-    );
-
-    await ensureDir(remote);
 
     for (const dir of contents.dirs) {
-      const currentDir = setPath(dir).replace(/^\//, '');
-      const remotePath = `${remoteDir}/${currentDir}`.replace(/\/\//g, '/');
+      const currentDir = relative(dir);
+      const remotePath = `${remoteDir}/${currentDir}`;
+
+      /** Debug */
+      // console.log('origin', dir);
+      // console.log('expectedDir', currentDir);
+      // console.log('remotePath', remotePath);
+      // console.log();
 
       await ensureDir(remotePath);
     }
 
     for (const file of contents.files) {
-      const currentFile = setPath(file.path).replace(/^\//, '');
-      const remotePath = `${remoteDir}/${currentFile}`.replace(/\/\//g, '/');
+      const currentFile = relative(file.path).replace(/^\//, '');
+      const remotePath = `${remoteDir}/${currentFile}`;
+
+      /** Debug */
+      // console.log('origin', file.path);
+      // console.log('expectedFile', currentFile);
+      // console.log('remotePath', remotePath);
+      // console.log();
+
       const message = `    \x1b[36m⌙ \x1b[0m\x1b[2m${file.size.padStart(
         longestSize,
         ' '
@@ -151,5 +153,18 @@ export const upload = async (options: UPLOAD) => {
 
       await uploadFile(file.path, remotePath);
     }
+  }
+
+  if (permissions) await basicPermissions({ remote, ...permissions });
+};
+
+export const resourcesUpload = async (options: UPLOAD) => {
+  const { local, remote } = options;
+
+  if (await isFile(local)) {
+    const remoteDir = dirname(remote);
+
+    await ensureDir(remoteDir);
+    await uploadFile(local, remote);
   }
 };

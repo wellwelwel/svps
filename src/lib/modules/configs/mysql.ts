@@ -1,22 +1,24 @@
 import { REQUIRED_MYSQL } from '../../types/mysql.js';
-import { input } from './index.js';
-import { steps } from './steps.js';
+import { svpsOptions } from '../../types/svps.js';
+import { setSteps } from './steps.js';
 
-export const mysql: REQUIRED_MYSQL | null = (() => {
-  if (!steps.mysql || typeof input?.mysql !== 'object') return null;
-  if (typeof input.mysql?.root !== 'object')
+export const setMysql = (configs: svpsOptions): REQUIRED_MYSQL | null => {
+  const steps = setSteps(configs);
+
+  if (!steps.mysql || typeof configs?.mysql !== 'object') return null;
+  if (typeof configs.mysql?.root !== 'object')
     throw 'The field `root` in `mysql` options is required';
 
-  const mapMySQL = input.mysql as REQUIRED_MYSQL;
+  const mapMySQL = configs.mysql as REQUIRED_MYSQL;
 
   mapMySQL.root.name =
-    typeof input.mysql.root?.name === 'string'
-      ? input.mysql.root?.name
+    typeof configs.mysql.root?.name === 'string'
+      ? configs.mysql.root?.name
       : 'root';
 
-  if (!input.mysql?.users || !Array.isArray(input.mysql?.users))
+  if (!configs.mysql?.users || !Array.isArray(configs.mysql?.users))
     mapMySQL.users = [];
-  if (!input.mysql?.databases || !Array.isArray(input.mysql?.databases))
+  if (!configs.mysql?.databases || !Array.isArray(configs.mysql?.databases))
     mapMySQL.databases = [] as string[];
 
   for (const key in mapMySQL.users) {
@@ -31,4 +33,4 @@ export const mysql: REQUIRED_MYSQL | null = (() => {
   }
 
   return mapMySQL;
-})();
+};

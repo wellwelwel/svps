@@ -1,14 +1,18 @@
 import fs from 'fs';
 import { normalize } from 'path';
 import { escapeQuotes } from '../../../modules/escape-quotes.js';
-import { certificate } from '../../../modules/configs/certificate.js';
+import { setCertificate } from '../../../modules/configs/certificate.js';
+import { setUsers } from '../../../modules/configs/users.js';
 import sh from '../../../modules/sh.js';
-import { users } from '../../../modules/configs/users.js';
-import { __dirname } from '../../../modules/root.js';
 import { setFTP } from './ftp.js';
 import { setSFTP } from './sftp.js';
+import { svpsOptions } from '../../../types/svps.js';
+import { rootSVPS } from '../../../modules/root.js';
 
-export default () => {
+export default (configs: svpsOptions) => {
+  const certificate = setCertificate(configs);
+  const users = setUsers(configs);
+
   if (!users) return [] as string[];
 
   const commands: string[] = [
@@ -19,10 +23,7 @@ export default () => {
   const hasFTP = users?.some((user) => typeof user.ftp === 'object') || false;
   const hasSFTP = users?.some((user) => typeof user.sftp === 'object') || false;
   const vsftpd_conf = escapeQuotes(
-    fs.readFileSync(
-      normalize(`${__dirname}/resources/ftp/vsftpd.conf`),
-      'utf-8'
-    )
+    fs.readFileSync(normalize(`${rootSVPS}/resources/ftp/vsftpd.conf`), 'utf-8')
   ).replace(/{!CERT}/gm, certificate?.output || '/etc/ssl/private/cert.pem');
 
   const sshdConfigPath = '/etc/ssh/sshd_config';

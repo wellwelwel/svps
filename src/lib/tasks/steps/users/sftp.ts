@@ -1,8 +1,8 @@
 import fs from 'fs';
 import { normalize } from 'path';
-import { __dirname } from '../../../modules/root.js';
 import { escapeQuotes } from '../../../modules/escape-quotes.js';
 import { REQUIRED_USER } from '../../../types/users.js';
+import { rootSVPS } from '../../../modules/root.js';
 
 export const setSFTP = (user: REQUIRED_USER) => {
   if (!user?.sftp) return [] as string[];
@@ -10,7 +10,7 @@ export const setSFTP = (user: REQUIRED_USER) => {
   const sshdConfigPath = '/etc/ssh/sshd_config';
 
   const user_conf = fs
-    .readFileSync(normalize(`${__dirname}/resources/sftp/user.conf`), 'utf-8')
+    .readFileSync(normalize(`${rootSVPS}/resources/sftp/user.conf`), 'utf-8')
     .replace(/{!USER}/gm, user.name)
     .replace(/{!CHROOT}/gm, user.sftp.chRoot)
     .replace(/{!CHUSER}/gm, user.sftp.chUser)

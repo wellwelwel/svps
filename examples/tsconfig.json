@@ -1,9 +1,5 @@
 {
   "extends": ["../tsconfig.json"],
   "include": ["**/**/**/.*"],
-  "exclude": [],
-  "compilerOptions": {
-    "noEmit": true,
-    "noEmitOnError": true
-  }
+  "exclude": []
 }

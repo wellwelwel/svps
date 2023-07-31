@@ -1,17 +1,20 @@
 import { CRONTAB } from '../../types/crontab.js';
-import { input } from './index.js';
-import { steps } from './steps.js';
+import { svpsOptions } from '../../types/svps.js';
+import { setSteps } from './steps.js';
 
-export const crontab: Required<CRONTAB> | null =
-  !steps.crontab || typeof input?.crontab !== 'object'
+export const setCrontab = (configs: svpsOptions): Required<CRONTAB> | null => {
+  const steps = setSteps(configs);
+
+  return !steps.crontab || typeof configs?.crontab !== 'object'
     ? null
     : {
         path:
-          input.crontab?.path && typeof input.crontab.path === 'string'
-            ? input.crontab.path
+          configs.crontab?.path && typeof configs.crontab.path === 'string'
+            ? configs.crontab.path
             : './.cronjobs.sh',
         append:
-          input.crontab?.append && typeof input.crontab.append === 'string'
-            ? input.crontab.append
+          configs.crontab?.append && typeof configs.crontab.append === 'string'
+            ? configs.crontab.append
             : false,
       };
+};

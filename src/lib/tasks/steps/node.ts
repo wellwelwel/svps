@@ -1,7 +1,10 @@
 import sh from '../../modules/sh.js';
-import { node } from '../../modules/configs/node.js';
+import { setNode } from '../../modules/configs/node.js';
+import { svpsOptions } from '../../types/svps.js';
 
-export default () => {
+export default (configs: svpsOptions) => {
+  const node = setNode(configs);
+
   if (!node) return [] as string[];
 
   const commands = [
