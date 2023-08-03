@@ -16,6 +16,8 @@ export const createBasicContainer = (
   const port = String(virtualHost.port);
   const commands = [`mkdir -p /var/containers/domains/${domain}/public_html`];
   const { language } = virtualHost.server;
+  const buildFromScratch: boolean =
+    virtualHost.server?.buildFromScratch || false;
 
   const composePath = `${rootSVPS}/resources/docker/virtual-host/${
     virtualHost.server.language
@@ -46,6 +48,10 @@ export const createBasicContainer = (
       virtualHost.server.mysql?.expose
         ? String(`${virtualHost.server.mysql?.expose}:`)
         : ''
+    )
+    .replace(
+      /\${!IMAGE}/gm,
+      buildFromScratch ? 'Dockerfile-php-8-scratch' : 'Dockerfile-php-8'
     )
     .replace(/\${!PUBLIC}/gm, isPublic ? '' : '127.0.0.1:')
     .replace(/\${!DB_PUBLIC}/gm, isPublicDB ? '' : '127.0.0.1:');
@@ -107,14 +113,14 @@ export const createBasicContainer = (
     `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`,
   ]);
 
-  /** Creating default app for NODE server */
+  /** Composing NODE server */
   if (virtualHost.server.language === 'node') {
     const dockerfile = importFile(
-      `${rootSVPS}/resources/docker/virtual-host/${virtualHost.server.language}/Dockerfile`
+      `${rootSVPS}/resources/docker/virtual-host/node/Dockerfile`
     );
 
     const pm2 = importFile(
-      `${rootSVPS}/resources/docker/virtual-host/${virtualHost.server.language}/pm2.json`
+      `${rootSVPS}/resources/docker/virtual-host/node/pm2.json`
     ).replace(/\${!DOMAIN}/gm, domain);
 
     Object.assign(commands, [
@@ -129,6 +135,42 @@ export const createBasicContainer = (
       `echo ${escapeQuotes(
         pm2
       )} | cat > /var/containers/domains/${domain}/pm2.json`,
+    ]);
+  } else if (virtualHost.server.language === 'php') {
+    /** Composing PHP server */
+    const dockerfile = importFile(
+      `${rootSVPS}/resources/docker/virtual-host/php/Dockerfile${
+        buildFromScratch ? '.scratch' : ''
+      }`
+    );
+
+    const default000 = importFile(
+      `${rootSVPS}/resources/docker/virtual-host/php/resources/000-default.conf`
+    ).replace(/\${!DOMAIN}/gm, domain);
+
+    const phpINI = importFile(
+      `${rootSVPS}/resources/docker/virtual-host/php/resources/php.ini`
+    ).replace(/\${!DOMAIN}/gm, domain);
+
+    Object.assign(commands, [
+      ...commands,
+      'mkdir -p /var/containers/images/resources',
+      `echo ${escapeQuotes(
+        dockerfile
+      )} | cat > /var/containers/images/Dockerfile-php-8${
+        buildFromScratch ? '-scratch' : ''
+      }`,
+      `chmod 0600 /var/containers/images/Dockerfile-php-8${
+        buildFromScratch ? '-scratch' : ''
+      }`,
+      `echo ${escapeQuotes(
+        default000
+      )} | cat > /var/containers/images/resources/000-default.conf`,
+      `chmod 0600 /var/containers/images/resources/000-default.conf`,
+      `echo ${escapeQuotes(
+        phpINI
+      )} | cat > /var/containers/images/resources/php.ini`,
+      `chmod 0600 /var/containers/images/resources/php.ini`,
     ]);
   }
 
@@ -160,7 +202,7 @@ export const createBasicContainer = (
 
   /** Composing container */
   commands.push(
-    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`
+    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d --build`
   );
 
   return commands;

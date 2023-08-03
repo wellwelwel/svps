@@ -81,6 +81,17 @@ interface BasicVirtualHost {
      */
     isPublic?: boolean;
   };
+  /**
+   * Build the Docker image from scratch.
+   *
+   * - `true`: the Docker image is built from scratch.
+   * - `false`: the Docker image is pulled from Docker Hub.
+   *
+   * ---
+   *
+   * default: `false`
+   */
+  buildFromScratch?: boolean;
 }
 
 /**
