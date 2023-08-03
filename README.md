@@ -185,6 +185,8 @@ await svps.createVirtualHosts([
 ]);
 ```
 
+- For **PHP**, you can flag the `server` option `buildFromScratch` as `true` to create the Virtual Host image from scratch, otherwise it will pull the images from my [Docker Hub](https://hub.docker.com/r/wellwelwel/php) 🙋🏻‍♂️
+
 To create flexible **Basic Virtual Hosts**, **SVPS** uses **Docker** containers and **Apache2** to proxy their ports to your domains.
 
 > **Apache2**, **Docker** and **Docker Compose** required.
