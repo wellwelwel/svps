@@ -22,6 +22,7 @@
     - [Advanced Usage](#advanced-usage-manual)
   - [Turning **VPS Server** into **Desktop Server** (**RDP**)](#turning-vps-server-into-desktop-server-rdp)
   - [Testing using a **Docker** Container](#testing-using-a-docker-container)
+  - [Close the Connection](#close-the-connection)
 - [Important](#important)
   - [Known Issues](#known-issues)
   - [Compatibility](#compatibility)
@@ -51,6 +52,7 @@ All this, using just a _single one_ connection 🧙🏻✨
 ```js
 import { SVPS } from 'svps';
 
+/** Prepare the connection */
 const svps = new SVPS({
   access: {
     host: '127.0.0.1',
@@ -58,6 +60,16 @@ const svps = new SVPS({
     password: 'root',
   },
 });
+
+/** Available methods
+ * svps.mount
+ * svps.commands
+ * svps.createVirtualHosts
+ * svps.upload
+ * svps.end
+ *
+ * See about each below 🕵🏻
+ */
 ```
 
 ---
@@ -258,6 +270,14 @@ await svps.mount({
     },
   });
   ```
+
+---
+
+### Close the Connection
+
+```js
+await svps.end();
+```
 
 ---
 
