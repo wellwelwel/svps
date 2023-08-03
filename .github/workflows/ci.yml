@@ -71,24 +71,3 @@ jobs:
 
       - name: ✅ Finishing
         run: npm run tests:reset >/dev/null 2>&1 || true
-
-      # DEBUG
-      - name: 🧬 Checking "package.json"
-        if: ${{ failure() }}
-        run: |
-          cat tests/package.json
-
-      - name: 🧬 Checking "package-lock.json"
-        if: ${{ failure() }}
-        run: |
-          cat tests/package-lock.json
-
-      - name: 🧬 Checking "node_modules"
-        if: ${{ failure() }}
-        run: |
-          ls -la tests/node_modules/
-
-      - name: 🧬 Listing installed packages
-        if: ${{ failure() }}
-        run: |
-          cd tests && npm ls

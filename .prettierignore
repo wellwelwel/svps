@@ -3,3 +3,4 @@ node_modules
 /tests
 /resources/**/*.html
 package-lock.json
+/CHANGELOG.md
