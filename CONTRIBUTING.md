@@ -15,7 +15,7 @@ You will need these tools installed on your system:
 
 ## Developing
 
-Fork this project, download your forked repository locally and create a new branch.  
+Fork this project, download your forked repository locally and create a new branch from `main`.  
 Then running `npm ci` to install the dependecies from _package-lock.json_.
 
 ---

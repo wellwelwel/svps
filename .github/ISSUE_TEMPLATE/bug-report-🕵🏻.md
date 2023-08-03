@@ -1,10 +1,9 @@
 ---
 name: "Bug report \U0001F575\U0001F3FB"
-about: Create a report to help us improve
+about: Create a report to help improve SVPS
 title: ''
 labels: ''
 assignees: ''
-
 ---
 
 ### 🌧️ What's wrong?

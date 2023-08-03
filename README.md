@@ -1,9 +1,10 @@
 <div align="center">
   <h1>SVPS - Simplifying VPS</h1>
   <p>🚀 An easier tool to automate your <b>Ubuntu Server</b> setup and domain forwarding</p>
-  <img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm">
-  <img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci&branch=main" alt="GitHub Workflow Status (with event)">
-  <img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm">
+  <a href="https://www.npmjs.com/package/svps"><img src="https://img.shields.io/npm/v/svps?style=flat" alt="npm"></a>
+  <a href="https://github.com/wellwelwel/svps/actions/workflows/ci.yml?query=branch%3Amain"><img src="https://img.shields.io/github/actions/workflow/status/wellwelwel/svps/ci.yml?event=push&style=flat&label=ci&branch=main" alt="GitHub Workflow Status (with event)"></a>
+  <a href="https://www.npmjs.com/package/svps"><img src="https://img.shields.io/npm/dt/svps?style=flat" alt="npm"></a>
+  <a href="https://github.com/wellwelwel/svps/blob/main/LICENSE"><img src="https://raw.githubusercontent.com/wellwelwel/svps/main/.github/assets/readme/license.svg" alt="License"></a>
 </div>
 
 ## Table of Contents
@@ -24,10 +25,8 @@
 - [Important](#important)
   - [Known Issues](#known-issues)
   - [Compatibility](#compatibility)
-  - [License](#license)
 - [Community](#community)
   - [Contributing](#contributing)
-  - [Credits](#credits)
 
 ---
 
@@ -37,7 +36,7 @@
 
 It supports command automation, files and directories upload via **SFTP**, automatic installations and configurations, domain forwarding, local text files and template strings into _escaped quoted strings_ for dynamic remote file creation, among other features.
 
-All this, using just a single one connection 🧙🏻✨
+All this, using just a _single one_ connection 🧙🏻✨
 
 ---
 
@@ -288,12 +287,6 @@ await svps.mount({
 
 ---
 
-### License
-
-[![License](/.github/assets/readme/license.svg)](/LICENSE)
-
----
-
 ## Community
 
 I'm continuously working to improve **SVPS**. If you've got something interesting to share, feel free to submit a [**Pull Request**](https://github.com/wellwelwel/svps/compare). If you notice something wrong, I'd appreciate if you'd open an [**Issue**](https://github.com/wellwelwel/svps/issues/new).
@@ -303,11 +296,3 @@ I'm continuously working to improve **SVPS**. If you've got something interestin
 ### Contributing
 
 Please check the [_CONTRIBUTING.md_](./CONTRIBUTING.md) for instructions 🚀
-
----
-
-### Credits
-
-| Contributors | GitHub                                                                            |
-| ------------ | --------------------------------------------------------------------------------- |
-| Author       | [![wellwelwel](/.github/assets/readme/author.svg)](https://github.com/wellwelwel) |

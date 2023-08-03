@@ -11,10 +11,10 @@
     <rect width="814" height="200" fill="url(#a)"/>
   </g>
   <g aria-hidden="true" fill="#fff" text-anchor="start" font-family="Verdana,DejaVu Sans,sans-serif" font-size="110">
-    <text x="60" y="148" textLength="407" fill="#000" opacity="0.25">License</text>
-    <text x="50" y="138" textLength="407">License</text>
+    <text x="60" y="148" textLength="407" fill="#000" opacity="0.25">license</text>
+    <text x="50" y="138" textLength="407">license</text>
     <text x="562" y="148" textLength="207" fill="#000" opacity="0.25">MIT</text>
     <text x="552" y="138" textLength="207">MIT</text>
   </g>
-  
+
 </svg>
