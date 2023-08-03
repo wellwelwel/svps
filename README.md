@@ -31,6 +31,9 @@
 
 ---
 
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwellwelwel%2Fsvps.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwellwelwel%2Fsvps?ref=badge_large)
+
 ## About
 
 **SVPS**, initially designed to simplify tasks for non-Unix users, works as an **ORM** for **Ubuntu Servers**.
@@ -162,6 +165,7 @@ await svps.createVirtualHosts([
 ![Node.js](https://img.shields.io/badge/Node.js-LTS-green)
 ![PHP](https://img.shields.io/badge/PHP-8.2-4F5B93)
 ![MySQL](https://img.shields.io/badge/MySQL-8.x-blue)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fwellwelwel%2Fsvps.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fwellwelwel%2Fsvps?ref=badge_shield)
 
 You can automatically create **Node.js** (**LTS**) and **PHP** (**8.2**) services and work on them in `/var/containers/domains`**`/your_domain`**.  
 Also, it allows to use an exclusive **MySQL** database for each domain.
