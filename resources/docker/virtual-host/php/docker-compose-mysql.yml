@@ -1,13 +1,15 @@
 version: '3.9'
 services:
   server:
-    image: wellwelwel/php:8-shared-based
+    build:
+      context: ../images
+      dockerfile: ./${!IMAGE}
     container_name: ${!DOMAIN}-app
     restart: always
     ports:
       - '${!PUBLIC}${!PORT}:80'
     volumes:
-      - /var/containers/domains/${!DOMAIN}:/var/www
+      - /var/containers/domains/${!DOMAIN}:/srv/www
     depends_on:
       db:
         condition: service_healthy

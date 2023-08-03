@@ -1,0 +1,69 @@
+FROM php:8-apache
+
+RUN set -x \
+  && echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections \
+  && docker-php-source extract \
+  && apt-get update \
+  && apt-get install --assume-yes --no-install-recommends --quiet \
+  zlib1g-dev \
+  libc-client-dev \
+  libcurl4-openssl-dev \
+  libfreetype6-dev \
+  libgmp-dev \
+  libjpeg-dev \
+  libkrb5-dev \
+  libpng-dev \
+  libtidy-dev \
+  libbz2-dev \
+  libxml2-dev \
+  libxslt1-dev \
+  libzip-dev \
+  && pecl install \
+  xmlrpc \
+  zip \
+  && curl -sS https://getcomposer.org/installer -o composer-setup.php \
+  && php composer-setup.php --install-dir=/usr/local/bin --filename=composer || true \
+  && docker-php-ext-configure gd --with-jpeg \
+  && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
+  && docker-php-ext-enable \
+  zip \
+  && docker-php-ext-install \
+  bcmath \
+  bz2 \
+  curl \
+  exif \
+  gd \
+  gmp \
+  imap \
+  intl \
+  mysqli \
+  opcache \
+  pdo_mysql \
+  soap \
+  tidy \
+  xml \
+  xsl \
+  && a2enmod \
+  expires \
+  headers \
+  rewrite \
+  && a2enconf \
+  security \
+  && docker-php-source delete \
+  && apt-get clean -y \
+  && apt-get autoremove -y --purge \
+  && apt-get autoclean -y \
+  && rm -rf /var/lib/apt/lists/* \
+  && rm -rf /var/www \
+  ;
+
+RUN mkdir -p /srv/www/public_html \
+  && printf "\nServerSignature Off\nServerTokens Prod" >> /etc/apache2/conf-available/security.conf \
+  && printf "\nServerName localhost" >> /etc/apache2/apache2.conf \
+  && sed -i 's/^\(CustomLog.*\)$/#\1/' /etc/apache2/conf-available/other-vhosts-access-log.conf \
+  ;
+
+COPY ./resources/php.ini /usr/local/etc/php/php.ini
+COPY ./resources/000-default.conf /etc/apache2/sites-available/000-default.conf
+
+WORKDIR /srv/www/public_html
