@@ -12,8 +12,8 @@ import { SVPS } from '../../lib/index.js';
 const svps = new SVPS({
   access: {
     host: '127.0.0.1',
-    username: String(process.env.USER),
-    password: process.env.PASS,
+    username: 'root',
+    password: 'root',
   },
 });
 
@@ -27,12 +27,12 @@ await svps.mount({
       {
         host: '127.0.0.1',
         name: 'local_user',
-        pass: String(process.env.DB_PASS),
+        pass: 'local_user-passowrd',
       },
       {
         host: '192.168.0.1',
         name: 'external_user',
-        pass: String(process.env.DB_PASS),
+        pass: 'external_user-password',
       },
     ],
   },

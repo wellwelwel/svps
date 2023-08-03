@@ -12,8 +12,8 @@ import { SVPS } from '../../lib/index.js';
 const svps = new SVPS({
   access: {
     host: '127.0.0.1',
-    username: String(process.env.USER),
-    password: process.env.PASS,
+    username: 'root',
+    password: 'root',
   },
 });
 
@@ -21,7 +21,7 @@ await svps.mount({
   users: [
     {
       name: 'manager',
-      password: String(process.env.MANAGER_PASS),
+      password: 'manager-password',
       sftp: {
         chRoot: '/home/manager',
         chUser: '/home/manager/apps',

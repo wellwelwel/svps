@@ -16,8 +16,8 @@ const quotedBashrc = escapeQuotes(bashrc);
 const svps = new SVPS({
   access: {
     host: '127.0.0.1',
-    username: String(process.env.USER),
-    password: process.env.PASS,
+    username: 'root',
+    password: 'root',
   },
 });
 
