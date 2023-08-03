@@ -13,6 +13,13 @@ You will need these tools installed on your system:
 
 ---
 
+## Developing
+
+Fork this project, download your forked repository locally and create a new branch.  
+Then running `npm ci` to install the dependecies from _package-lock.json_.
+
+---
+
 ## Testing
 
 The tests are dynamic and can be easily run by performing:
