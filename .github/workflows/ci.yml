@@ -1,4 +1,4 @@
-name: 🔬
+name: '🔬 CI'
 on:
   push:
     branches: [main]
