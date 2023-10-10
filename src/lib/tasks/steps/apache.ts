@@ -15,16 +15,16 @@ export default (configs: MOUNT) => {
 
   const commands = [
     `echo "${sh.startTitle}Setting up Apache2${sh.endTitle}"`,
-    'apt-get update',
-    'apt-get install apache2 -y',
-    'mkdir -p /var/www',
-    'rm -rf /var/www/html',
-    'mkdir -p /var/www/host',
+    'sudo apt-get update',
+    'sudo apt-get install apache2 -y',
+    'sudo mkdir -p /var/www',
+    'sudo rm -rf /var/www/html',
+    'sudo mkdir -p /var/www/host',
     `echo "${sh.startTitle}Setting up Rewrite Virtual Hosts${sh.endTitle}"`,
     `echo ${escapeQuotes(
       fs.readFileSync(normalize(default_000), 'utf-8')
-    )} | cat > /etc/apache2/sites-available/000-default.conf`,
-    'a2enmod proxy proxy_http rewrite headers expires',
+    )} | sudo tee /etc/apache2/sites-available/000-default.conf`,
+    'sudo a2enmod proxy proxy_http rewrite headers expires',
   ];
 
   if (!apache.accessFromIP) {
@@ -36,19 +36,19 @@ export default (configs: MOUNT) => {
       ...[
         `echo ${escapeQuotes(
           fs.readFileSync(normalize(htaccess), 'utf-8')
-        )} | cat > /var/www/host/.htaccess`,
+        )} | sudo tee /var/www/host/.htaccess`,
         `echo ${escapeQuotes(
           fs.readFileSync(normalize(_403), 'utf-8')
-        )} | cat > /var/www/host/403.html`,
-        'chmod 0755 /var/www/host',
+        )} | sudo tee /var/www/host/403.html`,
+        'sudo chmod 0755 /var/www/host',
       ],
     ]);
   }
 
   Object.assign(commands, [
     ...commands,
-    'systemctl restart apache2',
-    'systemctl reload apache2',
+    'sudo systemctl restart apache2',
+    'sudo systemctl reload apache2',
     sh.done,
   ]);
 

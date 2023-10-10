@@ -29,7 +29,7 @@ const createSVPS = () => {
 
   return class SVPS {
     constructor(options: {
-      /** Set the SSH access for one or more VPS */
+      /** Set the SSH access */
       access: ACCESS;
     }) {
       access = options.access;
@@ -93,13 +93,13 @@ const createSVPS = () => {
         const invalidVirtualHosts: VIRTUAL_HOST[] = [];
         const deployedVirtualHosts: VIRTUAL_HOST[] = [];
         const commands = [
-          'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
-          'mkdir -p /var/containers/images /var/containers/compositions /var/containers/domains /var/containers/databases',
-          'chmod 0755 /var/containers',
-          'chmod 0700 /var/containers/images',
-          'chmod 0700 /var/containers/compositions',
-          'chmod 0750 /var/containers/databases',
-          'chmod 0755 /var/containers/domains',
+          'echo "debconf debconf/frontend select Noninteractive" | sudo debconf-set-selections',
+          'sudo mkdir -p /var/containers/images /var/containers/compositions /var/containers/domains /var/containers/databases',
+          'sudo chmod 0755 /var/containers',
+          'sudo chmod 0700 /var/containers/images',
+          'sudo chmod 0700 /var/containers/compositions',
+          'sudo chmod 0750 /var/containers/databases',
+          'sudo chmod 0755 /var/containers/domains',
         ];
 
         if (!virtualHosts) {
@@ -146,11 +146,11 @@ const createSVPS = () => {
               ...commands,
               `echo "${sh.startTitle}Proxy Port: ${virtualHost.domain} on port ${virtualHost.port}${sh.endTitle}"`,
               ...createProxy(virtualHost),
-              'systemctl reload apache2',
+              'sudo systemctl reload apache2',
               sh.done,
             ]);
           });
-          commands.push('systemctl restart apache2');
+          commands.push('sudo systemctl restart apache2');
         }
 
         /** Basic Virtual Hosts Servers */
@@ -165,7 +165,7 @@ const createSVPS = () => {
               ...createBasicVirtualHost(virtualHost),
             ]);
           });
-          commands.push('systemctl restart apache2');
+          commands.push('sudo systemctl restart apache2');
         }
 
         if (deployedVirtualHosts.length === 0)

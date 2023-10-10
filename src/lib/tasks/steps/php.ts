@@ -29,21 +29,23 @@ export default (configs: MOUNT) => {
 
   const commands: string[] = [
     `echo "${sh.startTitle}Setting up PHP${sh.endTitle}"`,
-    'apt-get update',
-    'apt-get -y install acl software-properties-common',
-    'add-apt-repository ppa:ondrej/php',
-    `apt-get install -y php${version}`,
+    'sudo apt-get update',
+    'sudo apt-get -y install acl software-properties-common',
+    'sudo add-apt-repository ppa:ondrej/php',
+    `sudo apt-get install -y php${version}`,
   ];
 
   if (php.modules.length > 0)
-    commands.push(`apt-get install -y php${version}-{${modules.join(',')}}`);
+    commands.push(
+      `sudo apt-get install -y php${version}-{${modules.join(',')}}`
+    );
 
   if (php.composer) {
     Object.assign(commands, [
       ...commands,
       ...[
         'curl -sS https://getcomposer.org/installer -o composer-setup.php',
-        'php composer-setup.php --install-dir=/usr/local/bin --filename=composer || true',
+        'sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer || true',
       ],
     ]);
   }
@@ -53,14 +55,14 @@ export default (configs: MOUNT) => {
     ...[
       `echo ${escapeQuotes(
         fs.readFileSync(normalize(php_ini), 'utf-8')
-      )} | cat > /etc/php/${version}/cli/php.ini`,
-      'find /var/www/ -type d -exec chmod 775 {} \\;',
-      'find /var/www/ -type f -exec chmod 664 {} \\;',
-      'setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',
-      'chown root:www-data /var/www',
-      'chmod 0755 /var/www',
-      'systemctl reload apache2',
-      'systemctl restart apache2',
+      )} | sudo tee /etc/php/${version}/cli/php.ini`,
+      'find /var/www/ -type d -exec sudo chmod 775 {} \\;',
+      'find /var/www/ -type f -exec sudo chmod 664 {} \\;',
+      'sudo setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',
+      'sudo chown root:www-data /var/www',
+      'sudo chmod 0755 /var/www',
+      'sudo systemctl reload apache2',
+      'sudo systemctl restart apache2',
       sh.done,
     ],
   ]);

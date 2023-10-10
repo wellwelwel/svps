@@ -17,8 +17,8 @@ export default (configs: MOUNT) => {
 
   const commands: string[] = [
     `echo "${sh.startTitle}Setting up Users${sh.endTitle}"`,
-    'apt-get update',
-    'apt-get install acl -y',
+    'sudo apt-get update',
+    'sudo apt-get install acl -y',
   ];
   const hasFTP = users?.some((user) => typeof user.ftp === 'object') || false;
   const hasSFTP = users?.some((user) => typeof user.sftp === 'object') || false;
@@ -32,42 +32,42 @@ export default (configs: MOUNT) => {
   if (hasFTP) {
     Object.assign(commands, [
       ...commands,
-      'apt-get update',
-      'apt-get purge vsftpd -y 2>/dev/null',
-      'rm -rf /etc/vsftpd.userlist',
-      'apt-get install vsftpd -y',
-      'mkdir -p /etc/vsftpd/user_config_dir',
-      `echo ${vsftpd_conf} | cat > /etc/vsftpd.conf`,
+      'sudo apt-get update',
+      'sudo apt-get purge vsftpd -y 2>/dev/null',
+      'sudo rm -rf /etc/vsftpd.userlist',
+      'sudo apt-get install vsftpd -y',
+      'sudo mkdir -p /etc/vsftpd/user_config_dir',
+      `sudo echo ${vsftpd_conf} | tee /etc/vsftpd.conf`,
     ]);
   }
 
   if (hasSFTP) {
     Object.assign(commands, [
       ...commands,
-      `sed -i 's/Subsystem\\ssftp\\s\\/usr\\/lib\\/openssh\\/sftp-server/Subsystem\\tsftp\\tinternal-sftp/g' ${sshdConfigPath}`,
-      `sed -i '/#svps-start/,/#svps-end/d' ${sshdConfigPath}`,
-      `rm -f ${sftpConfigPath}`,
+      `sudo sed -i 's/Subsystem\\ssftp\\s\\/usr\\/lib\\/openssh\\/sftp-server/Subsystem\\tsftp\\tinternal-sftp/g' ${sshdConfigPath}`,
+      `sudo sed -i '/#svps-start/,/#svps-end/d' ${sshdConfigPath}`,
+      `sudo rm -f ${sftpConfigPath}`,
     ]);
   }
 
   for (const user of users) {
     Object.assign(commands, [
       ...commands,
-      `id -u ${user.name} &>/dev/null || adduser --disabled-password --gecos "" ${user.name}`,
-      `mkdir -p ${user.directory}`,
-      `echo "${user.name}:${user.password}" | chpasswd`,
+      `sudo id -u ${user.name} &>/dev/null || sudo adduser --disabled-password --gecos "" ${user.name}`,
+      `sudo mkdir -p ${user.directory}`,
+      `sudo echo "${user.name}:${user.password}" | sudo chpasswd`,
       `echo "${user.name}"`,
     ]);
 
-    if (user.sudo) commands.push(`gpasswd -a "${user.name}" sudo`);
+    if (user.sudo) commands.push(`sudo gpasswd -a "${user.name}" sudo`);
     if (user.ftp) Object.assign(commands, [...commands, ...setFTP(user)]);
     if (user.sftp) Object.assign(commands, [...commands, ...setSFTP(user)]);
     if (user.groups.length > 0) {
       user.groups.forEach((group) =>
         Object.assign(commands, [
           ...commands,
-          `groupadd -f ${group}`,
-          `usermod -a -G ${group} ${user.name}`,
+          `sudo groupadd -f ${group}`,
+          `sudo usermod -a -G ${group} ${user.name}`,
         ])
       );
 
@@ -75,21 +75,22 @@ export default (configs: MOUNT) => {
 
       Object.assign(commands, [
         ...commands,
-        `usermod -g ${primary} ${user.name}`,
-        `--catch chown -R ${user.name}:${primary} ${user.directory}`,
+        `sudo usermod -g ${primary} ${user.name}`,
+        `--catch sudo chown -R ${user.name}:${primary} ${user.directory}`,
       ]);
-    } else commands.push(`--catch chown -R ${user.name} ${user.directory}`);
+    } else
+      commands.push(`--catch sudo chown -R ${user.name} ${user.directory}`);
 
     Object.assign(commands, [
       ...commands,
-      `--catch setfacl -Rb ${user.directory}`,
-      `--catch chown -R ${user.name} ${user.directory}`,
-      `--catch chmod -R 0755 ${user.directory}`,
-      `chmod 0700 ${user.directory}`,
+      `--catch sudo setfacl -Rb ${user.directory}`,
+      `--catch sudo chown -R ${user.name} ${user.directory}`,
+      `--catch sudo chmod -R 0755 ${user.directory}`,
+      `sudo chmod 0700 ${user.directory}`,
     ]);
   }
 
-  if (hasFTP) commands.push('systemctl restart vsftpd');
+  if (hasFTP) commands.push('sudo systemctl restart vsftpd');
   if (hasSFTP) commands.push('--restart-ssh');
 
   commands.push(sh.done);

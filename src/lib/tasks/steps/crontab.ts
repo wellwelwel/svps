@@ -15,16 +15,15 @@ export default (configs: MOUNT, VPS: ACCESS) => {
   const crons = escapeQuotes(fs.readFileSync(normalize(crontab.path), 'utf-8'));
   const commands = [
     `echo "${sh.startTitle}Setting up cron jobs for '${VPS.username}'${sh.endTitle}"`,
-    'mkdir -p /var/spool/cron/crontabs/',
-    'apt-get update',
-    'apt-get install -y cron',
-    `echo ${crons} | ${append ? 'tee -a' : 'cat >'} /var/spool/cron/crontabs/${
+    'sudo mkdir -p /var/spool/cron/crontabs/',
+    'sudo apt-get update',
+    'sudo apt-get install -y cron',
+    `echo ${crons} | sudo tee${append ? ' -a' : ''} /var/spool/cron/crontabs/${
       VPS.username
     }`,
   ];
 
-  if (!append) commands.push(`echo ${crons}`);
-
+  commands.push(`echo ${crons}`);
   commands.push(sh.done);
 
   return commands;

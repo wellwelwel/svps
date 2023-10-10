@@ -61,6 +61,15 @@ const svps = new SVPS({
   },
 });
 
+/** For AWS */
+const svps = new SVPS({
+  access: {
+    host: '***.amazonaws.com',
+    username: 'ubuntu',
+    privateKey: fs.readFileSync('./your_rsa.pem'),
+  },
+});
+
 /** Available methods
  * svps.mount
  * svps.commands
