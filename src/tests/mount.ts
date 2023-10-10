@@ -106,16 +106,6 @@ import { SVPS } from '../lib/index.js';
       desktop: false,
     });
 
-    // Clearing storage
-    await svps.commands([
-      '--catch sudo apt-get purge mysql-* nodejs-* php-* nodejs php -y',
-      '--catch sudo apt-get autoremove -y --purge',
-      '--catch sudo apt-get clean -y',
-      '--catch sudo apt-get autoclean -y',
-      '--catch sudo dpkg --list | grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge',
-      '--catch sudo find /var/log -type f -delete',
-    ]);
-
     // Closing connection
     await svps.end();
 

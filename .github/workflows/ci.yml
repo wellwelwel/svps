@@ -66,8 +66,9 @@ jobs:
       - name: 🧪 Testing Service - Upload
         run: npm run tests:upload
 
-      - name: 🧪 Testing Service - Virtual Hosts
-        run: npm run tests:virtual-hosts
+      # Temporarily removing due to limited storage space for GuThub Actions.
+      # - name: 🧪 Testing Service - Virtual Hosts
+      #   run: npm run tests:virtual-hosts
 
       - name: ✅ Finishing
         run: npm run tests:reset >/dev/null 2>&1 || true
