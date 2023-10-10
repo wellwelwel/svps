@@ -55,7 +55,7 @@ export default (configs: MOUNT) => {
     ...[
       `echo ${escapeQuotes(
         fs.readFileSync(normalize(php_ini), 'utf-8')
-      )} | sudo tee /etc/php/${version}/cli/php.ini`,
+      )} | sudo tee /etc/php/${version}/cli/php.ini > /dev/null`,
       'find /var/www/ -type d -exec sudo chmod 775 {} \\;',
       'find /var/www/ -type f -exec sudo chmod 664 {} \\;',
       'sudo setfacl -dR -m u:"www-data":rwx /var/www/ /tmp/',

@@ -23,7 +23,7 @@ export default (configs: MOUNT) => {
     'sudo apt-get install mysql-server -y',
     `echo ${escapeQuotes(
       fs.readFileSync(normalize(mysqld_cnf), 'utf-8')
-    )} | sudo tee /etc/mysql/mysql.conf.d/mysqld.cnf`,
+    )} | sudo tee /etc/mysql/mysql.conf.d/mysqld.cnf > /dev/null`,
     `echo ${escapeQuotes(temp_access)} | sudo tee ~/.my.cnf > /dev/null`,
     'sudo chmod 0600 ~/.my.cnf',
     'sudo service mysql restart',

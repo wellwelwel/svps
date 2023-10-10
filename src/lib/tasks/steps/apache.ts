@@ -23,7 +23,7 @@ export default (configs: MOUNT) => {
     `echo "${sh.startTitle}Setting up Rewrite Virtual Hosts${sh.endTitle}"`,
     `echo ${escapeQuotes(
       fs.readFileSync(normalize(default_000), 'utf-8')
-    )} | sudo tee /etc/apache2/sites-available/000-default.conf`,
+    )} | sudo tee /etc/apache2/sites-available/000-default.conf > /dev/null`,
     'sudo a2enmod proxy proxy_http rewrite headers expires',
   ];
 
@@ -36,10 +36,10 @@ export default (configs: MOUNT) => {
       ...[
         `echo ${escapeQuotes(
           fs.readFileSync(normalize(htaccess), 'utf-8')
-        )} | sudo tee /var/www/host/.htaccess`,
+        )} | sudo tee /var/www/host/.htaccess > /dev/null`,
         `echo ${escapeQuotes(
           fs.readFileSync(normalize(_403), 'utf-8')
-        )} | sudo tee /var/www/host/403.html`,
+        )} | sudo tee /var/www/host/403.html > /dev/null`,
         'sudo chmod 0755 /var/www/host',
       ],
     ]);

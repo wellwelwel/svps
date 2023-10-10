@@ -8,7 +8,7 @@ const getList = (version: string, arch: 'amd' | 'arm') => {
   const main = escapeQuotes(
     importFile(`${rootSVPS}/resources/sources-list/${version}-${arch}.list`)
   );
-  const footer = `| sudo tee /etc/apt/sources.list; fi`;
+  const footer = `| sudo tee /etc/apt/sources.list > /dev/null; fi`;
 
   return `${header} ${main} ${footer}`;
 };

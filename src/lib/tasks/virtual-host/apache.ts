@@ -19,7 +19,7 @@ export const createProxy = (virtualHost: VIRTUAL_HOST): string[] => {
     ...commands,
     `echo ${escapeQuotes(
       proxy
-    )} | sudo tee /etc/apache2/sites-available/${domain}.conf`,
+    )} | sudo tee /etc/apache2/sites-available/${domain}.conf > /dev/null`,
     `if sudo a2ensite -q ${domain}; then echo 'Virtual Host for "${domain}" enabled'; fi`,
     'sudo systemctl reload apache2',
   ]);

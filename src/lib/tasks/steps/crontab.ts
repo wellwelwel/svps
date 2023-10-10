@@ -20,7 +20,7 @@ export default (configs: MOUNT, VPS: ACCESS) => {
     'sudo apt-get install -y cron',
     `echo ${crons} | sudo tee${append ? ' -a' : ''} /var/spool/cron/crontabs/${
       VPS.username
-    }`,
+    } > /dev/null`,
   ];
 
   commands.push(`echo ${crons}`);

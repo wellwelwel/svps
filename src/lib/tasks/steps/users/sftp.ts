@@ -17,7 +17,9 @@ export const setSFTP = (user: REQUIRED_USER) => {
     .replace(/{!MASK}/gm, user.sftp.mask);
 
   const commands: string[] = [
-    `echo ${escapeQuotes(user_conf)} | sudo tee -a ${sshdConfigPath}`,
+    `echo ${escapeQuotes(
+      user_conf
+    )} | sudo tee -a ${sshdConfigPath} > /dev/null`,
     `sudo mkdir -p ${user.sftp.chRoot} ${user.sftp.chUser}`,
     `sudo chown root:root ${user.sftp.chRoot}`,
     `sudo chmod 0755 ${user.sftp.chRoot}`,

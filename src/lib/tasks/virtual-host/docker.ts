@@ -63,7 +63,7 @@ export const createBasicContainer = (
     ...commands,
     `echo ${escapeQuotes(
       composeSource
-    )} | sudo tee /var/containers/compositions/${composeFile}`,
+    )} | sudo tee /var/containers/compositions/${composeFile} > /dev/null`,
     `sudo chmod 0600 /var/containers/compositions/${composeFile}`,
     `sudo docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} down 2>&1 || true`,
     `sudo rm -rf /var/containers/domains/${domain}`,
@@ -81,7 +81,7 @@ export const createBasicContainer = (
       `sudo mkdir -p /var/containers/databases/${domain}/conf.d`,
       `echo ${escapeQuotes(
         dbCNF
-      )} | sudo tee /var/containers/databases/${domain}/conf.d/my.cnf`,
+      )} | sudo tee /var/containers/databases/${domain}/conf.d/my.cnf > /dev/null`,
       `echo "${virtualHost.server.mysql?.password}" | sudo tee /var/containers/databases/${domain}/conf.d/secret > /dev/null`,
       `sudo chmod 0400 /var/containers/databases/${domain}/conf.d/my.cnf`,
       `sudo chmod 0400 /var/containers/databases/${domain}/conf.d/secret`,
@@ -111,7 +111,7 @@ export const createBasicContainer = (
     ...commands,
     `sudo mkdir -p /var/containers/domains/${domain}/public_html`,
     `sudo chmod -R 0755 /var/containers/domains/${domain}`,
-    `echo ${defaultPage} | sudo tee /var/containers/domains/${domain}/public_html/index.html`,
+    `echo ${defaultPage} | sudo tee /var/containers/domains/${domain}/public_html/index.html > /dev/null`,
     `sudo docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`,
   ]);
 
@@ -129,14 +129,14 @@ export const createBasicContainer = (
       ...commands,
       `echo ${escapeQuotes(
         dockerfile
-      )} | sudo tee /var/containers/images/Dockerfile-node-lts-alpine`,
+      )} | sudo tee /var/containers/images/Dockerfile-node-lts-alpine > /dev/null`,
       `sudo chmod 0600 /var/containers/images/Dockerfile-node-lts-alpine`,
       `echo ${escapeQuotes(
         createNodeServer(virtualHost.port)
       )} | sudo tee /var/containers/domains/${domain}/app.js`,
       `echo ${escapeQuotes(
         pm2
-      )} | sudo tee /var/containers/domains/${domain}/pm2.json`,
+      )} | sudo tee /var/containers/domains/${domain}/pm2.json > /dev/null`,
     ]);
   } else if (virtualHost.server.language === 'php') {
     /** Composing PHP server */
@@ -161,17 +161,17 @@ export const createBasicContainer = (
         dockerfile
       )} | sudo tee /var/containers/images/Dockerfile-php-8${
         buildFromScratch ? '-scratch' : ''
-      }`,
+      } > /dev/null`,
       `sudo chmod 0600 /var/containers/images/Dockerfile-php-8${
         buildFromScratch ? '-scratch' : ''
       }`,
       `echo ${escapeQuotes(
         default000
-      )} | sudo tee /var/containers/images/resources/000-default.conf`,
+      )} | sudo tee /var/containers/images/resources/000-default.conf > /dev/null`,
       `sudo chmod 0600 /var/containers/images/resources/000-default.conf`,
       `echo ${escapeQuotes(
         phpINI
-      )} | sudo tee /var/containers/images/resources/php.ini`,
+      )} | sudo tee /var/containers/images/resources/php.ini > /dev/null`,
       `sudo chmod 0600 /var/containers/images/resources/php.ini`,
     ]);
   }

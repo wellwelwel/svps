@@ -15,7 +15,7 @@ export const setFTP = (user: REQUIRED_USER) => {
   const commands: string[] = [
     `echo ${escapeQuotes(user_conf)} | sudo tee /etc/vsftpd/user_config_dir/${
       user.name
-    }`,
+    } > /dev/null`,
   ];
 
   commands.push(`sudo echo "${user.name}" | tee -a /etc/vsftpd.userlist`);
