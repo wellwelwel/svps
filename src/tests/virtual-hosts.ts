@@ -51,11 +51,9 @@ import { SVPS, VirtualHost } from '../lib/index.js';
       },
     ];
 
-    const createVirtualHosts = await svps.createVirtualHosts(virtualHosts);
+    await svps.createVirtualHosts(virtualHosts);
 
     await svps.end();
-
-    if (createVirtualHosts !== true) process.exit(1);
   } catch (error) {
     console.log(error);
     process.exit(1);
