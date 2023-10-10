@@ -11,9 +11,11 @@ import { SVPS } from '../lib/index.js';
       },
     });
 
-    await svps.mount();
+    const mount = await svps.mount();
 
     await svps.end();
+
+    if (mount !== true) process.exit(1);
   } catch (error) {
     console.log(error);
     process.exit(1);

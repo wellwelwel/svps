@@ -11,7 +11,7 @@ import { SVPS } from '../lib/index.js';
       },
     });
 
-    await svps.upload([
+    const upload = await svps.upload([
       {
         local: '../resources',
         remote: '/root/svps/resources',
@@ -22,6 +22,8 @@ import { SVPS } from '../lib/index.js';
     ]);
 
     await svps.end();
+
+    if (upload !== true) process.exit(1);
   } catch (error) {
     console.log(error);
     process.exit(1);

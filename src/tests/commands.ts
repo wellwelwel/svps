@@ -11,8 +11,10 @@ import { SVPS } from '../lib/index.js';
       },
     });
 
-    await svps.commands(['crontab -l']);
+    const commands = await svps.commands(['crontab -l']);
     await svps.end();
+
+    if (commands !== true) process.exit(1);
   } catch (error) {
     console.log(error);
     process.exit(1);
