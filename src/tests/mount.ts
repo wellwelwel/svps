@@ -112,6 +112,8 @@ import { SVPS } from '../lib/index.js';
       '--catch sudo apt-get autoremove -y --purge',
       '--catch sudo apt-get clean -y',
       '--catch sudo apt-get autoclean -y',
+      '--catch sudo dpkg --list | grep "^rc" | cut -d " " -f 3 | xargs sudo dpkg --purge',
+      '--catch sudo find /var/log -type f -delete',
     ]);
 
     // Closing connection

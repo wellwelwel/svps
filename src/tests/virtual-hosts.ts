@@ -53,6 +53,14 @@ import { SVPS, VirtualHost } from '../lib/index.js';
 
     const createVirtualHosts = await svps.createVirtualHosts(virtualHosts);
 
+    await svps.commands([
+      '--catch sudo docker compose -p basic_node_com -f /var/containers/compositions/basic_node_com.yml down',
+      '--catch sudo docker compose -p basic_php_com -f /var/containers/compositions/basic_php_com.yml down',
+      '--catch sudo docker rmi mysql:8-debian',
+      '--catch sudo docker rmi node:lts-alpine',
+      '--catch sudo docker rmi wellwelwel/php:8-shared-based',
+    ]);
+
     await svps.end();
 
     if (createVirtualHosts !== true) process.exit(1);
