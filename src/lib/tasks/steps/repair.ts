@@ -3,10 +3,10 @@ import { importFile } from '../../modules/prepare-files.js';
 import { rootSVPS } from '../../modules/root.js';
 import sh from '../../modules/sh.js';
 
-const getList = (version: string) => {
-  const header = `if [ "$(grep -E '^VERSION_ID="${version}"' /etc/os-release)" ]; then echo`;
+const getList = (version: string, arch: 'amd' | 'arm') => {
+  const header = `if [[ "$(grep -E '^VERSION_ID="${version}"' /etc/os-release)" ]] && [[ $(dpkg --print-architecture) =~ ^${arch} ]]; then echo`;
   const main = escapeQuotes(
-    importFile(`${rootSVPS}/resources/sources-list/${version}.list`)
+    importFile(`${rootSVPS}/resources/sources-list/${version}-${arch}.list`)
   );
   const footer = `| cat > /etc/apt/sources.list; fi`;
 
@@ -20,10 +20,15 @@ export default () => [
   'chmod 1777 /tmp',
 
   /** Restoring default sources list */
-  getList('18.04'),
-  getList('20.04'),
-  getList('22.04'),
-  getList('23.04'),
+  getList('18.04', 'amd'),
+  getList('20.04', 'amd'),
+  getList('22.04', 'amd'),
+  getList('23.04', 'amd'),
+
+  getList('18.04', 'arm'),
+  getList('20.04', 'arm'),
+  getList('22.04', 'arm'),
+  getList('23.04', 'arm'),
 
   /** Installing missing packages */
   'apt-get clean',
