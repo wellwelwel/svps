@@ -61,6 +61,13 @@ interface BasicVirtualHost {
      */
     group?: string;
   };
+  /**
+   * Installs a **MySQL** database exclusively for this VIrtual Host.
+   *
+   * ---
+   *
+   * ⚠️ If you are using it on an **AWS EC2**, prefer to use **RDS** or similar instead.
+   */
   mysql?: {
     /** database name */
     database: string;

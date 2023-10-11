@@ -14,7 +14,9 @@ export const createBasicContainer = (
 
   const domain = virtualHost.domain.trim();
   const port = String(virtualHost.port);
-  const commands = [`mkdir -p /var/containers/domains/${domain}/public_html`];
+  const commands = [
+    `sudo mkdir -p /var/containers/domains/${domain}/public_html`,
+  ];
   const { language } = virtualHost.server;
   const buildFromScratch: boolean =
     virtualHost.server?.buildFromScratch || false;
@@ -61,12 +63,12 @@ export const createBasicContainer = (
     ...commands,
     `echo ${escapeQuotes(
       composeSource
-    )} | cat > /var/containers/compositions/${composeFile}`,
-    `chmod 0600 /var/containers/compositions/${composeFile}`,
-    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} down 2>&1 || true`,
-    `rm -rf /var/containers/domains/${domain}`,
-    `rm -rf /var/containers/images/${domain}`,
-    `rm -rf /var/containers/databases/${domain}`,
+    )} | sudo tee /var/containers/compositions/${composeFile} > /dev/null`,
+    `sudo chmod 0600 /var/containers/compositions/${composeFile}`,
+    `sudo docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} down 2>&1 || true`,
+    `sudo rm -rf /var/containers/domains/${domain}`,
+    `sudo rm -rf /var/containers/images/${domain}`,
+    `sudo rm -rf /var/containers/databases/${domain}`,
   ]);
 
   if (useDB) {
@@ -76,13 +78,13 @@ export const createBasicContainer = (
 
     Object.assign(commands, [
       ...commands,
-      `mkdir -p /var/containers/databases/${domain}/conf.d`,
+      `sudo mkdir -p /var/containers/databases/${domain}/conf.d`,
       `echo ${escapeQuotes(
         dbCNF
-      )} | cat > /var/containers/databases/${domain}/conf.d/my.cnf`,
-      `echo "${virtualHost.server.mysql?.password}" | cat > /var/containers/databases/${domain}/conf.d/secret`,
-      `chmod 0400 /var/containers/databases/${domain}/conf.d/my.cnf`,
-      `chmod 0400 /var/containers/databases/${domain}/conf.d/secret`,
+      )} | sudo tee /var/containers/databases/${domain}/conf.d/my.cnf > /dev/null`,
+      `echo "${virtualHost.server.mysql?.password}" | sudo tee /var/containers/databases/${domain}/conf.d/secret > /dev/null`,
+      `sudo chmod 0400 /var/containers/databases/${domain}/conf.d/my.cnf`,
+      `sudo chmod 0400 /var/containers/databases/${domain}/conf.d/secret`,
     ]);
   }
 
@@ -107,10 +109,10 @@ export const createBasicContainer = (
 
   Object.assign(commands, [
     ...commands,
-    `mkdir -p /var/containers/domains/${domain}/public_html`,
-    `chmod -R 0755 /var/containers/domains/${domain}`,
-    `echo ${defaultPage} | cat > /var/containers/domains/${domain}/public_html/index.html`,
-    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`,
+    `sudo mkdir -p /var/containers/domains/${domain}/public_html`,
+    `sudo chmod -R 0755 /var/containers/domains/${domain}`,
+    `echo ${defaultPage} | sudo tee /var/containers/domains/${domain}/public_html/index.html > /dev/null`,
+    `sudo docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d`,
   ]);
 
   /** Composing NODE server */
@@ -127,14 +129,14 @@ export const createBasicContainer = (
       ...commands,
       `echo ${escapeQuotes(
         dockerfile
-      )} | cat > /var/containers/images/Dockerfile-node-lts-alpine`,
-      `chmod 0600 /var/containers/images/Dockerfile-node-lts-alpine`,
+      )} | sudo tee /var/containers/images/Dockerfile-node-lts-alpine > /dev/null`,
+      `sudo chmod 0600 /var/containers/images/Dockerfile-node-lts-alpine`,
       `echo ${escapeQuotes(
         createNodeServer(virtualHost.port)
-      )} | cat > /var/containers/domains/${domain}/app.js`,
+      )} | sudo tee /var/containers/domains/${domain}/app.js`,
       `echo ${escapeQuotes(
         pm2
-      )} | cat > /var/containers/domains/${domain}/pm2.json`,
+      )} | sudo tee /var/containers/domains/${domain}/pm2.json > /dev/null`,
     ]);
   } else if (virtualHost.server.language === 'php') {
     /** Composing PHP server */
@@ -154,23 +156,23 @@ export const createBasicContainer = (
 
     Object.assign(commands, [
       ...commands,
-      'mkdir -p /var/containers/images/resources',
+      'sudo mkdir -p /var/containers/images/resources',
       `echo ${escapeQuotes(
         dockerfile
-      )} | cat > /var/containers/images/Dockerfile-php-8${
+      )} | sudo tee /var/containers/images/Dockerfile-php-8${
         buildFromScratch ? '-scratch' : ''
-      }`,
-      `chmod 0600 /var/containers/images/Dockerfile-php-8${
+      } > /dev/null`,
+      `sudo chmod 0600 /var/containers/images/Dockerfile-php-8${
         buildFromScratch ? '-scratch' : ''
       }`,
       `echo ${escapeQuotes(
         default000
-      )} | cat > /var/containers/images/resources/000-default.conf`,
-      `chmod 0600 /var/containers/images/resources/000-default.conf`,
+      )} | sudo tee /var/containers/images/resources/000-default.conf > /dev/null`,
+      `sudo chmod 0600 /var/containers/images/resources/000-default.conf`,
       `echo ${escapeQuotes(
         phpINI
-      )} | cat > /var/containers/images/resources/php.ini`,
-      `chmod 0600 /var/containers/images/resources/php.ini`,
+      )} | sudo tee /var/containers/images/resources/php.ini > /dev/null`,
+      `sudo chmod 0600 /var/containers/images/resources/php.ini`,
     ]);
   }
 
@@ -182,27 +184,27 @@ export const createBasicContainer = (
     if (user && group) {
       Object.assign(commands, [
         ...commands,
-        `chown -R ${user}:${user} "${remote}"`,
-        `chmod -R 0775 "${remote}"`,
+        `sudo chown -R ${user}:${user} "${remote}"`,
+        `sudo chmod -R 0775 "${remote}"`,
       ]);
     } else if (user) {
       Object.assign(commands, [
         ...commands,
-        `chown -R ${user}: "${remote}"`,
-        `chmod -R 0755 "${remote}"`,
+        `sudo chown -R ${user}: "${remote}"`,
+        `sudo chmod -R 0755 "${remote}"`,
       ]);
     } else if (group) {
       Object.assign(commands, [
         ...commands,
-        `chown -R :${group} "${remote}"`,
-        `chmod -R 0775 "${remote}"`,
+        `sudo chown -R :${group} "${remote}"`,
+        `sudo chmod -R 0775 "${remote}"`,
       ]);
     }
   }
 
   /** Composing container */
   commands.push(
-    `docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d --build`
+    `sudo docker compose -p ${composeName} -f /var/containers/compositions/${composeFile} up -d --build`
   );
 
   return commands;

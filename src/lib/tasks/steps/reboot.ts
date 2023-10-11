@@ -4,7 +4,7 @@ import { ACCESS } from '../../types/acess.js';
 export default async (VPS: ACCESS): Promise<true> => {
   try {
     await catchExec(
-      "shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown"
+      "sudo shutdown -r +0 \"`date '+%H:%M:%S' -d '+2 seconds'`\" & disown"
     );
   } catch (quiet) {}
 

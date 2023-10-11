@@ -4,13 +4,13 @@ import { MOUNT } from '../../types/mount.js';
 const desktop: string[] = [
   `echo "${sh.startTitle}Setting up Xubuntu Desktop (It may take a while)${sh.endTitle}"`,
   `echo "Waiting 3 seconds to continue..."; sleep 3`,
-  'apt-get update',
-  'apt-get install software-properties-common -y',
-  'echo | add-apt-repository ppa:xubuntu-dev/staging',
-  'apt-get install -y tasksel xfce4 xfce4-terminal ubuntu-drivers-common gnome-software xfce4-goodies snapd',
-  '--catch tasksel install xubuntu-desktop || apt-get install xubuntu-desktop -y',
-  '--catch update-alternatives --install /usr/bin/x-session-manager x-session-manager /usr/bin/startxfce4 60',
-  '--catch update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xfce4-terminal 60',
+  'sudo apt-get update',
+  'sudo apt-get install software-properties-common -y',
+  'echo | sudo add-apt-repository ppa:xubuntu-dev/staging',
+  'sudo apt-get install -y tasksel xfce4 xfce4-terminal ubuntu-drivers-common gnome-software xfce4-goodies snapd',
+  '--catch sudo tasksel install xubuntu-desktop || apt-get install xubuntu-desktop -y',
+  '--catch sudo update-alternatives --install /usr/bin/x-session-manager x-session-manager /usr/bin/startxfce4 60',
+  '--catch sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/xfce4-terminal 60',
 ];
 
 const rdp: string[] = [
@@ -18,15 +18,15 @@ const rdp: string[] = [
   `echo "Waiting 3 seconds to continue..."; sleep 3`,
 
   /* Activate graphical display */
-  '--catch systemctl set-default graphical.target',
+  '--catch sudo systemctl set-default graphical.target',
 
   /* Install RDP Remote */
-  'apt-get install xrdp xauth xserver-xorg-core xserver-xorg xorg openbox -y',
+  'sudo apt-get install xrdp xauth xserver-xorg-core xserver-xorg xorg openbox -y',
 
   `echo "${sh.startTitle}Setting up Remote Desktop (It may take a while)${sh.endTitle}"`,
-  '--catch systemctl enable xrdp',
-  'usermod -a -G ssl-cert xrdp',
-  'systemctl restart xrdp',
+  '--catch sudo systemctl enable xrdp',
+  'sudo usermod -a -G ssl-cert xrdp',
+  'sudo systemctl restart xrdp',
   '--reboot',
 ];
 
@@ -57,13 +57,13 @@ const xfce: string[] = [
   `--catch xfconf-query -c xfce4-panel -np '/panels/dark-mode' -t 'bool' -s 'true'`,
   `--catch xfconf-query -c xfce4-panel -np '/plugins/plugin-1/show-tooltips' -t 'bool' -s 'true'`,
   `--catch xfconf-query -c xfce4-panel -np '/plugins/plugin-2/grouping' -t int -s 1`,
-  `--catch apt-get remove colord -y`,
+  `--catch sudo apt-get remove colord -y`,
 ];
 
 const browser: string[] = [
-  'apt-get update',
-  'apt-get update --fix-missing',
-  '--catch apt-get install firefox -y || true',
+  'sudo apt-get update',
+  'sudo apt-get update --fix-missing',
+  '--catch sudo apt-get install firefox -y || true',
 ];
 
 export default (configs: MOUNT) => {

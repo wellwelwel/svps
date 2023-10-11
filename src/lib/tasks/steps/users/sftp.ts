@@ -17,13 +17,15 @@ export const setSFTP = (user: REQUIRED_USER) => {
     .replace(/{!MASK}/gm, user.sftp.mask);
 
   const commands: string[] = [
-    `echo ${escapeQuotes(user_conf)} | tee -a ${sshdConfigPath}`,
-    `mkdir -p ${user.sftp.chRoot} ${user.sftp.chUser}`,
-    `chown root:root ${user.sftp.chRoot}`,
-    `chmod 0755 ${user.sftp.chRoot}`,
-    `groupadd -f ${user.name}`,
-    `chown -R ${user.name}:${user.name} ${user.sftp.chUser}`,
-    `chmod -R 0755 ${user.sftp.chUser}`,
+    `echo ${escapeQuotes(
+      user_conf
+    )} | sudo tee -a ${sshdConfigPath} > /dev/null`,
+    `sudo mkdir -p ${user.sftp.chRoot} ${user.sftp.chUser}`,
+    `sudo chown root:root ${user.sftp.chRoot}`,
+    `sudo chmod 0755 ${user.sftp.chRoot}`,
+    `sudo groupadd -f ${user.name}`,
+    `sudo chown -R ${user.name}:${user.name} ${user.sftp.chUser}`,
+    `sudo chmod -R 0755 ${user.sftp.chUser}`,
   ];
 
   return commands;

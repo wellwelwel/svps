@@ -8,7 +8,15 @@ import { USER } from './users.js';
 import { VERBOSE } from './verbose.js';
 
 export interface MOUNT {
-  /** Set the accesses you want to be created */
+  /**
+   * Set the accesses you want to be created
+   *
+   * ---
+   *
+   * ⚠️ **AWS** environments:
+   *
+   * If you intend to access via **SSH** using a password, ensure that `PasswordAuthentication` is set to `yes` in `/etc/ssh/sshd_config` server file.
+   */
   users?: USER | USER[];
   /** Open SSL RSA Certificate
    *

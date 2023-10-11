@@ -3,7 +3,7 @@ import { ACCESS } from '../../../types/acess.js';
 
 export default async (VPS: ACCESS): Promise<true> => {
   try {
-    await catchExec('systemctl restart sshd');
+    await catchExec('sudo systemctl restart sshd');
   } catch (quiet) {}
 
   try {

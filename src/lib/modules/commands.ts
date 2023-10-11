@@ -61,12 +61,12 @@ export const setCommands = async (options: {
 
   const initialCommands = [
     /** Resolving `dpkg` and `apt` */
-    'rm -rf /var/lib/apt/lists/lock',
-    'rm -rf /var/lib/dpkg/lock',
-    'rm -rf /var/lib/dpkg/lock-frontend',
-    'rm -rf /var/cache/apt/archives/lock',
-    'echo "Y" | dpkg --configure -a',
-    'echo "debconf debconf/frontend select Noninteractive" | debconf-set-selections',
+    'sudo rm -rf /var/lib/apt/lists/lock',
+    'sudo rm -rf /var/lib/dpkg/lock',
+    'sudo rm -rf /var/lib/dpkg/lock-frontend',
+    'sudo rm -rf /var/cache/apt/archives/lock',
+    'echo "Y" | sudo dpkg --configure -a',
+    'echo "debconf debconf/frontend select Noninteractive" | sudo debconf-set-selections',
   ];
 
   if (verbose) console.log('# Initial Commands', '\n', initialCommands);

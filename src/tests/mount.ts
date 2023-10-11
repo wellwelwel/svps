@@ -12,7 +12,7 @@ import { SVPS } from '../lib/index.js';
       },
     });
 
-    await svps.mount({
+    const mount = await svps.mount({
       // Testing users
       users: [
         {
@@ -108,6 +108,8 @@ import { SVPS } from '../lib/index.js';
 
     // Closing connection
     await svps.end();
+
+    if (mount !== true) process.exit(1);
   } catch (error) {
     console.log(error);
     process.exit(1);
