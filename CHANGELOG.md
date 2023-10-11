@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/wellwelwel/svps/compare/v2.1.0...v2.2.0) (2023-10-11)
+
+
+### Features
+
+* add AWS and arm64 support ([#8](https://github.com/wellwelwel/svps/issues/8)) ([f906102](https://github.com/wellwelwel/svps/commit/f906102e96c07364990a7b64c1b527240bcf748c))
+
 ## [2.1.0](https://github.com/wellwelwel/svps/compare/v2.0.0...v2.1.0) (2023-08-03)
 
 
