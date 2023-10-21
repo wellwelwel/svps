@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/wellwelwel/svps/compare/v2.2.0...v2.2.1) (2023-10-21)
+
+
+### Bug Fixes
+
+* PHP Virtual Host missing unzip ([878979b](https://github.com/wellwelwel/svps/commit/878979bae2f8b9fdad5922245559f0b836154150))
+
 ## [2.2.0](https://github.com/wellwelwel/svps/compare/v2.1.0...v2.2.0) (2023-10-11)
 
 
