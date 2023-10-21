@@ -18,6 +18,7 @@ RUN set -x \
   libxml2-dev \
   libxslt1-dev \
   libzip-dev \
+  unzip \
   && pecl install \
   xmlrpc \
   zip \
