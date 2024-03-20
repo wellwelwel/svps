@@ -1,6 +1,6 @@
 import { Client, ConnectConfig, SFTPWrapper } from 'ssh2';
 import { ACCESS } from './types/acess.js';
-import { resolve as pathResolve } from 'path';
+import path, { resolve as pathResolve } from 'path';
 
 export const ssh2 = new Client();
 export let SFTP: SFTPWrapper;
@@ -154,6 +154,34 @@ export const uploadFile = (
           reject(err);
           return;
         }
+
+        resolve(true);
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
+
+/** Uses `SFTP` to download a local file to remote server */
+export const downloadFile = (
+  remotePath: string,
+  localPath: string
+): Promise<true> =>
+  new Promise((resolve, reject) => {
+    try {
+      const resolvedPath = pathResolve(localPath);
+
+      SFTP.fastGet(remotePath, resolvedPath, (err) => {
+        if (err) {
+          reject(err);
+          return;
+        }
+
+        const remote = path.normalize(remotePath);
+        const local = path.normalize(localPath);
+        const message = `    \x1b[36m⌙ \x1b[0m\x1b[2m${remote} \x1b[36m▸\x1b[0m \x1b[0m\x1b[2m${local}\x1b[0m`;
+
+        console.log(message);
 
         resolve(true);
       });

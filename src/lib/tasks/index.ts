@@ -13,6 +13,8 @@ import { ACCESS } from '../types/acess.js';
 import { VIRTUAL_HOST, BASIC_VIRTUAL_HOST } from '../types/virtual-hosts.js';
 import { UPLOAD } from '../types/upload.js';
 import { MOUNT } from '../types/mount.js';
+import { DOWNLOAD } from '../types/download.js';
+import { downloads } from '../modules/configs/downloads.js';
 
 const createSVPS = () => {
   let connected: boolean = false;
@@ -247,6 +249,31 @@ const createSVPS = () => {
 
         /** Uploading files and directories */
         await uploads(paths);
+
+        console.log(`\x1b[0m\x1b[1m\x1b[32m✔︎ Success\x1b[0m\n`);
+
+        return true;
+      } catch (error) {
+        if (error instanceof Error)
+          throw new Error(
+            `\x1b[0m\x1b[1m\x1b[31m✖︎ ${error.message} \x1b[0m\n`
+          );
+      }
+    };
+
+    /**
+     * Download files.
+     */
+    download = async (paths: DOWNLOAD[]) => {
+      try {
+        console.log(
+          `\x1b[22m\x1b[36m\x1b[1m⦿ ${access.username}@${access.host}\x1b[0m`
+        );
+
+        if (!connected) await createConnection(access);
+
+        /** Uploading files and directories */
+        await downloads(paths);
 
         console.log(`\x1b[0m\x1b[1m\x1b[32m✔︎ Success\x1b[0m\n`);
 
