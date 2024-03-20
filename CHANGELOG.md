@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/wellwelwel/svps/compare/v2.2.1...v2.3.0) (2024-03-20)
+
+
+### Features
+
+* support download via SFTP ([29ebf7f](https://github.com/wellwelwel/svps/commit/29ebf7f0c832e90e4e7956a80e12f88c56c66804))
+
 ## [2.2.1](https://github.com/wellwelwel/svps/compare/v2.2.0...v2.2.1) (2023-10-21)
 
 
