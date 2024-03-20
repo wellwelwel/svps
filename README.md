@@ -177,7 +177,7 @@ await svps.download([
 ]);
 ```
 
-- It uses **SFTP** to get the content to remote server
+- It uses **SFTP** to get the content from remote server
 
 ---
 
