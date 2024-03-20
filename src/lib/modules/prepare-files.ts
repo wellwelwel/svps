@@ -135,25 +135,27 @@ export const upload = async (options: UPLOAD) => {
       await ensureDir(remotePath);
     }
 
-    for (const file of contents.files) {
-      const currentFile = relative(file.path).replace(/^\//, '');
-      const remotePath = `${remoteDir}/${currentFile}`;
+    await Promise.all(
+      contents.files.map((file) => {
+        const currentFile = relative(file.path).replace(/^\//, '');
+        const remotePath = `${remoteDir}/${currentFile}`;
 
-      /** Debug */
-      // console.log('origin', file.path);
-      // console.log('expectedFile', currentFile);
-      // console.log('remotePath', remotePath);
-      // console.log();
+        /** Debug */
+        // console.log('origin', file.path);
+        // console.log('expectedFile', currentFile);
+        // console.log('remotePath', remotePath);
+        // console.log();
 
-      const message = `    \x1b[36m⌙ \x1b[0m\x1b[2m${file.size.padStart(
-        longestSize,
-        ' '
-      )} ■ \x1b[0m\x1b[2m${remotePath}\x1b[0m`;
+        const message = `    \x1b[36m⌙ \x1b[0m\x1b[2m${file.size.padStart(
+          longestSize,
+          ' '
+        )} ■ \x1b[0m\x1b[2m${remotePath}\x1b[0m`;
 
-      console.log(message);
+        console.log(message);
 
-      await uploadFile(file.path, remotePath);
-    }
+        return uploadFile(file.path, remotePath);
+      })
+    );
   }
 
   if (permissions) await basicPermissions({ remote, ...permissions });

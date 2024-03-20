@@ -164,6 +164,23 @@ await svps.upload([
 
 ---
 
+### Download Files
+
+Download your remote files.
+
+```js
+await svps.download([
+  {
+    remote: '/workspace/backup.zip',
+    local: './my-local-path/backup.zip',
+  },
+]);
+```
+
+- It uses **SFTP** to get the content to remote server
+
+---
+
 ### Virtual Hosts (Domains Forwarding)
 
 ```js
