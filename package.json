@@ -7,19 +7,20 @@
     "svps": "bin/index.js"
   },
   "dependencies": {
-    "@types/ssh2": "^1.11.14",
-    "ssh2": "^1.14.0"
+    "@types/ssh2": "^1.15.0",
+    "ssh2": "^1.15.0"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
-    "@typescript-eslint/eslint-plugin": "^6.7.5",
-    "@typescript-eslint/parser": "^6.7.5",
-    "eslint": "^8.51.0",
+    "@types/node": "^20.11.30",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "eslint": "^8.57.0",
     "eslint-import-resolver-typescript": "^3.6.1",
-    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-import": "^2.29.1",
     "packages-update": "^1.2.1",
-    "prettier": "^3.0.3",
-    "typescript": "^5.2.2"
+    "poku": "^1.9.2",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.2"
   },
   "scripts": {
     "build": "rm -rf ./bin ./lib ./tests && npx tsc",
@@ -36,11 +37,11 @@
     "docker:run": "docker run -d --name test-svps --privileged -p ${PORT:-22}:${PORT:-22} -e PORT=${PORT:-22} --restart always wellwelwel/vps:latest",
     "tests:docker": "npm run docker:reset; npm run docker:run",
     "tests:create": "cd ./tests && echo '{ \"type\": \"module\" }' | cat > ./package.json",
-    "tests:connection": "cd ./tests && node ./basic-connection.js",
-    "tests:mount": "cd ./tests && node ./mount.js",
-    "tests:commands": "cd ./tests && node ./commands.js",
-    "tests:upload": "cd ./tests && node ./upload.js",
-    "tests:virtual-hosts": "cd ./tests && node ./virtual-hosts.js",
+    "tests:connection": "cd ./tests && node ./basic-connection.test.js",
+    "tests:mount": "cd ./tests && node ./mount.test.js",
+    "tests:commands": "cd ./tests && node ./commands.test.js",
+    "tests:upload": "cd ./tests && node ./upload.test.js",
+    "tests:virtual-hosts": "cd ./tests && node ./virtual-hosts.test.js",
     "tests:reset": "npm run docker:reset",
     "pretests": "npm run build && npm run build:examples && npm run eslint:checker && npm run prettier:checker && npm run tests:docker",
     "tests": "npm run tests:create && npm run tests:connection && npm run tests:mount && npm run tests:commands && npm run tests:upload && npm run tests:virtual-hosts",
